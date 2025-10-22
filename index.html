@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Medicine Quick Reference Guide</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.3in;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 6.5pt;
+            line-height: 1.2;
+            margin: 0;
+            padding: 0.3in;
+            color: #000;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 11pt;
+            margin: 0 0 8px 0;
+            padding: 3px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .condition {
+            margin-bottom: 6px;
+            border: 0.5pt solid #ccc;
+            padding: 3px;
+            break-inside: avoid;
+        }
+        
+        .condition-title {
+            font-weight: bold;
+            font-size: 7pt;
+            background: #ecf0f1;
+            padding: 2px 3px;
+            margin: -3px -3px 2px -3px;
+        }
+        
+        .section {
+            margin: 1px 0;
+        }
+        
+        .label {
+            font-weight: bold;
+            display: inline;
+        }
+        
+        .content {
+            display: inline;
+        }
+        
+        .columns {
+            column-count: 2;
+            column-gap: 10px;
+        }
+        
+        .references {
+            margin-top: 8px;
+            padding-top: 4px;
+            border-top: 1pt solid #000;
+            font-size: 5.5pt;
+            break-inside: avoid;
+        }
+        
+        @media print {
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>INTERNAL MEDICINE QUICK REFERENCE GUIDE - Top 40 Conditions</h1>
+    
+    <div class="columns">
+        <!-- 1. Acute Coronary Syndrome -->
+        <div class="condition">
+            <div class="condition-title">1. ACUTE CORONARY SYNDROME (ACS)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Chest pain/pressure, dyspnea, diaphoresis, nausea, radiation to jaw/arm</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">ECG (STEMI vs NSTEMI), troponin q3h×2, CBC, BMP, lipids, CXR</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">HEART score, TIMI risk score</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">MONA (morphine, O2, nitrates, aspirin 325mg), P2Y12 inhibitor, heparin, β-blocker, statin. STEMI→cath lab</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Arrhythmias, cardiogenic shock, mechanical complications, reinfarction</span></div>
+        </div>
+
+        <!-- 2. Heart Failure Exacerbation -->
+        <div class="condition">
+            <div class="condition-title">2. HEART FAILURE EXACERBATION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Dyspnea, orthopnea, PND, edema, JVD, rales, S3 gallop</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BNP/NT-proBNP, ECG, CXR, echo, BMP, troponin</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">NYHA class, EF%, fluid balance</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Loop diuretics (IV furosemide), O2, restrict Na+/fluids, ACEi/ARB, β-blocker when stable. Consider inotropes if low output</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Renal dysfunction, electrolyte abnormalities, arrhythmias</span></div>
+        </div>
+
+        <!-- 3. Atrial Fibrillation -->
+        <div class="condition">
+            <div class="condition-title">3. ATRIAL FIBRILLATION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Palpitations, dyspnea, chest discomfort, fatigue; irregularly irregular rhythm</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">ECG, TSH, BMP, Mg, troponin, echo, consider TEE pre-cardioversion</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CHA2DS2-VASc (stroke risk), HAS-BLED (bleeding risk)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Rate control (β-blocker, CCB) vs rhythm control. Anticoagulation if CHA2DS2-VASc ≥2 (♂) or ≥3 (♀)</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Stroke, heart failure, tachycardia-induced cardiomyopathy</span></div>
+        </div>
+
+        <!-- 4. Hypertensive Emergency -->
+        <div class="condition">
+            <div class="condition-title">4. HYPERTENSIVE EMERGENCY</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">SBP >180, DBP >120 with end-organ damage (AMS, chest pain, dyspnea, vision changes)</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">ECG, troponin, BMP, UA, CXR, head CT if neuro symptoms</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Target BP reduction (10-20% in 1st hr, avoid >25%)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">IV labetalol, nicardipine, or nitroprusside. ICU monitoring</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Stroke, MI, aortic dissection, renal failure, encephalopathy</span></div>
+        </div>
+
+        <!-- 5. Community-Acquired Pneumonia -->
+        <div class="condition">
+            <div class="condition-title">5. COMMUNITY-ACQUIRED PNEUMONIA (CAP)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever, cough, dyspnea, pleuritic chest pain, sputum production, rales</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CXR, CBC, BMP, sputum/blood cultures, procalcitonin, consider legionella/pneumococcal urinary Ag</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CURB-65, PSI/PORT score (admission decision)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Outpatient: amoxicillin or doxycycline. Inpatient: ceftriaxone + azithromycin. ICU: add vancomycin if MRSA risk</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Sepsis, empyema, respiratory failure, parapneumonic effusion</span></div>
+        </div>
+
+        <!-- 6. COPD Exacerbation -->
+        <div class="condition">
+            <div class="condition-title">6. COPD EXACERBATION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Increased dyspnea, cough, sputum production/purulence, wheezing</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CXR, ABG, CBC, BMP, ECG, sputum culture if severe</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">A-a gradient, FiO2 requirements</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Bronchodilators (albuterol, ipratropium), systemic steroids (prednisone 40mg×5d), antibiotics if purulent sputum. O2 to SpO2 88-92%</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Respiratory failure, pneumonia, pneumothorax, arrhythmias</span></div>
+        </div>
+
+        <!-- 7. Asthma Exacerbation -->
+        <div class="condition">
+            <div class="condition-title">7. ASTHMA EXACERBATION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Dyspnea, wheezing, chest tightness, cough, accessory muscle use</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Peak flow, O2 sat, CXR if severe, ABG if critically ill</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Peak flow % predicted, FEV1 if available</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Albuterol nebs q20min×3, ipratropium, systemic steroids, O2. Consider Mg, epinephrine, terbutaline if severe</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Status asthmaticus, respiratory failure, pneumothorax, pneumomediastinum</span></div>
+        </div>
+
+        <!-- 8. Pulmonary Embolism -->
+        <div class="condition">
+            <div class="condition-title">8. PULMONARY EMBOLISM (PE)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Dyspnea, pleuritic chest pain, tachycardia, tachypnea, hemoptysis, unilateral leg swelling</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">D-dimer (if low probability), CTPA, V/Q scan, ECG, troponin, BNP, lower extremity US</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Wells score, PERC rule, PESI score</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Anticoagulation (heparin, LMWH, or DOAC). Thrombolytics if massive PE with hemodynamic instability</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">RV failure, cardiac arrest, chronic thromboembolic pulmonary HTN</span></div>
+        </div>
+
+        <!-- 9. Sepsis/Septic Shock -->
+        <div class="condition">
+            <div class="condition-title">9. SEPSIS/SEPTIC SHOCK</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever/hypothermia, tachycardia, tachypnea, AMS, hypotension</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Blood cultures×2, CBC, CMP, lactate, procalcitonin, UA/urine culture, CXR, source identification</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">qSOFA, SOFA score, lactate clearance</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Broad-spectrum antibiotics within 1hr, IV fluids (30mL/kg crystalloid), vasopressors (norepinephrine) if MAP <65. Source control</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">ARDS, AKI, DIC, multi-organ failure, death</span></div>
+        </div>
+
+        <!-- 10. Acute Kidney Injury -->
+        <div class="condition">
+            <div class="condition-title">10. ACUTE KIDNEY INJURY (AKI)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Oliguria, fluid overload, edema, uremic symptoms, AMS</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP (Cr), UA with micro, urine Na+/Cr/osmolality, renal US, consider renal biopsy</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">FENa, FEUrea, CrCl (Cockcroft-Gault), baseline Cr comparison</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Treat underlying cause (prerenal: fluids; intrinsic: stop nephrotoxins; postrenal: relieve obstruction). Adjust meds for GFR</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Hyperkalemia, metabolic acidosis, uremia, need for dialysis</span></div>
+        </div>
+
+        <!-- 11. Hyperkalemia -->
+        <div class="condition">
+            <div class="condition-title">11. HYPERKALEMIA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Often asymptomatic; weakness, paresthesias, palpitations, arrhythmias</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP, ECG (peaked T waves, wide QRS, loss of P waves), repeat K+ to confirm</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Transtubular K+ gradient if etiology unclear</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Calcium gluconate (cardiac protection), insulin+D50, albuterol, furosemide, kayexalate, dialysis if severe/refractory</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Cardiac arrhythmias, sudden cardiac death</span></div>
+        </div>
+
+        <!-- 12. Hyponatremia -->
+        <div class="condition">
+            <div class="condition-title">12. HYPONATREMIA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Mild: nausea, confusion. Severe: seizures, coma, AMS</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP, serum/urine osmolality, urine Na+, assess volume status, TSH, cortisol</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Corrected Na+ (if hyperglycemic), Na+ deficit, rate of correction (max 8-10mEq/L/24hr)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Depends on volume status and acuity. Hypovolemic: NS. Euvolemic: fluid restriction, treat SIADH. Hypervolemic: fluid restriction, diuretics</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Osmotic demyelination syndrome (if corrected too rapidly), cerebral edema</span></div>
+        </div>
+
+        <!-- 13. Diabetic Ketoacidosis -->
+        <div class="condition">
+            <div class="condition-title">13. DIABETIC KETOACIDOSIS (DKA)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Polyuria, polydipsia, N/V, abdominal pain, AMS, Kussmaul respirations, fruity breath</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP, glucose, VBG/ABG, β-hydroxybutyrate, UA (ketones), anion gap</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Anion gap, corrected Na+, osmolality, fluid deficit</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">IV fluids (NS initially), insulin gtt (0.1 U/kg/hr after bolus), K+ repletion, treat precipitant. Add D5 when glucose <200</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Cerebral edema (esp. children), hypokalemia, hypoglycemia, ARDS</span></div>
+        </div>
+
+        <!-- 14. Hyperosmolar Hyperglycemic State -->
+        <div class="condition">
+            <div class="condition-title">14. HYPEROSMOLAR HYPERGLYCEMIC STATE (HHS)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">AMS, severe dehydration, glucose >600, minimal/no ketones</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP, glucose, serum osmolality, VBG, UA</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Serum osmolality (>320), corrected Na+, free water deficit</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Aggressive IV fluids (NS then 0.45% NS), lower-dose insulin, K+ repletion, slower correction than DKA</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Thrombosis, cerebral edema, seizures, vascular events</span></div>
+        </div>
+
+        <!-- 15. GI Bleed (Upper) -->
+        <div class="condition">
+            <div class="condition-title">15. UPPER GI BLEED</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Hematemesis, melena, abdominal pain, hemodynamic instability</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CBC, BMP, coags (PT/PTT), type & cross, LFTs. EGD for diagnosis/treatment</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Glasgow-Blatchford score, Rockall score (pre/post-endoscopy)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Resuscitate (IVF, pRBC if Hgb <7), NPO, PPI IV (pantoprazole 80mg bolus→8mg/hr), octreotide if varices suspected. EGD within 24hr</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Hypovolemic shock, aspiration, rebleeding, need for surgery</span></div>
+        </div>
+
+        <!-- 16. Cirrhosis with Ascites -->
+        <div class="condition">
+            <div class="condition-title">16. CIRRHOSIS WITH ASCITES</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Abdominal distention, shifting dullness, fluid wave, peripheral edema</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Diagnostic paracentesis (cell count, alb, culture, cytology), LFTs, CBC, PT/INR, abdominal US</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">SAAG (serum-ascites albumin gradient), MELD score, Child-Pugh score</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Na+ restriction, diuretics (spironolactone + furosemide 100:40 ratio), large-volume paracentesis with albumin if tense</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">SBP, hepatorenal syndrome, hyponatremia, hepatic hydrothorax</span></div>
+        </div>
+
+        <!-- 17. Spontaneous Bacterial Peritonitis -->
+        <div class="condition">
+            <div class="condition-title">17. SPONTANEOUS BACTERIAL PERITONITIS (SBP)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever, abdominal pain/tenderness, AMS, rebound/guarding (often subtle in cirrhosis)</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Diagnostic paracentesis (PMN >250/μL), ascitic fluid culture (bedside inoculation)</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Ascitic PMN count</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Ceftriaxone 2g IV daily × 5d or cefotaxime. Albumin 1.5g/kg day 1, 1g/kg day 3. Prophylaxis: norfloxacin after episode</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Hepatorenal syndrome, septic shock, death</span></div>
+        </div>
+
+        <!-- 18. Hepatic Encephalopathy -->
+        <div class="condition">
+            <div class="condition-title">18. HEPATIC ENCEPHALOPATHY</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">AMS, asterixis, confusion, personality changes, hyperreflexia</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Ammonia (not always necessary), LFTs, CBC, BMP, identify precipitant (infection, GI bleed, meds)</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">West Haven criteria (grade 1-4), MELD score</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Lactulose (titrate to 2-3 BMs/day), rifaximin. Treat precipitant. Avoid sedatives</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Aspiration, cerebral edema (acute liver failure), progression to coma</span></div>
+        </div>
+
+        <!-- 19. Acute Pancreatitis -->
+        <div class="condition">
+            <div class="condition-title">19. ACUTE PANCREATITIS</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Epigastric pain radiating to back, N/V, fever, tachycardia</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Lipase (>3× ULN), LFTs, CBC, BMP, Ca, TG, RUQ US, CT if severe/unclear dx</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Ranson criteria, BISAP score, APACHE II, fluid sequestration</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Aggressive IV hydration (LR preferred), pain control, NPO initially then advance diet as tolerated. ERCP if biliary obstruction</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Necrosis, pseudocyst, ARDS, AKI, shock</span></div>
+        </div>
+
+        <!-- 20. Cellulitis -->
+        <div class="condition">
+            <div class="condition-title">20. CELLULITIS</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Erythema, warmth, edema, tenderness, fever, lymphangitis</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Clinical diagnosis. Blood cultures if systemic symptoms. Consider US to r/o abscess</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Mark borders to track progression/improvement</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Cephalexin or cefazolin (IV if severe). Add MRSA coverage (vancomycin, linezolid) if purulent/systemic. Elevation, warm compresses</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Abscess formation, necrotizing fasciitis, sepsis, osteomyelitis</span></div>
+        </div>
+
+        <!-- 21. Urinary Tract Infection -->
+        <div class="condition">
+            <div class="condition-title">21. URINARY TRACT INFECTION (UTI)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Dysuria, frequency, urgency, suprapubic pain, hematuria. Pyelonephritis: fever, CVA tenderness</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">UA with micro, urine culture. Blood cultures if pyelonephritis/urosepsis</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">N/A</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Cystitis: nitrofurantoin, TMP-SMX, or fluoroquinolone. Pyelonephritis: fluoroquinolone or ceftriaxone. Tailor to culture</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Pyelonephritis, urosepsis, renal abscess</span></div>
+        </div>
+
+        <!-- 22. C. difficile Infection -->
+        <div class="condition">
+            <div class="condition-title">22. C. DIFFICILE INFECTION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Diarrhea (≥3 unformed stools/24hr), abdominal pain, fever, leukocytosis</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Stool PCR or GDH + toxin assay, CBC, BMP, lactate, CT if severe (toxic megacolon)</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">WBC count, Cr, albumin (severity markers)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">PO vancomycin 125mg QID or fidaxomicin. If severe: vanc + IV metronidazole. Fulminant: vanc + metro + consider surgery</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Toxic megacolon, perforation, sepsis, recurrence</span></div>
+        </div>
+
+        <!-- 23. DVT -->
+        <div class="condition">
+            <div class="condition-title">23. DEEP VEIN THROMBOSIS (DVT)</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Unilateral leg pain, swelling, warmth, Homan's sign (low sensitivity)</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Compression US with Doppler (duplex), D-dimer (if low probability), consider thrombophilia workup</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Wells score for DVT</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Anticoagulation: LMWH, fondaparinux, or DOAC. Rivaroxaban or apixaban can start immediately. Duration: 3mo minimum</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">PE, post-thrombotic syndrome, phlegmasia cerulea dolens</span></div>
+        </div>
+
+        <!-- 24. Stroke (Ischemic) -->
+        <div class="condition">
+            <div class="condition-title">24. ACUTE ISCHEMIC STROKE</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Sudden focal neuro deficit: weakness, numbness, speech difficulty, vision loss, ataxia</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Non-contrast head CT (r/o hemorrhage), MRI/DWI, CTA/MRA, ECG, lipids, HbA1c, echo</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">NIHSS score, last known well time</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">tPA if <4.5hr and no contraindications. Thrombectomy if <24hr and large vessel occlusion. ASA 325mg after 24hr. Admit stroke unit</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Hemorrhagic transformation, cerebral edema, recurrent stroke</span></div>
+        </div>
+
+        <!-- 25. Seizure -->
+        <div class="condition">
+            <div class="condition-title">25. SEIZURE</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Convulsions, LOC, post-ictal confusion, tongue biting, incontinence, focal deficits</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP (Na, glucose, Ca, Mg), AED levels if on therapy, toxicology screen, head CT, LP if infection suspected, EEG</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Corrected Ca, anion gap</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Status epilepticus: benzodiazepines, then levetiracetam, fosphenytoin, or valproate. Identify/treat cause. Restart home AEDs</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Status epilepticus, aspiration, trauma, SUDEP</span></div>
+        </div>
+
+        <!-- 26. Meningitis -->
+        <div class="condition">
+            <div class="condition-title">26. BACTERIAL MENINGITIS</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever, headache, neck stiffness, photophobia, AMS, Kernig/Brudzinski signs</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Blood cultures×2, LP (opening pressure, cell count/diff, glucose, protein, Gram stain, culture), head CT before LP if ↑ICP concerns</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CSF:serum glucose ratio</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Empiric: vancomycin + ceftriaxone (± ampicillin if >50yo). Dexamethasone if bacterial. Don't delay antibiotics for LP</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Brain abscess, hydrocephalus, seizures, hearing loss, death</span></div>
+        </div>
+
+        <!-- 27. Anemia -->
+        <div class="condition">
+            <div class="condition-title">27. ANEMIA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fatigue, pallor, dyspnea, tachycardia, dizziness, angina if severe</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CBC with diff, reticulocyte count, iron studies, B12, folate, peripheral smear, hemolysis labs if indicated</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">MCV (microcytic <80, normocytic 80-100, macrocytic >100), corrected retic count</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Depends on cause. Iron deficiency: PO/IV iron. B12 def: B12 repletion. Transfuse if symptomatic or Hgb <7</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">High-output heart failure, MI, hypotension</span></div>
+        </div>
+
+        <!-- 28. Neutropenic Fever -->
+        <div class="condition">
+            <div class="condition-title">28. NEUTROPENIC FEVER</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever ≥38.3°C or ≥38°C for 1hr with ANC <500 or <1000 expected to ↓</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Blood cultures×2, CBC, CMP, CXR, UA/urine culture. Consider imaging based on symptoms</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">ANC (absolute neutrophil count), MASCC score (risk stratification)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Broad-spectrum anti-pseudomonal β-lactam (cefepime, pip-tazo, meropenem). Add vancomycin if line infection, skin infection, or hemodynamically unstable</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Septic shock, multi-organ failure, death</span></div>
+        </div>
+
+        <!-- 29. Alcohol Withdrawal -->
+        <div class="condition">
+            <div class="condition-title">29. ALCOHOL WITHDRAWAL</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Tremor, anxiety, N/V, insomnia, tachycardia, HTN, diaphoresis. Severe: hallucinations, seizures, DTs</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="label">BMP, Mg, Phos, LFTs, CBC, BAL, toxicology screen</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CIWA-Ar score (symptom-triggered therapy)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Benzodiazepines (diazepam or lorazepam), symptom-triggered or fixed schedule. Thiamine, folate, multivitamin. IV fluids, electrolyte repletion</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Delirium tremens, Wernicke-Korsakoff, seizures, aspiration</span></div>
+        </div>
+
+        <!-- 30. Delirium -->
+        <div class="condition">
+            <div class="condition-title">30. DELIRIUM</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Acute onset AMS, fluctuating course, inattention, disorganized thinking. Hypo/hyperactive</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Evaluate for underlying cause: CBC, CMP, UA/culture, CXR, medication review, head CT if indicated</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CAM (Confusion Assessment Method)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Identify/treat cause. Non-pharm: reorientation, sleep hygiene, minimize restraints. Pharm: haloperidol or quetiapine if severe agitation</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Falls, prolonged hospitalization, functional decline, increased mortality</span></div>
+        </div>
+
+        <!-- 31. Hyperthyroidism -->
+        <div class="condition">
+            <div class="condition-title">31. HYPERTHYROIDISM/THYROID STORM</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Weight loss, tremor, palpitations, heat intolerance, diarrhea, anxiety. Storm: fever, tachycardia, AMS</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">TSH (low), free T4 (high), free T3, TPO antibodies, radioactive iodine uptake</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Burch-Wartofsky score (thyroid storm)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">β-blocker, thionamide (PTU or methimazole), iodine (1hr after thionamide), steroids if storm. Supportive care</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Atrial fibrillation, heart failure, thyroid storm, osteoporosis</span></div>
+        </div>
+
+        <!-- 32. Hypothyroidism -->
+        <div class="condition">
+            <div class="condition-title">32. HYPOTHYROIDISM/MYXEDEMA COMA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fatigue, weight gain, cold intolerance, constipation, bradycardia, dry skin. Coma: hypothermia, hypotension, AMS</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">TSH (high), free T4 (low), TPO antibodies, lipids, CBC, CMP</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">N/A</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Levothyroxine replacement. Myxedema coma: IV T4 + T3, hydrocortisone, supportive care, ICU admission</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Myxedema coma, pericardial effusion, hyperlipidemia, infertility</span></div>
+        </div>
+
+        <!-- 33. Adrenal Insufficiency -->
+        <div class="condition">
+            <div class="condition-title">33. ADRENAL INSUFFICIENCY/CRISIS</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fatigue, weakness, N/V, abdominal pain, hypotension, hyperpigmentation (primary). Crisis: shock, AMS</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">AM cortisol, ACTH, ACTH stim test (cosyntropin), BMP (hyponatremia, hyperkalemia), glucose</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">N/A</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Acute crisis: hydrocortisone 100mg IV q8h, IV NS resuscitation, treat precipitant. Chronic: hydrocortisone + fludrocortisone (if primary)</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Adrenal crisis, cardiovascular collapse, death</span></div>
+        </div>
+
+        <!-- 34. Hypercalcemia -->
+        <div class="condition">
+            <div class="condition-title">34. HYPERCALCEMIA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">"Stones, bones, abdominal groans, psychiatric overtones" - kidney stones, bone pain, constipation, AMS, weakness</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">BMP, ionized Ca, PTH, PTHrP, vitamin D, phosphate, albumin, ECG</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Corrected Ca (add 0.8 for each 1g/dL alb below 4)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">IV NS hydration, calcitonin (rapid effect), bisphosphonates (zoledronic acid), treat underlying cause. Dialysis if severe</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Nephrocalcinosis, AKI, arrhythmias, pancreatitis</span></div>
+        </div>
+
+        <!-- 35. Hypomagnesemia -->
+        <div class="condition">
+            <div class="condition-title">35. HYPOMAGNESEMIA</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Weakness, tremor, tetany, Chvostek/Trousseau signs, arrhythmias, seizures</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">Serum Mg, BMP (often concurrent hypocalcemia, hypokalemia), ECG</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">N/A</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">PO magnesium oxide or IV magnesium sulfate (1-2g over 15min if severe). Check and replete Ca and K</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Refractory hypokalemia/hypocalcemia, torsades de pointes, seizures</span></div>
+        </div>
+
+        <!-- 36. Acute Coronary Syndrome (continued) -->
+        <div class="condition">
+            <div class="condition-title">36. RHABDOMYOLYSIS</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Muscle pain, weakness, dark urine (tea/cola-colored), myoglobinuria</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CK (>5× ULN or >1000), BMP (hyperkalemia, ↑Cr), UA (myoglobin without RBCs), phosphate, Ca, uric acid</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">CK level, urine output goal >200mL/hr</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Aggressive IV hydration (NS 200-300mL/hr initially), monitor electrolytes (K, Ca, Phos). Stop offending agents. Alkalinization controversial</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">AKI (from myoglobin), hyperkalemia, DIC, compartment syndrome</span></div>
+        </div>
+
+        <!-- 37. Transfusion Reaction -->
+        <div class="condition">
+            <div class="condition-title">37. TRANSFUSION REACTION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Fever, chills, pruritis, urticaria, dyspnea, chest/back pain, hypotension (acute hemolytic), TRALI</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CBC, blood bank notification, direct Coombs, LDH, haptoglobin, bilirubin, UA (hemoglobinuria), blood cultures</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">N/A</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">STOP transfusion. IV fluids, supportive care. Febrile non-hemolytic: acetaminophen. Allergic: antihistamines ± steroids. Anaphylaxis: epinephrine</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">AKI, DIC, TRALI, TACO, death (acute hemolytic)</span></div>
+        </div>
+
+        <!-- 38. Pleural Effusion -->
+        <div class="condition">
+            <div class="condition-title">38. PLEURAL EFFUSION</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Dyspnea, pleuritic chest pain, cough, decreased breath sounds, dullness to percussion</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CXR (>200mL visible), thoracentesis (fluid analysis: LDH, protein, pH, glucose, cell count, cytology, culture), pleural US</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Light's criteria (exudate vs transudate)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Treat underlying cause. Therapeutic thoracentesis if symptomatic. Chest tube if empyema/hemothorax</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Empyema, re-expansion pulmonary edema, pneumothorax (post-procedure)</span></div>
+        </div>
+
+        <!-- 39. Pneumothorax -->
+        <div class="condition">
+            <div class="condition-title">39. PNEUMOTHORAX</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Sudden dyspnea, pleuritic chest pain, decreased breath sounds, hyperresonance. Tension: hypotension, JVD, tracheal deviation</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">CXR (upright), CT if unclear. ABG if respiratory distress</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">Size (cm at hilum level)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Small/asymptomatic: observation + O2. Large/symptomatic: needle decompression (tension) or chest tube. Spontaneous: consider pleurodesis</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Tension pneumothorax, recurrence, respiratory failure</span></div>
+        </div>
+
+        <!-- 40. Syncope -->
+        <div class="condition">
+            <div class="condition-title">40. SYNCOPE</div>
+            <div class="section"><span class="label">S/Sx:</span> <span class="content">Transient LOC with spontaneous recovery, prodrome (lightheadedness, diaphoresis), lack of focal neuro findings</span></div>
+            <div class="section"><span class="label">Tests:</span> <span class="content">ECG (all patients), orthostatic VS, CBC, BMP, glucose, troponin. Consider echo, Holter, tilt-table, EP study based on risk</span></div>
+            <div class="section"><span class="label">Calc:</span> <span class="content">San Francisco Syncope Rule, ROSE score (risk stratification)</span></div>
+            <div class="section"><span class="label">Tx:</span> <span class="content">Depends on etiology: volume repletion, medication adjustment, pacemaker if high-degree AV block. Admit if high-risk features</span></div>
+            <div class="section"><span class="label">Complic:</span> <span class="content">Trauma from fall, sudden cardiac death if cardiac etiology</span></div>
+        </div>
+    </div>
+
+    <div class="references">
+        <strong>REFERENCES & RESOURCES:</strong> UpToDate (uptodate.com) | Harrison's Principles of Internal Medicine | ACP MKSAP | ACC/AHA Guidelines | IDSA Guidelines | CHEST Guidelines | MDCalc (mdcalc.com) for calculators | Choosing Wisely (choosingwisely.org) | NEJM Clinical Practice Guidelines | Journal Watch General Medicine
+    </div>
+</body>
+</html>
