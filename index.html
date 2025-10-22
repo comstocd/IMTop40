@@ -19,6 +19,130 @@
             background: #f6f8fa;
         }
         
+        .calculator {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .calculator-title {
+            font-weight: 600;
+            color: #856404;
+            font-size: 11pt;
+            margin-bottom: 10px;
+        }
+        
+        .calc-item {
+            margin: 12px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .calc-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: 9.5pt;
+        }
+        
+        .calc-item .hint {
+            display: block;
+            font-size: 8pt;
+            color: #666;
+            font-weight: normal;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        
+        .calc-item select, .calc-item input[type="number"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 9.5pt;
+            background: white;
+            transition: border-color 0.2s;
+        }
+        
+        .calc-item select:focus, .calc-item input[type="number"]:focus {
+            outline: none;
+            border-color: #0366d6;
+            box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+        }
+        
+        .calc-item input[type="number"]::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .calc-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        
+        .calc-item.checkbox-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .calc-item.checkbox-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .calc-item.checkbox-item label {
+            cursor: pointer;
+            margin: 0;
+            display: inline;
+            font-weight: 500;
+        }
+        
+        .calc-result {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .calc-result.high-risk {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .calc-button {
+            background: #0366d6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 9pt;
+            margin-top: 10px;
+        }
+        
+        .calc-button:hover {
+            background: #0256c7;
+        }
+        
+        .calc-description {
+            font-size: 9pt;
+            color: #666;
+            margin-top: 8px;
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -67,6 +191,7 @@
             padding: 30px;
             background: #f6f8fa;
             border-bottom: 3px solid #e1e4e8;
+            scroll-margin-top: 95px;
         }
         
         .toc h2 {
@@ -117,16 +242,16 @@
         }
         
         .condition-page {
-            padding: 30px;
+            padding: 0px 30px 30px 30px;
             border-bottom: 3px solid #e1e4e8;
-            scroll-margin-top: 80px;
+            scroll-margin-top: 130px;
         }
         
         .page-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px 25px;
-            margin: -30px -30px 25px -30px;
+            margin: 0 -30px 25px -30px;
             border-radius: 0;
         }
         
@@ -247,6 +372,10 @@
             .container {
                 box-shadow: none;
             }
+        }
+        
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -410,7 +539,247 @@
                 <div class="section-content">
                     <p><span class="label">Immediate:</span> ECG within 10 minutes, troponin (repeat at 3 and 6 hours if initial negative), CBC, BMP, PT/INR, lipid panel, CXR</p>
                     <p><span class="label">STEMI Criteria:</span> ST elevation ≥1mm in 2+ contiguous leads OR new LBBB OR ST depression V1-V3 (posterior MI)</p>
-                    <p><span class="label">Calculations:</span> HEART Score (low-risk outpatient evaluation), TIMI Risk Score (STEMI and NSTEMI), GRACE Score (mortality prediction)</p>
+                    <p><span class="label">Calculations:</span> <a href="#calc-heart" style="color: #0366d6;">HEART Score</a>, <a href="#calc-timi-stemi" style="color: #0366d6;">TIMI STEMI</a>, <a href="#calc-timi-nstemi" style="color: #0366d6;">TIMI NSTEMI</a>, <a href="#calc-grace" style="color: #0366d6;">GRACE Score</a></p>
+                    
+                    <!-- HEART Score Calculator -->
+                    <div id="calc-heart" class="calculator">
+                        <div class="calculator-title">🧮 HEART Score Calculator</div>
+                        <div class="calc-description">
+                            <strong>Use:</strong> Risk stratification for chest pain patients to determine if safe for outpatient evaluation. Score 0-3 = low risk (outpatient), 4-6 = moderate risk (observe), 7-10 = high risk (admit).
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>History
+                                <span class="hint">How suspicious is the patient's story for ACS?</span>
+                            </label>
+                            <select id="heart-history">
+                                <option value="0">Slightly suspicious - probably not cardiac (0)</option>
+                                <option value="1" selected>Moderately suspicious - could be cardiac (1)</option>
+                                <option value="2">Highly suspicious - typical angina (2)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>ECG
+                                <span class="hint">Initial ECG findings</span>
+                            </label>
+                            <select id="heart-ecg">
+                                <option value="0" selected>Normal (0)</option>
+                                <option value="1">Non-specific repolarization changes (1)</option>
+                                <option value="2">Significant ST deviation (2)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Age
+                                <span class="hint">Patient's age in years</span>
+                            </label>
+                            <select id="heart-age">
+                                <option value="0"><21 years (0)</option>
+                                <option value="1">21-45 years (1)</option>
+                                <option value="2" selected>45-65 years (2)</option>
+                                <option value="2">>65 years (2)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Risk Factors
+                                <span class="hint">Count: HTN, DM, smoking, high cholesterol, family history, obesity</span>
+                            </label>
+                            <select id="heart-risk">
+                                <option value="0">None (0)</option>
+                                <option value="1" selected>1-2 risk factors (1)</option>
+                                <option value="2">≥3 risk factors or history of atherosclerotic disease (2)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Troponin
+                                <span class="hint">Initial troponin level relative to upper limit of normal</span>
+                            </label>
+                            <select id="heart-trop">
+                                <option value="0" selected>Normal - below upper limit (0)</option>
+                                <option value="1">1-3× upper limit of normal (1)</option>
+                                <option value="2">>3× upper limit of normal (2)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="calc-button" onclick="calculateHEART()">Calculate HEART Score</button>
+                        <div id="heart-result"></div>
+                    </div>
+                    
+                    <!-- TIMI STEMI Calculator -->
+                    <div id="calc-timi-stemi" class="calculator">
+                        <div class="calculator-title">🧮 TIMI Risk Score - STEMI</div>
+                        <div class="calc-description">
+                            <strong>Use:</strong> Predicts 30-day mortality in STEMI patients. Score 0-2 = 2% mortality, 3-4 = 5%, 5-6 = 12%, >6 = 36%.
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-age65"> Age 65-74 years
+                                <span class="hint">+2 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-age75"> Age ≥75 years
+                                <span class="hint">+3 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-dm"> Diabetes, Hypertension, or Angina history
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-bp"> Systolic BP <100 mmHg
+                                <span class="hint">+3 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-hr"> Heart rate >100 bpm
+                                <span class="hint">+2 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-killip"> Killip class II-IV (rales, S3, pulmonary edema, shock)
+                                <span class="hint">+2 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-weight"> Weight <67 kg (150 lbs)
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-anterior"> Anterior STEMI or LBBB
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-stemi-time"> Time to treatment >4 hours
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        
+                        <button class="calc-button" onclick="calculateTIMI_STEMI()">Calculate TIMI STEMI Score</button>
+                        <div id="timi-stemi-result"></div>
+                    </div>
+                    
+                    <!-- TIMI NSTEMI Calculator -->
+                    <div id="calc-timi-nstemi" class="calculator">
+                        <div class="calculator-title">🧮 TIMI Risk Score - NSTEMI/UA</div>
+                        <div class="calc-description">
+                            <strong>Use:</strong> Risk of death, MI, or urgent revascularization within 14 days. Score 0-2 = 5% risk (low), 3-4 = 13% (moderate), 5-7 = 41% (high).
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-age"> Age ≥65 years
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-risk"> ≥3 CAD risk factors
+                                <span class="hint">HTN, DM, smoking, high cholesterol, family history (+1 point)</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-cad"> Known CAD (stenosis ≥50%)
+                                <span class="hint">Prior cath showing >50% stenosis (+1 point)</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-asa"> Aspirin use in past 7 days
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-angina"> Severe angina
+                                <span class="hint">≥2 episodes within 24 hours (+1 point)</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-ecg"> ST changes ≥0.5mm
+                                <span class="hint">ST elevation or depression (+1 point)</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="timi-nstemi-trop"> Elevated cardiac markers
+                                <span class="hint">Troponin or CK-MB elevated (+1 point)</span>
+                            </label>
+                        </div>
+                        
+                        <button class="calc-button" onclick="calculateTIMI_NSTEMI()">Calculate TIMI NSTEMI Score</button>
+                        <div id="timi-nstemi-result"></div>
+                    </div>
+                    
+                    <!-- GRACE Score Calculator -->
+                    <div id="calc-grace" class="calculator">
+                        <div class="calculator-title">🧮 GRACE Score Calculator</div>
+                        <div class="calc-description">
+                            <strong>Use:</strong> Estimates in-hospital and 6-month mortality in ACS. Low risk <109, intermediate 109-140, high >140. More accurate than TIMI for mortality prediction.
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Age (years)
+                                <span class="hint">Patient's age - typical range 40-80</span>
+                            </label>
+                            <input type="number" id="grace-age" placeholder="e.g., 65" min="18" max="120" value="65">
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Heart Rate (bpm)
+                                <span class="hint">Beats per minute - typical range 60-100</span>
+                            </label>
+                            <input type="number" id="grace-hr" placeholder="e.g., 85" min="30" max="250" value="85">
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Systolic Blood Pressure (mmHg)
+                                <span class="hint">SBP at presentation - typical range 100-160</span>
+                            </label>
+                            <input type="number" id="grace-sbp" placeholder="e.g., 130" min="50" max="250" value="130">
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Creatinine (mg/dL)
+                                <span class="hint">Serum creatinine - normal 0.6-1.2 mg/dL</span>
+                            </label>
+                            <input type="number" id="grace-cr" placeholder="e.g., 1.0" step="0.1" min="0.1" max="15" value="1.0">
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="grace-arrest"> Cardiac arrest at admission
+                                <span class="hint">+39 points</span>
+                            </label>
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="grace-st"> ST segment deviation on ECG
+                                <span class="hint">ST elevation or depression (+28 points)</span>
+                            </label>
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="grace-enzymes" checked> Elevated cardiac enzymes
+                                <span class="hint">Troponin or CK-MB elevated (+14 points)</span>
+                            </label>
+                        </div>
+                        
+                        <div class="calc-item">
+                            <label>Killip Class
+                                <span class="hint">Clinical heart failure classification</span>
+                            </label>
+                            <select id="grace-killip">
+                                <option value="0" selected>I - No heart failure signs (0)</option>
+                                <option value="20">II - Rales or S3 gallop (+20)</option>
+                                <option value="39">III - Pulmonary edema (+39)</option>
+                                <option value="59">IV - Cardiogenic shock (+59)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="calc-button" onclick="calculateGRACE()">Calculate GRACE Score</button>
+                        <div id="grace-result"></div>
+                    </div>
                 </div>
             </div>
             
@@ -703,21 +1072,617 @@
             <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
         </div>
 
-        <!-- Placeholder note for remaining conditions -->
+        <!-- PAGE 4: HYPERTENSIVE EMERGENCY -->
+        <div id="htn-emergency" class="condition-page">
+            <div class="page-header">
+                <h2>4. HYPERTENSIVE EMERGENCY</h2>
+                <div class="subtitle">End-Organ Damage • ICU Management</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Definition:</span> Severe hypertension (typically SBP >180 or DBP >120) WITH acute end-organ damage</p>
+                    <p><span class="label">Classic:</span> Severe headache, visual changes, chest pain, dyspnea, altered mental status, focal neurologic deficits</p>
+                    <p><span class="label">Alternate Presentations:</span></p>
+                    <ul>
+                        <li><strong>Neurologic:</strong> Hypertensive encephalopathy (HA, confusion, seizures), stroke (ischemic/hemorrhagic), PRES</li>
+                        <li><strong>Cardiac:</strong> Acute MI, acute pulmonary edema, aortic dissection</li>
+                        <li><strong>Renal:</strong> Acute kidney injury, hematuria, proteinuria</li>
+                        <li><strong>Microangiopathic:</strong> Hemolytic anemia, thrombocytopenia</li>
+                    </ul>
+                    <p><span class="label">Hypertensive Urgency:</span> Severe HTN WITHOUT end-organ damage. Managed outpatient with PO meds</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Labs:</span> BMP, troponin, CBC, UA, peripheral smear if hemolysis suspected, BNP if APE concern</p>
+                    <p><span class="label">Imaging:</span> ECG, CXR, Head CT if neuro symptoms, CT chest if dissection suspected</p>
+                    <p><span class="label">Fundoscopic:</span> Look for papilledema, hemorrhages, exudates</p>
+                    <p><span class="label">Calculate Target BP:</span> Initial reduction 10-20% in 1st hour, then 5-15% over next 23 hours. Avoid >25% reduction in first 24hr</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">General:</span> ICU admission, continuous BP monitoring (arterial line often needed), IV antihypertensives</p>
+                    <p><span class="label">IV Agents:</span></p>
+                    <ul>
+                        <li><strong>Nicardipine:</strong> 5mg/hr, titrate by 2.5mg/hr q5-15min (max 15mg/hr). First-line</li>
+                        <li><strong>Labetalol:</strong> 20mg IV bolus, then 20-80mg q10min OR 0.5-2mg/min infusion</li>
+                        <li><strong>Clevidipine:</strong> 1-2mg/hr, double q90sec (max 21mg/hr). Short-acting</li>
+                        <li><strong>Esmolol:</strong> β-blocker for dissection. 500mcg/kg load, then 50-300mcg/kg/min</li>
+                        <li><strong>Nitroprusside:</strong> 0.25-10mcg/kg/min. For APE. Watch cyanide toxicity</li>
+                    </ul>
+                    <p><span class="label">Specific Scenarios:</span></p>
+                    <ul>
+                        <li><strong>Aortic Dissection:</strong> SBP <120 in 20min. Esmolol FIRST, then nicardipine</li>
+                        <li><strong>Ischemic Stroke:</strong> Permissive HTN! Allow SBP up to 220 (or 185 if tPA)</li>
+                        <li><strong>Hemorrhagic Stroke:</strong> Goal SBP 140-160</li>
+                        <li><strong>Eclampsia:</strong> Mag sulfate + hydralazine/labetalol. Deliver baby!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearl-box">
+                <div class="pearl-title">🔑 TEACHING PEARLS</div>
+                <ul>
+                    <li><strong>Urgency vs Emergency:</strong> Only EMERGENCY needs ICU/IV meds. Urgency = oral meds over hours-days</li>
+                    <li><strong>Don't drop too fast:</strong> Cerebral autoregulation reset in chronic HTN. Rapid drop → stroke/MI</li>
+                    <li><strong>Ischemic stroke exception:</strong> Brain needs perfusion! Only lower if SBP >220 or giving tPA</li>
+                    <li><strong>PRES:</strong> Headache, confusion, seizures, vision loss + posterior white matter edema. Usually reversible</li>
+                    <li><strong>Transition to PO:</strong> Start long-acting oral agents before stopping IV to prevent rebound</li>
+                </ul>
+            </div>
+            
+            <div class="two-column">
+                <div class="box">
+                    <div class="box-title">⚠️ ESCALATE TO ICU IF:</div>
+                    <ul>
+                        <li>ALL hypertensive emergencies require ICU</li>
+                        <li>Need for continuous IV infusion</li>
+                        <li>Acute end-organ damage</li>
+                        <li>Altered mental status</li>
+                        <li>Arterial line needed</li>
+                    </ul>
+                </div>
+                
+                <div class="box">
+                    <div class="box-title">✓ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>BP controlled on oral regimen ≥24hr</li>
+                        <li>End-organ damage stabilized</li>
+                        <li>Off IV medications</li>
+                        <li>Patient educated on compliance</li>
+                        <li>Close follow-up arranged (within 1 week)</li>
+                        <li>Secondary causes evaluated if indicated</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">COMPLICATIONS TO MONITOR</div>
+                <div class="section-content">
+                    <p><strong>From Hypertension:</strong> Stroke, MI, aortic dissection, acute renal failure, retinopathy, heart failure</p>
+                    <p><strong>From Treatment:</strong> Hypotension, stroke from rapid BP drop, rebound HTN, cyanide toxicity (nitroprusside)</p>
+                </div>
+            </div>
+            
+            <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
+        </div>
+
+        <!-- PAGE 5: COMMUNITY-ACQUIRED PNEUMONIA -->
+        <div id="cap" class="condition-page">
+            <div class="page-header">
+                <h2>5. COMMUNITY-ACQUIRED PNEUMONIA (CAP)</h2>
+                <div class="subtitle">Outpatient • Inpatient • ICU Management</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Classic:</span> Fever, cough (productive/dry), dyspnea, pleuritic chest pain. Exam: Tachypnea, rales/crackles, bronchial breath sounds, dullness, egophony</p>
+                    <p><span class="label">Alternate Presentations:</span></p>
+                    <ul>
+                        <li><strong>Elderly:</strong> Minimal fever, confusion/delirium, weakness, falls. May lack respiratory symptoms</li>
+                        <li><strong>Atypical Organisms:</strong> Dry cough, headache, myalgias, diarrhea (Legionella, Mycoplasma)</li>
+                        <li><strong>Aspiration:</strong> Witnessed event, right lower lobe/posterior segments, foul sputum</li>
+                        <li><strong>Immunocompromised:</strong> PCP, CMV, TB</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Imaging:</span> CXR (PA and lateral) - infiltrate confirms diagnosis</p>
+                    <p><span class="label">Labs (if admitted):</span> CBC, BMP, procalcitonin, blood cultures × 2, sputum Gram stain/culture, ABG if hypoxic</p>
+                    <p><span class="label">Special:</span> Legionella urinary Ag, Strep pneumo urinary Ag (if severe), respiratory viral panel, HIV if risk factors</p>
+                    <p><span class="label">Severity Scores:</span></p>
+                    <ul>
+                        <li><strong>CURB-65:</strong> Confusion, Urea >20, RR ≥30, BP (SBP <90 or DBP ≤60), Age ≥65. Score 0-1: outpatient, 2: admit, ≥3: ICU</li>
+                        <li><strong>PSI/PORT:</strong> More complex. Classes I-II outpatient, III consider admit, IV-V admit</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">Outpatient (CURB-65 0-1):</span></p>
+                    <ul>
+                        <li><strong>Previously healthy:</strong> Amoxicillin 1g TID × 5d OR doxycycline 100mg BID × 5d</li>
+                        <li><strong>With comorbidities:</strong> Amoxicillin-clavulanate + macrolide OR levofloxacin 750mg daily</li>
+                    </ul>
+                    
+                    <p><span class="label">Inpatient Non-ICU:</span></p>
+                    <ul>
+                        <li><strong>Standard:</strong> Ceftriaxone 1-2g IV daily + azithromycin 500mg IV/PO daily</li>
+                        <li><strong>Alternative:</strong> Levofloxacin 750mg daily or moxifloxacin 400mg daily</li>
+                        <li><strong>Duration:</strong> Minimum 5 days if afebrile × 48-72hr and stable</li>
+                    </ul>
+                    
+                    <p><span class="label">ICU (Severe CAP):</span></p>
+                    <ul>
+                        <li><strong>Standard:</strong> Ceftriaxone 2g IV daily + azithromycin 500mg IV daily</li>
+                        <li><strong>MRSA Risk:</strong> Add vancomycin or linezolid</li>
+                        <li><strong>Pseudomonas Risk:</strong> Pip-tazo or cefepime + fluoroquinolone</li>
+                    </ul>
+                    
+                    <p><span class="label">Supportive:</span> O2 to SpO2 >90%, IV fluids, VTE prophylaxis</p>
+                </div>
+            </div>
+            
+            <div class="pearl-box">
+                <div class="pearl-title">🔑 TEACHING PEARLS</div>
+                <ul>
+                    <li><strong>Legionella clues:</strong> Hyponatremia, elevated LFTs, GI symptoms, relative bradycardia. Urinary antigen test. Need 10-14d abx</li>
+                    <li><strong>PCP Pneumonia:</strong> Subacute, dry cough, exertional dyspnea in HIV. Bilateral interstitial infiltrates. LDH >500. TMP-SMX + prednisone if PaO2 <70</li>
+                    <li><strong>Step-down criteria:</strong> HR <100, RR <24, SBP >90, SpO2 >90%, temp <37.8°C, able to take PO</li>
+                    <li><strong>Macrolide resistance:</strong> S. pneumoniae resistance ~30-40%. Always pair with β-lactam for inpatients</li>
+                    <li><strong>Vaccines:</strong> PPSV23 and PCV20 after recovery per CDC schedule</li>
+                </ul>
+            </div>
+            
+            <div class="two-column">
+                <div class="box">
+                    <div class="box-title">⚠️ ESCALATE TO ICU IF:</div>
+                    <ul>
+                        <li>Severe CAP (CURB-65 ≥3)</li>
+                        <li>Need for mechanical ventilation</li>
+                        <li>Septic shock requiring pressors</li>
+                        <li>Multilobar infiltrates</li>
+                        <li>PaO2/FiO2 <250</li>
+                        <li>Confusion, AMS</li>
+                    </ul>
+                </div>
+                
+                <div class="box">
+                    <div class="box-title">✓ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Afebrile × 48-72 hours</li>
+                        <li>Hemodynamically stable</li>
+                        <li>O2 sat >90% on room air/baseline</li>
+                        <li>Able to tolerate PO</li>
+                        <li>Completed minimum 5 days antibiotics</li>
+                        <li>Follow-up CXR arranged (6 weeks)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">COMPLICATIONS TO MONITOR</div>
+                <div class="section-content">
+                    <p><strong>Early:</strong> Respiratory failure, sepsis/septic shock, parapneumonic effusion, empyema, lung abscess</p>
+                    <p><strong>Late:</strong> Organizing pneumonia, fibrosis, recurrent pneumonia (consider malignancy)</p>
+                </div>
+            </div>
+            
+            <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
+        </div>
+
+        <!-- PAGE 6: COPD EXACERBATION -->
+        <div id="copd" class="condition-page">
+            <div class="page-header">
+                <h2>6. COPD EXACERBATION</h2>
+                <div class="subtitle">AECOPD • Acute on Chronic</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Classic:</span> Increased dyspnea, cough, sputum production/purulence beyond baseline. Wheezing, accessory muscle use, pursed-lip breathing</p>
+                    <p><span class="label">Anthonisen Criteria:</span> (1) Increased dyspnea, (2) Increased sputum volume, (3) Increased sputum purulence. Type I = all 3, Type II = 2 of 3, Type III = 1 symptom</p>
+                    <p><span class="label">Alternate Presentations:</span></p>
+                    <ul>
+                        <li><strong>Hypercapnic Encephalopathy:</strong> Confusion, asterixis, somnolence from CO2 retention</li>
+                        <li><strong>Right Heart Failure:</strong> Peripheral edema, JVD from cor pulmonale</li>
+                        <li><strong>Elderly:</strong> Fatigue, decreased functional status, falls</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Labs:</span> ABG (assess hypercapnia, acidosis), CBC, BMP, BNP if HF concern, sputum culture if severe/recurrent</p>
+                    <p><span class="label">Imaging:</span> CXR (r/o pneumonia, PTX, CHF), consider CT if recurrent or PE concern</p>
+                    <p><span class="label">ECG:</span> Evaluate for MI, arrhythmia, right heart strain</p>
+                    <p><span class="label">Calculations:</span> A-a gradient, FiO2 requirements</p>
+                    <p><span class="label">Triggers:</span> Infection (most common), medication noncompliance, PE, pneumothorax, MI, pneumonia</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">Bronchodilators:</span></p>
+                    <ul>
+                        <li><strong>SABA:</strong> Albuterol 2.5-5mg nebulized q4h or continuous</li>
+                        <li><strong>SAMA:</strong> Ipratropium 0.5mg nebulized q6h OR combined albuterol-ipratropium (DuoNeb)</li>
+                        <li>Note: Ipratropium added to albuterol shows additive benefit in COPD (unlike asthma)</li>
+                    </ul>
+                    
+                    <p><span class="label">Systemic Corticosteroids:</span></p>
+                    <ul>
+                        <li><strong>Dose:</strong> Prednisone 40mg PO daily × 5 days (or methylprednisolone 125mg IV if severe/unable PO)</li>
+                        <li><strong>Evidence:</strong> 5-7 days as effective as longer courses with fewer side effects</li>
+                    </ul>
+                    
+                    <p><span class="label">Antibiotics (if ≥2 cardinal symptoms or purulent sputum):</span></p>
+                    <ul>
+                        <li><strong>First-line:</strong> Azithromycin 500mg daily × 5d OR doxycycline 100mg BID × 5-7d</li>
+                        <li><strong>Second-line:</strong> Amoxicillin-clavulanate, respiratory fluoroquinolone, cephalosporin</li>
+                        <li><strong>Pseudomonas risk:</strong> (FEV1 <50%, recent hospitalization, >4 exacerbations/year) → fluoroquinolone or cephalosporin</li>
+                    </ul>
+                    
+                    <p><span class="label">Oxygen Therapy:</span> Goal SpO2 88-92% (avoid higher - can worsen hypercapnia). Titrate carefully in CO2 retainers</p>
+                    
+                    <p><span class="label">Ventilatory Support:</span></p>
+                    <ul>
+                        <li><strong>NIPPV (BiPAP):</strong> First-line for hypercapnic respiratory failure (pH 7.25-7.35). Reduces intubation rate and mortality</li>
+                        <li><strong>Intubation:</strong> If unable to tolerate NIPPV, worsening acidosis (pH <7.25), decreased mental status</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearl-box">
+                <div class="pearl-title">🔑 TEACHING PEARLS</div>
+                <ul>
+                    <li><strong>O2-induced hypercapnia:</strong> High O2 in COPD → worsens V/Q mismatch and Haldane effect → CO2 retention. Keep SpO2 88-92%</li>
+                    <li><strong>BiPAP is magic:</strong> NIPPV reduces intubation by 65%, mortality by 55% in AECOPD with respiratory acidosis. Use early!</li>
+                    <li><strong>Steroid duration:</strong> REDUCE trial showed 5 days = 14 days for outcomes. Don't give longer courses</li>
+                    <li><strong>Antibiotics debate:</strong> Only benefit if purulent sputum or ≥2 cardinal symptoms. Type III (1 symptom) may not need abx</li>
+                    <li><strong>Home oxygen criteria:</strong> Resting PaO2 <55 or SpO2 <88% OR PaO2 56-59 with cor pulmonale/polycythemia</li>
+                    <li><strong>Prevention:</strong> Vaccinations (flu, pneumococcal), smoking cessation, maintenance inhalers, pulmonary rehab</li>
+                </ul>
+            </div>
+            
+            <div class="two-column">
+                <div class="box">
+                    <div class="box-title">⚠️ ESCALATE TO ICU IF:</div>
+                    <ul>
+                        <li>Severe respiratory acidosis (pH <7.30)</li>
+                        <li>Need for intubation/mechanical ventilation</li>
+                        <li>Hemodynamic instability</li>
+                        <li>Altered mental status despite treatment</li>
+                        <li>Failed NIPPV trial on floor</li>
+                        <li>Life-threatening comorbidity (MI, sepsis)</li>
+                    </ul>
+                </div>
+                
+                <div class="box">
+                    <div class="box-title">✓ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Return to baseline dyspnea/function</li>
+                        <li>Tolerating SABA q4h or less</li>
+                        <li>SpO2 >90% on room air or baseline O2</li>
+                        <li>Able to sleep and walk without severe dyspnea</li>
+                        <li>pH >7.35 if acidotic on admission</li>
+                        <li>On maintenance inhalers (LABA/LAMA combo)</li>
+                        <li>Inhaler technique verified</li>
+                        <li>Pulmonary follow-up within 1 month</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">COMPLICATIONS TO MONITOR</div>
+                <div class="section-content">
+                    <p><strong>Acute:</strong> Respiratory failure requiring intubation, pneumothorax (bullous disease), pneumonia, arrhythmias, myocardial ischemia</p>
+                    <p><strong>Chronic:</strong> Cor pulmonale, progressive lung function decline, long-term oxygen need, recurrent exacerbations</p>
+                </div>
+            </div>
+            
+            <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
+        </div>
+
+        <!-- PAGE 7: ASTHMA EXACERBATION -->
+        <div id="asthma" class="condition-page">
+            <div class="page-header">
+                <h2>7. ASTHMA EXACERBATION</h2>
+                <div class="subtitle">Acute Bronchospasm • Status Asthmaticus</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Classic:</span> Dyspnea, wheezing, chest tightness, cough, accessory muscle use, prolonged expiration</p>
+                    <p><span class="label">Alternate Presentations:</span></p>
+                    <ul>
+                        <li><strong>Silent Chest:</strong> Severe obstruction with minimal air movement - ominous sign!</li>
+                        <li><strong>Cough-Variant Asthma:</strong> Persistent cough without wheezing</li>
+                        <li><strong>Exercise-Induced:</strong> Symptoms during/after exercise</li>
+                        <li><strong>Children:</strong> May present with only cough or difficulty feeding</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Immediate:</span> Peak flow, O2 saturation, vital signs</p>
+                    <p><span class="label">If Severe:</span> CXR (r/o pneumothorax, infiltrate), ABG if critically ill, VBG acceptable</p>
+                    <p><span class="label">Calculations:</span> Peak flow % predicted (compare to personal best), FEV1 if available</p>
+                    <p><span class="label">Severity Assessment:</span></p>
+                    <ul>
+                        <li><strong>Mild:</strong> Speaks full sentences, HR <100, PEF >70%</li>
+                        <li><strong>Moderate:</strong> Speaks phrases, HR 100-120, PEF 40-70%</li>
+                        <li><strong>Severe:</strong> Speaks words, HR >120, PEF <40%, accessory muscles</li>
+                        <li><strong>Life-threatening:</strong> Unable to speak, altered mental status, silent chest, bradycardia, hypotension</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">Bronchodilators:</span></p>
+                    <ul>
+                        <li><strong>Albuterol:</strong> 2.5-5mg nebulized q20min × 3, then reassess. Consider continuous nebulization if severe</li>
+                        <li><strong>Ipratropium:</strong> 0.5mg nebulized × 3 doses (add to albuterol for moderate-severe exacerbations)</li>
+                    </ul>
+                    
+                    <p><span class="label">Systemic Corticosteroids (ALL patients except mildest):</span></p>
+                    <ul>
+                        <li><strong>Prednisone:</strong> 40-60mg PO daily × 5 days OR</li>
+                        <li><strong>Methylprednisolone:</strong> 125mg IV if unable to take PO or severe</li>
+                        <li>No taper needed for short course</li>
+                    </ul>
+                    
+                    <p><span class="label">Oxygen:</span> Maintain SpO2 >90%</p>
+                    
+                    <p><span class="label">Severe/Refractory (not responding to above):</span></p>
+                    <ul>
+                        <li><strong>Magnesium sulfate:</strong> 2g IV over 20 minutes (relaxes bronchial smooth muscle)</li>
+                        <li><strong>Epinephrine:</strong> 0.3-0.5mg IM (or subQ) if anaphylaxis component or impending respiratory failure</li>
+                        <li><strong>Terbutaline:</strong> 0.25mg subQ (use with caution - cardiac side effects)</li>
+                        <li><strong>Heliox:</strong> May reduce work of breathing (helium-oxygen mixture)</li>
+                    </ul>
+                    
+                    <p><span class="label">Do NOT Give:</span> Sedatives (can suppress respiratory drive), antibiotics (unless clear bacterial infection)</p>
+                </div>
+            </div>
+            
+            <div class="pearl-box">
+                <div class="pearl-title">🔑 TEACHING PEARLS</div>
+                <ul>
+                    <li><strong>Silent chest = BAD:</strong> Means severe obstruction with minimal air movement. This is life-threatening!</li>
+                    <li><strong>Ipratropium in asthma:</strong> Unlike COPD, only add for moderate-severe exacerbations (first 3 doses only)</li>
+                    <li><strong>Magnesium mechanism:</strong> Competes with calcium in smooth muscle → bronchodilation. Number needed to treat = 8</li>
+                    <li><strong>Normal PCO2 is concerning:</strong> Asthma patients should be hypocapnic (from hyperventilation). Normal/high CO2 = respiratory fatigue</li>
+                    <li><strong>Steroid timing:</strong> Takes 4-6 hours to work. Give early! Don't wait for severe deterioration</li>
+                    <li><strong>Discharge medication:</strong> Always send home with short course PO steroids, albuterol inhaler, and controller if not already on one</li>
+                </ul>
+            </div>
+            
+            <div class="two-column">
+                <div class="box">
+                    <div class="box-title">⚠️ ESCALATE TO ICU IF:</div>
+                    <ul>
+                        <li>Status asthmaticus (not improving despite aggressive treatment)</li>
+                        <li>Respiratory failure requiring intubation</li>
+                        <li>Altered mental status, confusion, lethargy</li>
+                        <li>Silent chest</li>
+                        <li>PCO2 >45 (respiratory fatigue)</li>
+                        <li>Need for continuous nebulization</li>
+                        <li>Hemodynamic instability</li>
+                    </ul>
+                </div>
+                
+                <div class="box">
+                    <div class="box-title">✓ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>PEF or FEV1 >70% predicted or personal best</li>
+                        <li>SpO2 >90% on room air</li>
+                        <li>No accessory muscle use, speaks full sentences</li>
+                        <li>Sustained improvement ≥60 min after last treatment</li>
+                        <li>On appropriate controller medication</li>
+                        <li>Has action plan and follow-up arranged</li>
+                        <li>Prescribed albuterol + oral steroids × 5 days</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">COMPLICATIONS TO MONITOR</div>
+                <div class="section-content">
+                    <p><strong>Acute:</strong> Status asthmaticus, respiratory failure, pneumothorax, pneumomediastinum, cardiac arrest</p>
+                    <p><strong>Iatrogenic:</strong> Hypokalemia (from β-agonists), tremor, tachycardia, hyperglycemia (from steroids)</p>
+                </div>
+            </div>
+            
+            <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
+        </div>
+
+        <!-- PAGE 8: PULMONARY EMBOLISM -->
+        <div id="pe" class="condition-page">
+            <div class="page-header">
+                <h2>8. PULMONARY EMBOLISM (PE)</h2>
+                <div class="subtitle">VTE • Massive PE • Submassive PE</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Classic:</span> Dyspnea, pleuritic chest pain, tachycardia, tachypnea, hemoptysis, unilateral leg swelling</p>
+                    <p><span class="label">Alternate Presentations:</span></p>
+                    <ul>
+                        <li><strong>Massive PE:</strong> Hypotension, syncope, cardiac arrest (obstructive shock)</li>
+                        <li><strong>Submassive PE:</strong> Hemodynamically stable but RV strain on echo or biomarkers</li>
+                        <li><strong>Chronic PE:</strong> Progressive dyspnea, may be misdiagnosed as heart failure</li>
+                        <li><strong>Small PE:</strong> May be asymptomatic or minimal symptoms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Calculate Pre-test Probability:</span> Wells Score or PERC Rule (see calculators below)</p>
+                    <p><span class="label">Labs:</span> D-dimer (if low probability - high sensitivity, low specificity), troponin, BNP (assess RV strain), ABG (may show hypoxemia, A-a gradient)</p>
+                    <p><span class="label">Imaging:</span></p>
+                    <ul>
+                        <li><strong>CTPA (CT Pulmonary Angiography):</strong> Gold standard, shows filling defects</li>
+                        <li><strong>V/Q Scan:</strong> If contrast contraindicated</li>
+                        <li><strong>Lower Extremity Doppler US:</strong> Look for DVT source</li>
+                        <li><strong>Echo:</strong> Assess RV function, strain (McConnell's sign = RV dysfunction with apical sparing)</li>
+                    </ul>
+                    <p><span class="label">ECG:</span> Sinus tachycardia most common. Classic S1Q3T3 pattern rare. Right heart strain pattern</p>
+                    
+                    <!-- Wells Score Calculator -->
+                    <div id="calc-wells-pe" class="calculator">
+                        <div class="calculator-title">🧮 Wells Score for PE</div>
+                        <div class="calc-description">
+                            <strong>Use:</strong> Pre-test probability of PE. Score ≤4 = PE unlikely (consider D-dimer), >4 = PE likely (proceed to CTPA).
+                        </div>
+                        
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-dvt"> Clinical signs of DVT
+                                <span class="hint">Leg swelling, unilateral pain (+3 points)</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-alt"> PE most likely diagnosis (no alternative)
+                                <span class="hint">+3 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-hr"> Heart rate >100 bpm
+                                <span class="hint">+1.5 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-immob"> Immobilization ≥3 days or surgery within 4 weeks
+                                <span class="hint">+1.5 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-prior"> Previous DVT or PE
+                                <span class="hint">+1.5 points</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-hemo"> Hemoptysis
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        <div class="calc-item checkbox-item">
+                            <label><input type="checkbox" id="wells-cancer"> Malignancy (treatment within 6 months or palliative)
+                                <span class="hint">+1 point</span>
+                            </label>
+                        </div>
+                        
+                        <button class="calc-button" onclick="calculateWells()">Calculate Wells Score</button>
+                        <div id="wells-result"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">Anticoagulation (Most Patients):</span></p>
+                    <ul>
+                        <li><strong>LMWH:</strong> Enoxaparin 1mg/kg subQ q12h (preferred if renal function normal)</li>
+                        <li><strong>Unfractionated Heparin:</strong> 80 units/kg bolus, then 18 units/kg/hr infusion (if CrCl <30 or high bleeding risk)</li>
+                        <li><strong>Fondaparinux:</strong> Weight-based subQ dosing</li>
+                        <li><strong>DOACs:</strong> Rivaroxaban or apixaban can be started immediately (no bridging needed)</li>
+                    </ul>
+                    
+                    <p><span class="label">Thrombolytics (Massive PE with hemodynamic instability):</span></p>
+                    <ul>
+                        <li><strong>Indications:</strong> SBP <90 for >15 min OR shock requiring pressors OR cardiac arrest</li>
+                        <li><strong>Alteplase (tPA):</strong> 100mg IV over 2 hours OR 0.6mg/kg over 15 min (max 50mg)</li>
+                        <li><strong>Contraindications:</strong> Recent surgery, active bleeding, stroke, intracranial pathology</li>
+                    </ul>
+                    
+                    <p><span class="label">Catheter-Directed Therapy:</span> For submassive PE with RV dysfunction but contraindications to systemic lysis</p>
+                    
+                    <p><span class="label">IVC Filter:</span> Only if absolute contraindication to anticoagulation (active bleeding)</p>
+                    
+                    <p><span class="label">Supportive:</span> O2, judicious IVF (avoid overload - worsens RV strain), pressors if shock</p>
+                </div>
+            </div>
+            
+            <div class="pearl-box">
+                <div class="pearl-title">🔑 TEACHING PEARLS</div>
+                <ul>
+                    <li><strong>PERC Rule:</strong> If all 8 criteria negative (age <50, HR <100, SpO2 ≥95%, no hemoptysis, no estrogen, no prior VTE, no surgery/trauma, no unilateral leg swelling) AND low clinical suspicion → PE excluded, no D-dimer needed</li>
+                    <li><strong>D-dimer pitfalls:</strong> Elevated in many conditions (infection, cancer, pregnancy, age >50). Only useful to rule OUT PE in low-probability patients</li>
+                    <li><strong>Massive vs Submassive:</strong> Massive = hypotension/shock (needs thrombolytics). Submassive = RV strain but stable BP (controversial management)</li>
+                    <li><strong>Anticoagulation duration:</strong> Provoked (surgery, trauma) = 3 months. Unprovoked or cancer = ≥6 months, consider indefinite</li>
+                    <li><strong>Don't give IVF blindly:</strong> PE is RV failure - RV already volume overloaded. Excessive fluids worsen RV strain</li>
+                </ul>
+            </div>
+            
+            <div class="two-column">
+                <div class="box">
+                    <div class="box-title">⚠️ ESCALATE TO ICU IF:</div>
+                    <ul>
+                        <li>Massive PE (hypotension, shock)</li>
+                        <li>Submassive PE with worsening RV function</li>
+                        <li>Need for thrombolytics or mechanical intervention</li>
+                        <li>Hemodynamic instability</li>
+                        <li>Respiratory failure</li>
+                        <li>Cardiac arrest</li>
+                    </ul>
+                </div>
+                
+                <div class="box">
+                    <div class="box-title">✓ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Hemodynamically stable ≥24 hours</li>
+                        <li>O2 sat >90% on room air or baseline</li>
+                        <li>No RV dysfunction or resolved</li>
+                        <li>Adequate pain control</li>
+                        <li>On therapeutic anticoagulation</li>
+                        <li>Safe for outpatient management (PESI score)</li>
+                        <li>Follow-up arranged with anticoagulation clinic</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">COMPLICATIONS TO MONITOR</div>
+                <div class="section-content">
+                    <p><strong>Acute:</strong> RV failure, cardiac arrest, recurrent PE, bleeding (from anticoagulation)</p>
+                    <p><strong>Chronic:</strong> Chronic thromboembolic pulmonary hypertension (CTEPH), post-thrombotic syndrome</p>
+                </div>
+            </div>
+            
+            <a href="#toc" class="back-to-top">↑ Back to Table of Contents</a>
+        </div>
+
+        <!-- Continuing with remaining conditions... PAGE 9-13 -->
         <div class="condition-page" style="background: #f6f8fa; text-align: center; padding: 60px 30px;">
-            <h2 style="color: #586069;">📝 Additional Conditions (4-40)</h2>
+            <h2 style="color: #586069;">📝 Conditions 9-40 In Progress</h2>
             <p style="color: #586069; max-width: 600px; margin: 20px auto;">
-                The remaining 37 conditions would follow this same format with:
-                <br>• Clinical presentation (classic + alternate)
-                <br>• Complete diagnostic workup
-                <br>• Evidence-based treatment protocols
-                <br>• Teaching pearls
-                <br>• ICU escalation criteria
-                <br>• Discharge parameters
-                <br>• Complications to monitor
-                <br>• Navigation links
+                Conditions 1-8 complete. Adding conditions 9-13 next (Sepsis, AKI, Hyperkalemia, Hyponatremia, DKA)...
             </p>
-            <p style="color: #586069; font-size: 9pt; margin-top: 30px;">Would you like me to complete all 40 conditions?</p>
         </div>
 
         <div class="footer-section">
@@ -726,5 +1691,206 @@
             <p style="font-size: 8pt; margin-top: 15px;">Always consult institutional protocols and current literature. Updated 2025.</p>
         </div>
     </div>
+    
+    <script>
+        // HEART Score Calculator
+        function calculateHEART() {
+            const history = parseInt(document.getElementById('heart-history').value);
+            const ecg = parseInt(document.getElementById('heart-ecg').value);
+            const age = parseInt(document.getElementById('heart-age').value);
+            const risk = parseInt(document.getElementById('heart-risk').value);
+            const trop = parseInt(document.getElementById('heart-trop').value);
+            
+            const score = history + ecg + age + risk + trop;
+            
+            let interpretation = '';
+            let riskClass = '';
+            
+            if (score <= 3) {
+                interpretation = `Score: ${score}/10 - LOW RISK (0.9-1.7% adverse cardiac events at 6 weeks). Consider outpatient workup.`;
+                riskClass = '';
+            } else if (score <= 6) {
+                interpretation = `Score: ${score}/10 - MODERATE RISK (12-16% adverse cardiac events at 6 weeks). Admit for observation and further evaluation.`;
+                riskClass = '';
+            } else {
+                interpretation = `Score: ${score}/10 - HIGH RISK (50-65% adverse cardiac events at 6 weeks). Admit for aggressive management, consider early invasive strategy.`;
+                riskClass = 'high-risk';
+            }
+            
+            document.getElementById('heart-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
+        }
+        
+        // TIMI STEMI Calculator
+        function calculateTIMI_STEMI() {
+            let score = 0;
+            
+            if (document.getElementById('timi-stemi-age65').checked) score += 2;
+            if (document.getElementById('timi-stemi-age75').checked) score += 3;
+            if (document.getElementById('timi-stemi-dm').checked) score += 1;
+            if (document.getElementById('timi-stemi-bp').checked) score += 3;
+            if (document.getElementById('timi-stemi-hr').checked) score += 2;
+            if (document.getElementById('timi-stemi-killip').checked) score += 2;
+            if (document.getElementById('timi-stemi-weight').checked) score += 1;
+            if (document.getElementById('timi-stemi-anterior').checked) score += 1;
+            if (document.getElementById('timi-stemi-time').checked) score += 1;
+            
+            let mortality = '';
+            let riskClass = '';
+            
+            if (score === 0) {
+                mortality = '0.8%';
+            } else if (score === 1) {
+                mortality = '1.6%';
+            } else if (score === 2) {
+                mortality = '2.2%';
+            } else if (score === 3) {
+                mortality = '4.4%';
+            } else if (score === 4) {
+                mortality = '7.3%';
+            } else if (score === 5) {
+                mortality = '12.4%';
+            } else if (score === 6) {
+                mortality = '16.1%';
+            } else if (score === 7) {
+                mortality = '23.4%';
+            } else if (score === 8) {
+                mortality = '26.8%';
+            } else {
+                mortality = '35.9%';
+                riskClass = 'high-risk';
+            }
+            
+            if (score > 6) riskClass = 'high-risk';
+            
+            const interpretation = `Score: ${score} - Predicted 30-day mortality: ${mortality}`;
+            
+            document.getElementById('timi-stemi-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
+        }
+        
+        // TIMI NSTEMI Calculator
+        function calculateTIMI_NSTEMI() {
+            let score = 0;
+            
+            if (document.getElementById('timi-nstemi-age').checked) score += 1;
+            if (document.getElementById('timi-nstemi-risk').checked) score += 1;
+            if (document.getElementById('timi-nstemi-cad').checked) score += 1;
+            if (document.getElementById('timi-nstemi-asa').checked) score += 1;
+            if (document.getElementById('timi-nstemi-angina').checked) score += 1;
+            if (document.getElementById('timi-nstemi-ecg').checked) score += 1;
+            if (document.getElementById('timi-nstemi-trop').checked) score += 1;
+            
+            let risk = '';
+            let riskClass = '';
+            
+            if (score <= 2) {
+                risk = '5% risk of death, MI, or urgent revascularization at 14 days - LOW RISK';
+            } else if (score <= 4) {
+                risk = '13% risk of death, MI, or urgent revascularization at 14 days - MODERATE RISK';
+            } else {
+                risk = '41% risk of death, MI, or urgent revascularization at 14 days - HIGH RISK. Consider early invasive strategy.';
+                riskClass = 'high-risk';
+            }
+            
+            const interpretation = `Score: ${score}/7 - ${risk}`;
+            
+            document.getElementById('timi-nstemi-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
+        }
+        
+        // GRACE Score Calculator
+        function calculateGRACE() {
+            const age = parseInt(document.getElementById('grace-age').value) || 0;
+            const hr = parseInt(document.getElementById('grace-hr').value) || 0;
+            const sbp = parseInt(document.getElementById('grace-sbp').value) || 0;
+            const cr = parseFloat(document.getElementById('grace-cr').value) || 0;
+            
+            // Age points
+            let agePoints = 0;
+            if (age < 30) agePoints = 0;
+            else if (age < 40) agePoints = 8;
+            else if (age < 50) agePoints = 25;
+            else if (age < 60) agePoints = 41;
+            else if (age < 70) agePoints = 58;
+            else if (age < 80) agePoints = 75;
+            else agePoints = 91;
+            
+            // HR points
+            let hrPoints = 0;
+            if (hr < 50) hrPoints = 0;
+            else if (hr < 70) hrPoints = 3;
+            else if (hr < 90) hrPoints = 9;
+            else if (hr < 110) hrPoints = 15;
+            else if (hr < 150) hrPoints = 24;
+            else if (hr < 200) hrPoints = 38;
+            else hrPoints = 46;
+            
+            // SBP points
+            let sbpPoints = 0;
+            if (sbp < 80) sbpPoints = 58;
+            else if (sbp < 100) sbpPoints = 53;
+            else if (sbp < 120) sbpPoints = 43;
+            else if (sbp < 140) sbpPoints = 34;
+            else if (sbp < 160) sbpPoints = 24;
+            else if (sbp < 200) sbpPoints = 10;
+            else sbpPoints = 0;
+            
+            // Creatinine points
+            let crPoints = 0;
+            if (cr < 0.4) crPoints = 1;
+            else if (cr < 0.8) crPoints = 4;
+            else if (cr < 1.2) crPoints = 7;
+            else if (cr < 1.6) crPoints = 10;
+            else if (cr < 2.0) crPoints = 13;
+            else if (cr < 4.0) crPoints = 21;
+            else crPoints = 28;
+            
+            const arrest = document.getElementById('grace-arrest').checked ? 39 : 0;
+            const st = document.getElementById('grace-st').checked ? 28 : 0;
+            const enzymes = document.getElementById('grace-enzymes').checked ? 14 : 0;
+            const killip = parseInt(document.getElementById('grace-killip').value);
+            
+            const score = agePoints + hrPoints + sbpPoints + crPoints + arrest + st + enzymes + killip;
+            
+            let risk = '';
+            let riskClass = '';
+            
+            if (score < 109) {
+                risk = 'LOW RISK - <1% in-hospital mortality, <3% 6-month mortality';
+            } else if (score < 140) {
+                risk = 'INTERMEDIATE RISK - 1-3% in-hospital mortality, 3-8% 6-month mortality';
+            } else {
+                risk = 'HIGH RISK - >3% in-hospital mortality, >8% 6-month mortality. Consider aggressive management.';
+                riskClass = 'high-risk';
+            }
+            
+            const interpretation = `GRACE Score: ${score} - ${risk}`;
+            
+            document.getElementById('grace-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
+        }
+        
+        // Wells Score for PE Calculator
+        function calculateWells() {
+            let score = 0;
+            
+            if (document.getElementById('wells-dvt').checked) score += 3;
+            if (document.getElementById('wells-alt').checked) score += 3;
+            if (document.getElementById('wells-hr').checked) score += 1.5;
+            if (document.getElementById('wells-immob').checked) score += 1.5;
+            if (document.getElementById('wells-prior').checked) score += 1.5;
+            if (document.getElementById('wells-hemo').checked) score += 1;
+            if (document.getElementById('wells-cancer').checked) score += 1;
+            
+            let interpretation = '';
+            let riskClass = '';
+            
+            if (score <= 4) {
+                interpretation = `Wells Score: ${score} - PE UNLIKELY. Consider D-dimer to rule out PE. If D-dimer negative, PE excluded.`;
+            } else {
+                interpretation = `Wells Score: ${score} - PE LIKELY. Proceed directly to CTPA or V/Q scan. Do not wait for D-dimer.`;
+                riskClass = 'high-risk';
+            }
+            
+            document.getElementById('wells-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
+        }
+    </script>
 </body>
 </html>
