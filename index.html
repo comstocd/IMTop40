@@ -7068,8 +7068,494 @@
             document.getElementById('fena-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
         }
         
-        // =========        
-        <!-- RAPID RESPONSE TOOL MODAL -->
+        // ============================================
+        // RAPID RESPONSE TOOL FUNCTIONS
+        // ============================================
+        
+        // Differential diagnosis database with weighted scoring
+        const differentialDB = {
+            'acs': {
+                name: 'Acute Coronary Syndrome',
+                link: '#acs',
+                triggers: {
+                    'chest-pain': 10,
+                    'diaphoretic': 5,
+                    'hypotension': 3
+                },
+                vitals: {
+                    hr: { high: 3, low: 2 },
+                    sbp: { low: 5 }
+                },
+                pmh: { 'cad': 8, 'dm': 3, 'htn': 2 },
+                exam: { 'diaphoretic': 4, 'cool-extremities': 3 }
+            },
+            'heart-failure': {
+                name: 'Acute Decompensated Heart Failure',
+                link: '#heart-failure',
+                triggers: {
+                    'respiratory-distress': 8,
+                    'hypotension': 3
+                },
+                vitals: {
+                    rr: { high: 5 },
+                    spo2: { low: 5 }
+                },
+                pmh: { 'chf': 10, 'cad': 3 },
+                exam: { 'rales': 8, 'jvd': 6, 'accessory-muscles': 4 }
+            },
+            'pe': {
+                name: 'Pulmonary Embolism',
+                link: '#pe',
+                triggers: {
+                    'chest-pain': 6,
+                    'respiratory-distress': 8,
+                    'syncope': 4
+                },
+                vitals: {
+                    rr: { high: 5 },
+                    spo2: { low: 6 },
+                    hr: { high: 4 }
+                },
+                pmh: { 'dvt-pe-hx': 8, 'cancer': 5 },
+                exam: { 'tachypneic': 5 }
+            },
+            'sepsis': {
+                name: 'Sepsis/Septic Shock',
+                link: '#sepsis',
+                triggers: {
+                    'fever': 8,
+                    'hypotension': 10,
+                    'altered-mental-status': 5
+                },
+                vitals: {
+                    temp: { high: 6, low: 4 },
+                    hr: { high: 5 },
+                    sbp: { low: 10 },
+                    rr: { high: 4 }
+                },
+                pmh: { 'immunosupp': 6, 'dm': 3 },
+                exam: { 'cool-extremities': 5, 'weak-pulses': 5 }
+            },
+            'stroke': {
+                name: 'Acute Ischemic Stroke',
+                link: '#stroke',
+                triggers: {
+                    'neuro-deficit': 10,
+                    'altered-mental-status': 6
+                },
+                vitals: {
+                    gcs: { low: 8 }
+                },
+                pmh: { 'stroke-hx': 6, 'afib': 8, 'htn': 3 },
+                exam: { 'unresponsive': 5, 'confused': 4 }
+            },
+            'seizure': {
+                name: 'Seizure/Status Epilepticus',
+                link: '#seizure',
+                triggers: {
+                    'seizure': 10,
+                    'altered-mental-status': 5
+                },
+                vitals: {
+                    gcs: { low: 6 }
+                },
+                pmh: { 'seizure-hx': 8 },
+                exam: { 'unresponsive': 4, 'confused': 5 }
+            },
+            'cap': {
+                name: 'Pneumonia',
+                link: '#cap',
+                triggers: {
+                    'fever': 7,
+                    'respiratory-distress': 7
+                },
+                vitals: {
+                    temp: { high: 6 },
+                    rr: { high: 5 },
+                    spo2: { low: 5 }
+                },
+                pmh: { 'copd': 4, 'immunosupp': 5 },
+                exam: { 'rales': 6, 'decreased-bs': 5 }
+            },
+            'copd': {
+                name: 'COPD Exacerbation',
+                link: '#copd',
+                triggers: {
+                    'respiratory-distress': 8
+                },
+                vitals: {
+                    rr: { high: 6 },
+                    spo2: { low: 6 }
+                },
+                pmh: { 'copd': 10 },
+                exam: { 'wheezing': 8, 'accessory-muscles': 6 }
+            },
+            'asthma': {
+                name: 'Asthma Exacerbation',
+                link: '#asthma',
+                triggers: {
+                    'respiratory-distress': 8
+                },
+                vitals: {
+                    rr: { high: 6 },
+                    spo2: { low: 5 }
+                },
+                pmh: { 'asthma': 10 },
+                exam: { 'wheezing': 10, 'accessory-muscles': 6 }
+            },
+            'dka': {
+                name: 'Diabetic Ketoacidosis',
+                link: '#dka',
+                triggers: {
+                    'altered-mental-status': 5,
+                    'abdominal-pain': 4
+                },
+                vitals: {
+                    rr: { high: 5 }
+                },
+                pmh: { 'dm': 10 },
+                exam: { 'confused': 4 }
+            },
+            'ugib': {
+                name: 'Upper GI Bleed',
+                link: '#ugib',
+                triggers: {
+                    'bleeding': 10,
+                    'hypotension': 6,
+                    'abdominal-pain': 3
+                },
+                vitals: {
+                    hr: { high: 5 },
+                    sbp: { low: 7 }
+                },
+                pmh: { 'cirrhosis': 8 },
+                exam: { 'cool-extremities': 4, 'weak-pulses': 4 }
+            },
+            'aki': {
+                name: 'Acute Kidney Injury',
+                link: '#aki',
+                triggers: {
+                    'altered-mental-status': 3
+                },
+                pmh: { 'ckd': 7, 'dm': 3, 'htn': 2 },
+                exam: { 'confused': 3 }
+            },
+            'afib': {
+                name: 'Atrial Fibrillation with RVR',
+                link: '#afib',
+                triggers: {
+                    'chest-pain': 4,
+                    'respiratory-distress': 3
+                },
+                vitals: {
+                    hr: { high: 8 }
+                },
+                pmh: { 'afib': 10, 'chf': 4 },
+                exam: { 'jvd': 3 }
+            },
+            'etoh-withdrawal': {
+                name: 'Alcohol Withdrawal',
+                link: '#etoh-withdrawal',
+                triggers: {
+                    'altered-mental-status': 6,
+                    'seizure': 8
+                },
+                vitals: {
+                    hr: { high: 5 },
+                    temp: { high: 4 }
+                },
+                pmh: { 'etoh': 10 },
+                exam: { 'diaphoretic': 6, 'confused': 7 }
+            },
+            'meningitis': {
+                name: 'Bacterial Meningitis',
+                link: '#meningitis',
+                triggers: {
+                    'fever': 8,
+                    'altered-mental-status': 7
+                },
+                vitals: {
+                    temp: { high: 7 },
+                    gcs: { low: 6 }
+                },
+                pmh: { 'immunosupp': 5 },
+                exam: { 'confused': 6, 'unresponsive': 5 }
+            },
+            'htn-emergency': {
+                name: 'Hypertensive Emergency',
+                link: '#htn-emergency',
+                triggers: {
+                    'chest-pain': 4,
+                    'neuro-deficit': 5,
+                    'altered-mental-status': 4
+                },
+                vitals: {
+                    sbp: { veryHigh: 10 }
+                },
+                pmh: { 'htn': 6 },
+                exam: { }
+            }
+        };
+        
+        function openRapidResponse() {
+            document.getElementById('rr-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeRapidResponse() {
+            document.getElementById('rr-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function clearRRForm() {
+            if (confirm('Clear all form data?')) {
+                document.getElementById('rr-form').reset();
+                document.getElementById('rr-results').style.display = 'none';
+            }
+        }
+        
+        function generateDifferential() {
+            const mrn = document.getElementById('rr-mrn').value;
+            const code = document.getElementById('rr-code').value;
+            const admitDx = document.getElementById('rr-admit-dx').value;
+            
+            const vitals = {
+                hr: parseInt(document.getElementById('rr-hr').value) || null,
+                sbp: parseInt(document.getElementById('rr-sbp').value) || null,
+                rr: parseInt(document.getElementById('rr-rr').value) || null,
+                spo2: parseInt(document.getElementById('rr-spo2').value) || null,
+                temp: parseFloat(document.getElementById('rr-temp').value) || null,
+                gcs: parseInt(document.getElementById('rr-gcs').value) || null
+            };
+            
+            const concerns = Array.from(document.querySelectorAll('.rr-concern:checked')).map(cb => cb.value);
+            const exam = Array.from(document.querySelectorAll('.rr-exam:checked')).map(cb => cb.value);
+            const pmh = Array.from(document.querySelectorAll('.rr-pmh:checked')).map(cb => cb.value);
+            const meds = Array.from(document.querySelectorAll('.rr-meds:checked')).map(cb => cb.value);
+            const notes = document.getElementById('rr-notes').value;
+            
+            const scores = {};
+            
+            for (const [key, condition] of Object.entries(differentialDB)) {
+                let score = 0;
+                
+                if (condition.triggers) {
+                    concerns.forEach(concern => {
+                        if (condition.triggers[concern]) {
+                            score += condition.triggers[concern];
+                        }
+                    });
+                }
+                
+                if (condition.vitals && vitals) {
+                    if (vitals.hr) {
+                        if (condition.vitals.hr?.high && vitals.hr > 100) score += condition.vitals.hr.high;
+                        if (condition.vitals.hr?.low && vitals.hr < 60) score += condition.vitals.hr.low;
+                    }
+                    if (vitals.sbp) {
+                        if (condition.vitals.sbp?.low && vitals.sbp < 90) score += condition.vitals.sbp.low;
+                        if (condition.vitals.sbp?.veryHigh && vitals.sbp > 180) score += condition.vitals.sbp.veryHigh;
+                    }
+                    if (vitals.rr && condition.vitals.rr?.high && vitals.rr > 20) score += condition.vitals.rr.high;
+                    if (vitals.spo2 && condition.vitals.spo2?.low && vitals.spo2 < 92) score += condition.vitals.spo2.low;
+                    if (vitals.temp) {
+                        if (condition.vitals.temp?.high && vitals.temp > 100.4) score += condition.vitals.temp.high;
+                        if (condition.vitals.temp?.low && vitals.temp < 96) score += condition.vitals.temp.low;
+                    }
+                    if (vitals.gcs && condition.vitals.gcs?.low && vitals.gcs < 13) score += condition.vitals.gcs.low;
+                }
+                
+                if (condition.pmh) {
+                    pmh.forEach(p => {
+                        if (condition.pmh[p]) score += condition.pmh[p];
+                    });
+                }
+                
+                if (condition.exam) {
+                    exam.forEach(e => {
+                        if (condition.exam[e]) score += condition.exam[e];
+                    });
+                }
+                
+                if (score > 0) {
+                    scores[key] = {
+                        name: condition.name,
+                        link: condition.link,
+                        score: score
+                    };
+                }
+            }
+            
+            const sortedDiff = Object.entries(scores).sort((a, b) => b[1].score - a[1].score).slice(0, 8);
+            const timestamp = new Date().toLocaleString();
+            
+            let output = `<div style="font-family: 'Courier New', monospace;">`;
+            output += `<strong>RAPID RESPONSE ASSESSMENT</strong>\n`;
+            output += `Generated: ${timestamp}\n`;
+            output += `MRN: ${mrn || 'Not provided'} | Code Status: ${code}\n`;
+            output += `Admission Diagnosis: ${admitDx || 'Not provided'}\n\n${'='.repeat(80)}\n\n`;
+            
+            output += `<strong>VITAL SIGNS:</strong>\n`;
+            output += `  HR: ${vitals.hr || 'Not recorded'} bpm`;
+            if (vitals.hr && (vitals.hr > 100 || vitals.hr < 60)) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  BP: ${vitals.sbp || 'Not recorded'}/${vitals.sbp ? '?' : ''} mmHg`;
+            if (vitals.sbp && (vitals.sbp < 90 || vitals.sbp > 180)) output += ` <span style="color: #e74c3c;">⚠ CRITICAL</span>`;
+            output += `\n  RR: ${vitals.rr || 'Not recorded'} breaths/min`;
+            if (vitals.rr && vitals.rr > 20) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  SpO2: ${vitals.spo2 || 'Not recorded'}%`;
+            if (vitals.spo2 && vitals.spo2 < 92) output += ` <span style="color: #e74c3c;">⚠ HYPOXIC</span>`;
+            output += `\n  Temp: ${vitals.temp || 'Not recorded'}°F`;
+            if (vitals.temp && (vitals.temp > 100.4 || vitals.temp < 96)) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  GCS: ${vitals.gcs || 'Not assessed'}`;
+            if (vitals.gcs && vitals.gcs < 13) output += ` <span style="color: #e74c3c;">⚠ ALTERED</span>`;
+            output += `\n\n`;
+            
+            output += `<strong>CHIEF CONCERNS:</strong> ${concerns.length > 0 ? concerns.map(c => c.replace(/-/g, ' ').toUpperCase()).join(', ') : 'None selected'}\n\n`;
+            output += `<strong>KEY EXAM FINDINGS:</strong> ${exam.length > 0 ? exam.map(e => e.replace(/-/g, ' ')).join(', ') : 'None documented'}\n\n`;
+            output += `<strong>RELEVANT PMH:</strong> ${pmh.length > 0 ? pmh.map(p => p.toUpperCase()).join(', ') : 'None documented'}\n\n`;
+            
+            output += `<strong>RANKED DIFFERENTIAL DIAGNOSIS:</strong>\n`;
+            if (sortedDiff.length > 0) {
+                sortedDiff.forEach((item, idx) => {
+                    const likelihood = item[1].score > 20 ? 'HIGH' : item[1].score > 10 ? 'MODERATE' : 'POSSIBLE';
+                    const color = item[1].score > 20 ? '#e74c3c' : item[1].score > 10 ? '#f39c12' : '#95a5a6';
+                    output += `  ${idx + 1}. <a href="${item[1].link}" style="color: #0366d6; text-decoration: none;">${item[1].name}</a>`;
+                    output += ` <span style="color: ${color}; font-weight: bold;">[${likelihood} - Score: ${item[1].score}]</span>\n`;
+                });
+            } else {
+                output += `  Unable to generate differential - insufficient clinical data\n`;
+                output += `  <span style="color: #e74c3c;">⚠ Please enter more clinical information</span>\n`;
+            }
+            output += `\n`;
+            
+            output += `<strong style="color: #e74c3c;">🚨 IMMEDIATE ACTIONS:</strong>\n`;
+            const criticalActions = [];
+            
+            if (vitals.sbp && vitals.sbp < 90) criticalActions.push('• IV ACCESS + AGGRESSIVE IVF RESUSCITATION');
+            if (vitals.spo2 && vitals.spo2 < 90) criticalActions.push('• SUPPLEMENTAL O2, consider NIPPV/intubation');
+            if (vitals.gcs && vitals.gcs < 9) criticalActions.push('• AIRWAY PROTECTION - consider intubation');
+            if (concerns.includes('chest-pain')) criticalActions.push('• ECG, troponin, aspirin 325mg');
+            if (concerns.includes('respiratory-distress')) criticalActions.push('• CXR, ABG, consider bronchodilators');
+            if (concerns.includes('seizure')) criticalActions.push('• Lorazepam 2-4mg IV, protect airway');
+            if (concerns.includes('neuro-deficit')) criticalActions.push('• STAT CT head, stroke alert if <24hr onset');
+            if (concerns.includes('fever') || (vitals.temp && vitals.temp > 100.4)) criticalActions.push('• Blood cultures × 2, consider antibiotics');
+            if (concerns.includes('hypotension')) criticalActions.push('• Determine etiology (septic vs cardiogenic vs hypovolemic)');
+            
+            criticalActions.push('• Call for help (ICU, attending, etc as needed)');
+            criticalActions.push('• Continuous monitoring');
+            
+            criticalActions.forEach(action => output += `${action}\n`);
+            output += `\n`;
+            
+            if (notes) output += `<strong>ADDITIONAL CLINICAL NOTES:</strong>\n${notes}\n\n`;
+            
+            output += `${'='.repeat(80)}\n`;
+            output += `<em style="color: #666;">This assessment is a clinical decision support tool. Use clinical judgment.</em>`;
+            output += `</div>`;
+            
+            document.getElementById('rr-output').innerHTML = output;
+            document.getElementById('rr-results').style.display = 'block';
+            document.getElementById('rr-results').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function saveRapidResponse() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                mrn: document.getElementById('rr-mrn').value,
+                code: document.getElementById('rr-code').value,
+                assessment: document.getElementById('rr-output').innerHTML
+            };
+            
+            let saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            saved.unshift(data);
+            if (saved.length > 50) saved = saved.slice(0, 50);
+            localStorage.setItem('rapidResponses', JSON.stringify(saved));
+            alert('✓ Assessment saved successfully!');
+        }
+        
+        function viewSavedResponses() {
+            const saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            const container = document.getElementById('saved-list');
+            
+            if (saved.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No saved assessments yet.</p>';
+            } else {
+                let html = '';
+                saved.forEach((item, idx) => {
+                    const date = new Date(item.timestamp).toLocaleString();
+                    html += `<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3498db;">`;
+                    html += `<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">`;
+                    html += `<div><strong>MRN: ${item.mrn || 'N/A'}</strong> | ${date}</div>`;
+                    html += `<div>`;
+                    html += `<button onclick="loadSavedResponse(${idx})" style="background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-right: 5px;">View</button>`;
+                    html += `<button onclick="deleteSavedResponse(${idx})" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Delete</button>`;
+                    html += `</div></div>`;
+                    html += `<div style="font-size: 9pt; color: #666;">Code: ${item.code}</div>`;
+                    html += `</div>`;
+                });
+                container.innerHTML = html;
+            }
+            
+            document.getElementById('saved-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSavedResponses() {
+            document.getElementById('saved-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function loadSavedResponse(idx) {
+            const saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            if (saved[idx]) {
+                document.getElementById('rr-output').innerHTML = saved[idx].assessment;
+                document.getElementById('rr-results').style.display = 'block';
+                closeSavedResponses();
+                openRapidResponse();
+                document.getElementById('rr-results').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteSavedResponse(idx) {
+            if (confirm('Delete this assessment?')) {
+                let saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+                saved.splice(idx, 1);
+                localStorage.setItem('rapidResponses', JSON.stringify(saved));
+                viewSavedResponses();
+            }
+        }
+        
+        function printAssessment() {
+            const content = document.getElementById('rr-output').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Rapid Response Assessment</title>');
+            printWindow.document.write('<style>body { font-family: "Courier New", monospace; font-size: 10pt; padding: 20px; }</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        function copyNote() {
+            const output = document.getElementById('rr-output');
+            const text = output.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Note copied to clipboard!');
+            }).catch(err => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✓ Note copied to clipboard!');
+            });
+        }
+    </script>
+    
+    <!-- RAPID RESPONSE TOOL MODAL -->
         <div id="rr-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
             <div style="background: white; max-width: 1400px; margin: 20px auto; border-radius: 12px; padding: 30px; position: relative;">
                 <button onclick="closeRapidResponse()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">✕ Close</button>
@@ -7317,6 +7803,376 @@ tion closeSavedResponses() {
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
                 alert('✓ Note copied to clipboard!');
+            });
+        }
+    </script>
+    
+    <!-- RAPID RESPONSE TOOL JAVASCRIPT -->
+    <script>
+        // ============================================
+        // RAPID RESPONSE TOOL FUNCTIONS
+        // ============================================
+        
+        // Differential diagnosis database with weighted scoring
+        const differentialDB = {
+            'acs': {
+                name: 'Acute Coronary Syndrome',
+                link: '#acs',
+                triggers: { 'chest-pain': 10, 'diaphoretic': 5, 'hypotension': 3 },
+                vitals: { hr: { high: 3, low: 2 }, sbp: { low: 5 } },
+                pmh: { 'cad': 8, 'dm': 3, 'htn': 2 },
+                exam: { 'diaphoretic': 4, 'cool-extremities': 3 }
+            },
+            'heart-failure': {
+                name: 'Acute Decompensated Heart Failure',
+                link: '#heart-failure',
+                triggers: { 'respiratory-distress': 8, 'hypotension': 3 },
+                vitals: { rr: { high: 5 }, spo2: { low: 5 } },
+                pmh: { 'chf': 10, 'cad': 3 },
+                exam: { 'rales': 8, 'jvd': 6, 'accessory-muscles': 4 }
+            },
+            'pe': {
+                name: 'Pulmonary Embolism',
+                link: '#pe',
+                triggers: { 'chest-pain': 6, 'respiratory-distress': 8, 'syncope': 4 },
+                vitals: { rr: { high: 5 }, spo2: { low: 6 }, hr: { high: 4 } },
+                pmh: { 'dvt-pe-hx': 8, 'cancer': 5 },
+                exam: { 'tachypneic': 5 }
+            },
+            'sepsis': {
+                name: 'Sepsis/Septic Shock',
+                link: '#sepsis',
+                triggers: { 'fever': 8, 'hypotension': 10, 'altered-mental-status': 5 },
+                vitals: { temp: { high: 6, low: 4 }, hr: { high: 5 }, sbp: { low: 10 }, rr: { high: 4 } },
+                pmh: { 'immunosupp': 6, 'dm': 3 },
+                exam: { 'cool-extremities': 5, 'weak-pulses': 5 }
+            },
+            'stroke': {
+                name: 'Acute Ischemic Stroke',
+                link: '#stroke',
+                triggers: { 'neuro-deficit': 10, 'altered-mental-status': 6 },
+                vitals: { gcs: { low: 8 } },
+                pmh: { 'stroke-hx': 6, 'afib': 8, 'htn': 3 },
+                exam: { 'unresponsive': 5, 'confused': 4 }
+            },
+            'seizure': {
+                name: 'Seizure/Status Epilepticus',
+                link: '#seizure',
+                triggers: { 'seizure': 10, 'altered-mental-status': 5 },
+                vitals: { gcs: { low: 6 } },
+                pmh: { 'seizure-hx': 8 },
+                exam: { 'unresponsive': 4, 'confused': 5 }
+            },
+            'cap': {
+                name: 'Pneumonia',
+                link: '#cap',
+                triggers: { 'fever': 7, 'respiratory-distress': 7 },
+                vitals: { temp: { high: 6 }, rr: { high: 5 }, spo2: { low: 5 } },
+                pmh: { 'copd': 4, 'immunosupp': 5 },
+                exam: { 'rales': 6, 'decreased-bs': 5 }
+            },
+            'copd': {
+                name: 'COPD Exacerbation',
+                link: '#copd',
+                triggers: { 'respiratory-distress': 8 },
+                vitals: { rr: { high: 6 }, spo2: { low: 6 } },
+                pmh: { 'copd': 10 },
+                exam: { 'wheezing': 8, 'accessory-muscles': 6 }
+            },
+            'asthma': {
+                name: 'Asthma Exacerbation',
+                link: '#asthma',
+                triggers: { 'respiratory-distress': 8 },
+                vitals: { rr: { high: 6 }, spo2: { low: 5 } },
+                pmh: { 'asthma': 10 },
+                exam: { 'wheezing': 10, 'accessory-muscles': 6 }
+            },
+            'dka': {
+                name: 'Diabetic Ketoacidosis',
+                link: '#dka',
+                triggers: { 'altered-mental-status': 5, 'abdominal-pain': 4 },
+                vitals: { rr: { high: 5 } },
+                pmh: { 'dm': 10 },
+                exam: { 'confused': 4 }
+            },
+            'ugib': {
+                name: 'Upper GI Bleed',
+                link: '#ugib',
+                triggers: { 'bleeding': 10, 'hypotension': 6, 'abdominal-pain': 3 },
+                vitals: { hr: { high: 5 }, sbp: { low: 7 } },
+                pmh: { 'cirrhosis': 8 },
+                exam: { 'cool-extremities': 4, 'weak-pulses': 4 }
+            },
+            'aki': {
+                name: 'Acute Kidney Injury',
+                link: '#aki',
+                triggers: { 'altered-mental-status': 3 },
+                pmh: { 'ckd': 7, 'dm': 3, 'htn': 2 },
+                exam: { 'confused': 3 }
+            },
+            'afib': {
+                name: 'Atrial Fibrillation with RVR',
+                link: '#afib',
+                triggers: { 'chest-pain': 4, 'respiratory-distress': 3 },
+                vitals: { hr: { high: 8 } },
+                pmh: { 'afib': 10, 'chf': 4 },
+                exam: { 'jvd': 3 }
+            },
+            'etoh-withdrawal': {
+                name: 'Alcohol Withdrawal',
+                link: '#etoh-withdrawal',
+                triggers: { 'altered-mental-status': 6, 'seizure': 8 },
+                vitals: { hr: { high: 5 }, temp: { high: 4 } },
+                pmh: { 'etoh': 10 },
+                exam: { 'diaphoretic': 6, 'confused': 7 }
+            },
+            'meningitis': {
+                name: 'Bacterial Meningitis',
+                link: '#meningitis',
+                triggers: { 'fever': 8, 'altered-mental-status': 7 },
+                vitals: { temp: { high: 7 }, gcs: { low: 6 } },
+                pmh: { 'immunosupp': 5 },
+                exam: { 'confused': 6, 'unresponsive': 5 }
+            },
+            'htn-emergency': {
+                name: 'Hypertensive Emergency',
+                link: '#htn-emergency',
+                triggers: { 'chest-pain': 4, 'neuro-deficit': 5, 'altered-mental-status': 4 },
+                vitals: { sbp: { veryHigh: 10 } },
+                pmh: { 'htn': 6 },
+                exam: { }
+            }
+        };
+        
+        function openRapidResponse() {
+            document.getElementById('rr-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeRapidResponse() {
+            document.getElementById('rr-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function clearRRForm() {
+            if (confirm('Clear all form data?')) {
+                document.getElementById('rr-form').reset();
+                document.getElementById('rr-results').style.display = 'none';
+            }
+        }
+        
+        function generateDifferential() {
+            const mrn = document.getElementById('rr-mrn').value;
+            const code = document.getElementById('rr-code').value;
+            const admitDx = document.getElementById('rr-admit-dx').value;
+            
+            const vitals = {
+                hr: parseInt(document.getElementById('rr-hr').value) || null,
+                sbp: parseInt(document.getElementById('rr-sbp').value) || null,
+                rr: parseInt(document.getElementById('rr-rr').value) || null,
+                spo2: parseInt(document.getElementById('rr-spo2').value) || null,
+                temp: parseFloat(document.getElementById('rr-temp').value) || null,
+                gcs: parseInt(document.getElementById('rr-gcs').value) || null
+            };
+            
+            const concerns = Array.from(document.querySelectorAll('.rr-concern:checked')).map(cb => cb.value);
+            const exam = Array.from(document.querySelectorAll('.rr-exam:checked')).map(cb => cb.value);
+            const pmh = Array.from(document.querySelectorAll('.rr-pmh:checked')).map(cb => cb.value);
+            const meds = Array.from(document.querySelectorAll('.rr-meds:checked')).map(cb => cb.value);
+            const notes = document.getElementById('rr-notes').value;
+            
+            const scores = {};
+            
+            for (const [key, condition] of Object.entries(differentialDB)) {
+                let score = 0;
+                
+                if (condition.triggers) {
+                    concerns.forEach(concern => {
+                        if (condition.triggers[concern]) score += condition.triggers[concern];
+                    });
+                }
+                
+                if (condition.vitals && vitals) {
+                    if (vitals.hr) {
+                        if (condition.vitals.hr?.high && vitals.hr > 100) score += condition.vitals.hr.high;
+                        if (condition.vitals.hr?.low && vitals.hr < 60) score += condition.vitals.hr.low;
+                    }
+                    if (vitals.sbp) {
+                        if (condition.vitals.sbp?.low && vitals.sbp < 90) score += condition.vitals.sbp.low;
+                        if (condition.vitals.sbp?.veryHigh && vitals.sbp > 180) score += condition.vitals.sbp.veryHigh;
+                    }
+                    if (vitals.rr && condition.vitals.rr?.high && vitals.rr > 20) score += condition.vitals.rr.high;
+                    if (vitals.spo2 && condition.vitals.spo2?.low && vitals.spo2 < 92) score += condition.vitals.spo2.low;
+                    if (vitals.temp) {
+                        if (condition.vitals.temp?.high && vitals.temp > 100.4) score += condition.vitals.temp.high;
+                        if (condition.vitals.temp?.low && vitals.temp < 96) score += condition.vitals.temp.low;
+                    }
+                    if (vitals.gcs && condition.vitals.gcs?.low && vitals.gcs < 13) score += condition.vitals.gcs.low;
+                }
+                
+                if (condition.pmh) {
+                    pmh.forEach(p => { if (condition.pmh[p]) score += condition.pmh[p]; });
+                }
+                
+                if (condition.exam) {
+                    exam.forEach(e => { if (condition.exam[e]) score += condition.exam[e]; });
+                }
+                
+                if (score > 0) {
+                    scores[key] = { name: condition.name, link: condition.link, score: score };
+                }
+            }
+            
+            const sortedDiff = Object.entries(scores).sort((a, b) => b[1].score - a[1].score).slice(0, 8);
+            const timestamp = new Date().toLocaleString();
+            
+            let output = `<div style="font-family: 'Courier New', monospace;">`;
+            output += `<strong>RAPID RESPONSE ASSESSMENT</strong>\n`;
+            output += `Generated: ${timestamp}\n`;
+            output += `MRN: ${mrn || 'Not provided'} | Code Status: ${code}\n`;
+            output += `Admission Diagnosis: ${admitDx || 'Not provided'}\n\n${'='.repeat(80)}\n\n`;
+            
+            output += `<strong>VITAL SIGNS:</strong>\n`;
+            output += `  HR: ${vitals.hr || '--'} bpm`;
+            if (vitals.hr && (vitals.hr > 100 || vitals.hr < 60)) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  BP: ${vitals.sbp || '--'}/-- mmHg`;
+            if (vitals.sbp && (vitals.sbp < 90 || vitals.sbp > 180)) output += ` <span style="color: #e74c3c;">⚠ CRITICAL</span>`;
+            output += `\n  RR: ${vitals.rr || '--'} breaths/min`;
+            if (vitals.rr && vitals.rr > 20) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  SpO2: ${vitals.spo2 || '--'}%`;
+            if (vitals.spo2 && vitals.spo2 < 92) output += ` <span style="color: #e74c3c;">⚠ HYPOXIC</span>`;
+            output += `\n  Temp: ${vitals.temp || '--'}°F`;
+            if (vitals.temp && (vitals.temp > 100.4 || vitals.temp < 96)) output += ` <span style="color: #e74c3c;">⚠ ABNORMAL</span>`;
+            output += `\n  GCS: ${vitals.gcs || '--'}`;
+            if (vitals.gcs && vitals.gcs < 13) output += ` <span style="color: #e74c3c;">⚠ ALTERED</span>`;
+            output += `\n\n`;
+            
+            output += `<strong>CHIEF CONCERNS:</strong> ${concerns.length > 0 ? concerns.map(c => c.replace(/-/g, ' ').toUpperCase()).join(', ') : 'None'}\n\n`;
+            output += `<strong>KEY EXAM FINDINGS:</strong> ${exam.length > 0 ? exam.map(e => e.replace(/-/g, ' ')).join(', ') : 'None'}\n\n`;
+            output += `<strong>RELEVANT PMH:</strong> ${pmh.length > 0 ? pmh.map(p => p.toUpperCase()).join(', ') : 'None'}\n\n`;
+            
+            output += `<strong>RANKED DIFFERENTIAL DIAGNOSIS:</strong>\n`;
+            if (sortedDiff.length > 0) {
+                sortedDiff.forEach((item, idx) => {
+                    const likelihood = item[1].score > 20 ? 'HIGH' : item[1].score > 10 ? 'MODERATE' : 'POSSIBLE';
+                    const color = item[1].score > 20 ? '#e74c3c' : item[1].score > 10 ? '#f39c12' : '#95a5a6';
+                    output += `  ${idx + 1}. <a href="${item[1].link}" style="color: #0366d6;">${item[1].name}</a> <span style="color: ${color}; font-weight: bold;">[${likelihood} - ${item[1].score}pts]</span>\n`;
+                });
+            } else {
+                output += `  <span style="color: #e74c3c;">⚠ Insufficient data - please enter more clinical information</span>\n`;
+            }
+            output += `\n`;
+            
+            output += `<strong style="color: #e74c3c;">🚨 IMMEDIATE ACTIONS:</strong>\n`;
+            const actions = [];
+            if (vitals.sbp && vitals.sbp < 90) actions.push('• IV ACCESS + AGGRESSIVE IVF RESUSCITATION');
+            if (vitals.spo2 && vitals.spo2 < 90) actions.push('• SUPPLEMENTAL O2, consider NIPPV/intubation');
+            if (vitals.gcs && vitals.gcs < 9) actions.push('• AIRWAY PROTECTION - consider intubation');
+            if (concerns.includes('chest-pain')) actions.push('• ECG, troponin, aspirin 325mg');
+            if (concerns.includes('respiratory-distress')) actions.push('• CXR, ABG, bronchodilators');
+            if (concerns.includes('seizure')) actions.push('• Lorazepam 2-4mg IV, protect airway');
+            if (concerns.includes('neuro-deficit')) actions.push('• STAT CT head, stroke alert if <24hr');
+            if (concerns.includes('fever') || (vitals.temp && vitals.temp > 100.4)) actions.push('• Blood cultures × 2, antibiotics');
+            if (concerns.includes('hypotension')) actions.push('• Determine shock etiology (septic/cardiogenic/hypovolemic)');
+            actions.push('• Call for help, continuous monitoring');
+            actions.forEach(a => output += `${a}\n`);
+            output += `\n`;
+            
+            if (notes) output += `<strong>ADDITIONAL NOTES:</strong>\n${notes}\n\n`;
+            
+            output += `${'='.repeat(80)}\n<em style="color: #666;">Clinical decision support tool - use clinical judgment</em></div>`;
+            
+            document.getElementById('rr-output').innerHTML = output;
+            document.getElementById('rr-results').style.display = 'block';
+            document.getElementById('rr-results').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function saveRapidResponse() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                mrn: document.getElementById('rr-mrn').value,
+                code: document.getElementById('rr-code').value,
+                assessment: document.getElementById('rr-output').innerHTML
+            };
+            
+            let saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            saved.unshift(data);
+            if (saved.length > 50) saved = saved.slice(0, 50);
+            localStorage.setItem('rapidResponses', JSON.stringify(saved));
+            alert('✓ Assessment saved!');
+        }
+        
+        function viewSavedResponses() {
+            const saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            const container = document.getElementById('saved-list');
+            
+            if (saved.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No saved assessments.</p>';
+            } else {
+                let html = '';
+                saved.forEach((item, idx) => {
+                    const date = new Date(item.timestamp).toLocaleString();
+                    html += `<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #3498db;">`;
+                    html += `<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">`;
+                    html += `<div><strong>MRN: ${item.mrn || 'N/A'}</strong> | ${date}</div>`;
+                    html += `<div><button onclick="loadSavedResponse(${idx})" style="background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-right: 5px;">View</button>`;
+                    html += `<button onclick="deleteSavedResponse(${idx})" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Delete</button></div></div>`;
+                    html += `<div style="font-size: 9pt; color: #666;">Code: ${item.code}</div></div>`;
+                });
+                container.innerHTML = html;
+            }
+            
+            document.getElementById('saved-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSavedResponses() {
+            document.getElementById('saved-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function loadSavedResponse(idx) {
+            const saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            if (saved[idx]) {
+                document.getElementById('rr-output').innerHTML = saved[idx].assessment;
+                document.getElementById('rr-results').style.display = 'block';
+                closeSavedResponses();
+                openRapidResponse();
+                document.getElementById('rr-results').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteSavedResponse(idx) {
+            if (confirm('Delete this assessment?')) {
+                let saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+                saved.splice(idx, 1);
+                localStorage.setItem('rapidResponses', JSON.stringify(saved));
+                viewSavedResponses();
+            }
+        }
+        
+        function printAssessment() {
+            const content = document.getElementById('rr-output').innerHTML;
+            const w = window.open('', '', 'width=800,height=600');
+            w.document.write('<html><head><title>RR Assessment</title><style>body{font-family:Courier;font-size:10pt;padding:20px;}</style></head><body>');
+            w.document.write(content);
+            w.document.write('</body></html>');
+            w.document.close();
+            w.print();
+        }
+        
+        function copyNote() {
+            const text = document.getElementById('rr-output').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Note copied to clipboard!');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✓ Note copied!');
             });
         }
     </script>
