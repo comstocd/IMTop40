@@ -384,6 +384,14 @@
         <div class="nav-header">
             <h1>Internal Medicine Clinical Reference Guide</h1>
             <p>40 Essential Conditions for Hospital Medicine</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <button onclick="openRapidResponse()" style="background: #e74c3c; color: white; border: none; padding: 15px 30px; font-size: 14pt; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: all 0.3s;">
+                    🚨 RAPID RESPONSE TOOL
+                </button>
+                <button onclick="viewSavedResponses()" style="background: #3498db; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 8px; cursor: pointer; margin-left: 10px;">
+                    📋 View Saved
+                </button>
+            </div>
             <a href="#toc" class="back-to-top">↑ Table of Contents</a>
         </div>
         
@@ -7059,6 +7067,456 @@
             
             document.getElementById('fena-result').innerHTML = `<div class="calc-result ${riskClass}">${interpretation}</div>`;
         }
+        
+        // =========        
+        <!-- RAPID RESPONSE TOOL MODAL -->
+        <div id="rr-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+            <div style="background: white; max-width: 1400px; margin: 20px auto; border-radius: 12px; padding: 30px; position: relative;">
+                <button onclick="closeRapidResponse()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">✕ Close</button>
+                
+                <h2 style="color: #e74c3c; margin-top: 0;">🚨 RAPID RESPONSE DECISION SUPPORT</h2>
+                <p style="color: #666; font-size: 10pt;">Complete patient assessment to generate differential diagnosis, critical actions, and documentation</p>
+                
+                <form id="rr-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    
+                    <!-- LEFT COLUMN -->
+                    <div>
+                        <!-- PATIENT INFO -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Patient Information</h3>
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 5px;">MRN:</label>
+                                <input type="text" id="rr-mrn" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label style="display: block; font-weight: 600; margin-bottom: 5px;">Code Status:</label>
+                                <select id="rr-code" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                                    <option value="Full Code">Full Code</option>
+                                    <option value="DNR">DNR</option>
+                                    <option value="DNI">DNI</option>
+                                    <option value="DNR/DNI">DNR/DNI</option>
+                                    <option value="Comfort Care">Comfort Care</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 5px;">Current Admission Diagnosis:</label>
+                                <input type="text" id="rr-admit-dx" placeholder="e.g., Pneumonia, CHF exacerbation" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                        
+                        <!-- VITAL SIGNS -->
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #ffc107;">
+                            <h3 style="color: #856404; margin-top: 0; font-size: 12pt;">⚠️ Vital Signs</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">HR (bpm):</label>
+                                    <input type="number" id="rr-hr" placeholder="60-100" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">BP (systolic):</label>
+                                    <input type="number" id="rr-sbp" placeholder="90-140" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">RR (breaths/min):</label>
+                                    <input type="number" id="rr-rr" placeholder="12-20" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">SpO2 (%):</label>
+                                    <input type="number" id="rr-spo2" placeholder="92-100" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">Temp (°F):</label>
+                                    <input type="number" id="rr-temp" placeholder="98.6" step="0.1" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">GCS:</label>
+                                    <input type="number" id="rr-gcs" placeholder="3-15" min="3" max="15" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- CHIEF CONCERNS -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Chief Concerns (Select All That Apply)</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="chest-pain" data-weight="5" style="margin-right: 8px;"> Chest Pain</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="respiratory-distress" data-weight="5" style="margin-right: 8px;"> Respiratory Distress</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="altered-mental-status" data-weight="5" style="margin-right: 8px;"> Altered Mental Status</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="hypotension" data-weight="5" style="margin-right: 8px;"> Hypotension/Shock</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="fever" data-weight="3" style="margin-right: 8px;"> Fever</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="abdominal-pain" data-weight="3" style="margin-right: 8px;"> Abdominal Pain</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="neuro-deficit" data-weight="5" style="margin-right: 8px;"> Neurologic Deficit</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="seizure" data-weight="4" style="margin-right: 8px;"> Seizure Activity</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="bleeding" data-weight="4" style="margin-right: 8px;"> Active Bleeding</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="syncope" data-weight="3" style="margin-right: 8px;"> Syncope</label>
+                            </div>
+                        </div>
+                        
+                        <!-- KEY OBSERVATIONS -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Physical Exam Findings</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="alert-oriented" style="margin-right: 8px;"> Alert & Oriented</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="confused" style="margin-right: 8px;"> Confused/Agitated</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="unresponsive" style="margin-right: 8px;"> Unresponsive</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="diaphoretic" style="margin-right: 8px;"> Diaphoretic</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="cyanotic" style="margin-right: 8px;"> Cyanotic</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="accessory-muscles" style="margin-right: 8px;"> Accessory Muscle Use</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="decreased-bs" style="margin-right: 8px;"> Decreased Breath Sounds</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="rales" style="margin-right: 8px;"> Rales/Crackles</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="wheezing" style="margin-right: 8px;"> Wheezing</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="jvd" style="margin-right: 8px;"> JVD</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="weak-pulses" style="margin-right: 8px;"> Weak/Thready Pulses</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="cool-extremities" style="margin-right: 8px;"> Cool Extremities</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- RIGHT COLUMN -->
+                    <div>
+                        <!-- RELEVANT PMH -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Relevant Past Medical History</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cad" style="margin-right: 8px;"> CAD/Prior MI</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="chf" style="margin-right: 8px;"> CHF</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="afib" style="margin-right: 8px;"> Atrial Fibrillation</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="htn" style="margin-right: 8px;"> Hypertension</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="copd" style="margin-right: 8px;"> COPD</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="asthma" style="margin-right: 8px;"> Asthma</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="dm" style="margin-right: 8px;"> Diabetes</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="ckd" style="margin-right: 8px;"> CKD</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="esrd" style="margin-right: 8px;"> ESRD on Dialysis</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cirrhosis" style="margin-right: 8px;"> Cirrhosis</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cancer" style="margin-right: 8px;"> Active Malignancy</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="immunosupp" style="margin-right: 8px;"> Immunosuppressed</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="stroke-hx" style="margin-right: 8px;"> Prior Stroke/TIA</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="seizure-hx" style="margin-right: 8px;"> Seizure Disorder</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="dvt-pe-hx" style="margin-right: 8px;"> Prior DVT/PE</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="etoh" style="margin-right: 8px;"> Alcohol Use Disorder</label>
+                            </div>
+                        </div>
+                        
+                        <!-- CRITICAL MEDICATIONS -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Critical Home Medications</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="anticoag" style="margin-right: 8px;"> Anticoagulation</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="antiplatelet" style="margin-right: 8px;"> Antiplatelet (ASA/Plavix)</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="insulin" style="margin-right: 8px;"> Insulin</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="steroids" style="margin-right: 8px;"> Chronic Steroids</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="chemo" style="margin-right: 8px;"> Chemotherapy</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="immunosupp-med" style="margin-right: 8px;"> Immunosuppressants</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="opioids" style="margin-right: 8px;"> Chronic Opioids</label>
+                                <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="benzos" style="margin-right: 8px;"> Benzodiazepines</label>
+                            </div>
+                        </div>
+                        
+                        <!-- ADDITIONAL NOTES -->
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Additional Clinical Notes</h3>
+                            <textarea id="rr-notes" placeholder="Any other relevant clinical information..." style="width: 100%; height: 100px; padding: 8px; border: 2px solid #ddd; border-radius: 4px; font-family: Arial, sans-serif; resize: vertical;"></textarea>
+                        </div>
+                        
+                        <!-- ACTION BUTTONS -->
+                        <div style="text-align: center;">
+                            <button type="button" onclick="generateDifferential()" style="background: #27ae60; color: white; border: none; padding: 15px 40px; font-size: 13pt; font-weight: bold; border-radius: 8px; cursor: pointer; margin-right: 10px;">
+                                🔍 Generate Differential & Note
+                            </button>
+                            <button type="button" onclick="clearRRForm()" style="background: #95a5a6; color: white; border: none; padding: 15px 30px; font-size: 11pt; border-radius: 8px; cursor: pointer;">
+                                Clear Form
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- RESULTS SECTION -->
+                <div id="rr-results" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 3px solid #e74c3c;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="color: #e74c3c; margin: 0;">📊 Clinical Assessment & Differential</h2>
+                        <div>
+                            <button onclick="saveRapidResponse()" style="background: #3498db; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                                💾 Save Assessment
+                            </button>
+                            <button onclick="printAssessment()" style="background: #16a085; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                                🖨️ Print
+                            </button>
+                            <button onclick="copyNote()" style="background: #f39c12; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer;">
+                                📋 Copy Note
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="rr-output" style="background: #f8f9fa; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 9pt; line-height: 1.6;">
+                        <!-- Results will be dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAVED RESPONSES MODAL -->
+        <div id="saved-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+            <div style="background: white; max-width: 1200px; margin: 20px auto; border-radius: 12px; padding: 30px; position: relative;">
+                <button onclick="closeSavedResponses()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">✕ Close</button>
+                
+                <h2 style="color: #3498db; margin-top: 0;">📋 Saved Rapid Response Assessments</h2>
+                <div id="saved-list" style="margin-top: 20px;">
+                    <!-- Saved items will be loaded here -->
+                </div>
+            </div>
+        </div>
+tion closeSavedResponses() {
+            document.getElementById('saved-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function loadSavedResponse(idx) {
+            const saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+            if (saved[idx]) {
+                document.getElementById('rr-output').innerHTML = saved[idx].assessment;
+                document.getElementById('rr-results').style.display = 'block';
+                closeSavedResponses();
+                openRapidResponse();
+                document.getElementById('rr-results').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function deleteSavedResponse(idx) {
+            if (confirm('Delete this assessment?')) {
+                let saved = JSON.parse(localStorage.getItem('rapidResponses') || '[]');
+                saved.splice(idx, 1);
+                localStorage.setItem('rapidResponses', JSON.stringify(saved));
+                viewSavedResponses();
+            }
+        }
+        
+        function printAssessment() {
+            const content = document.getElementById('rr-output').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>Rapid Response Assessment</title>');
+            printWindow.document.write('<style>body { font-family: "Courier New", monospace; font-size: 10pt; padding: 20px; }</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        function copyNote() {
+            const output = document.getElementById('rr-output');
+            const text = output.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Note copied to clipboard!');
+            }).catch(err => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✓ Note copied to clipboard!');
+            });
+        }
     </script>
+    
+    <!-- RAPID RESPONSE TOOL MODAL -->
+    <div id="rr-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+        <div style="background: white; max-width: 1400px; margin: 20px auto; border-radius: 12px; padding: 30px; position: relative;">
+            <button onclick="closeRapidResponse()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">✕ Close</button>
+            
+            <h2 style="color: #e74c3c; margin-top: 0;">🚨 RAPID RESPONSE DECISION SUPPORT</h2>
+            <p style="color: #666; font-size: 10pt;">Complete patient assessment to generate differential diagnosis, critical actions, and documentation</p>
+            
+            <form id="rr-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                
+                <!-- LEFT COLUMN -->
+                <div>
+                    <!-- PATIENT INFO -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Patient Information</h3>
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px;">MRN:</label>
+                            <input type="text" id="rr-mrn" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px;">Code Status:</label>
+                            <select id="rr-code" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                                <option value="Full Code">Full Code</option>
+                                <option value="DNR">DNR</option>
+                                <option value="DNI">DNI</option>
+                                <option value="DNR/DNI">DNR/DNI</option>
+                                <option value="Comfort Care">Comfort Care</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px;">Current Admission Diagnosis:</label>
+                            <input type="text" id="rr-admit-dx" placeholder="e.g., Pneumonia, CHF exacerbation" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                        </div>
+                    </div>
+                    
+                    <!-- VITAL SIGNS -->
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #ffc107;">
+                        <h3 style="color: #856404; margin-top: 0; font-size: 12pt;">⚠️ Vital Signs</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">HR (bpm):</label>
+                                <input type="number" id="rr-hr" placeholder="60-100" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">BP (systolic):</label>
+                                <input type="number" id="rr-sbp" placeholder="90-140" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">RR (breaths/min):</label>
+                                <input type="number" id="rr-rr" placeholder="12-20" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">SpO2 (%):</label>
+                                <input type="number" id="rr-spo2" placeholder="92-100" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">Temp (°F):</label>
+                                <input type="number" id="rr-temp" placeholder="98.6" step="0.1" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 3px; font-size: 9pt;">GCS:</label>
+                                <input type="number" id="rr-gcs" placeholder="3-15" min="3" max="15" style="width: 100%; padding: 6px; border: 2px solid #ddd; border-radius: 4px;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CHIEF CONCERNS -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Chief Concerns (Select All That Apply)</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="chest-pain" data-weight="5" style="margin-right: 8px;"> Chest Pain</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="respiratory-distress" data-weight="5" style="margin-right: 8px;"> Respiratory Distress</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="altered-mental-status" data-weight="5" style="margin-right: 8px;"> Altered Mental Status</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="hypotension" data-weight="5" style="margin-right: 8px;"> Hypotension/Shock</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="fever" data-weight="3" style="margin-right: 8px;"> Fever</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="abdominal-pain" data-weight="3" style="margin-right: 8px;"> Abdominal Pain</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="neuro-deficit" data-weight="5" style="margin-right: 8px;"> Neurologic Deficit</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="seizure" data-weight="4" style="margin-right: 8px;"> Seizure Activity</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="bleeding" data-weight="4" style="margin-right: 8px;"> Active Bleeding</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-concern" value="syncope" data-weight="3" style="margin-right: 8px;"> Syncope</label>
+                        </div>
+                    </div>
+                    
+                    <!-- KEY OBSERVATIONS -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Physical Exam Findings</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="alert-oriented" style="margin-right: 8px;"> Alert & Oriented</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="confused" style="margin-right: 8px;"> Confused/Agitated</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="unresponsive" style="margin-right: 8px;"> Unresponsive</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="diaphoretic" style="margin-right: 8px;"> Diaphoretic</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="cyanotic" style="margin-right: 8px;"> Cyanotic</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="accessory-muscles" style="margin-right: 8px;"> Accessory Muscle Use</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="decreased-bs" style="margin-right: 8px;"> Decreased Breath Sounds</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="rales" style="margin-right: 8px;"> Rales/Crackles</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="wheezing" style="margin-right: 8px;"> Wheezing</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="jvd" style="margin-right: 8px;"> JVD</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="weak-pulses" style="margin-right: 8px;"> Weak/Thready Pulses</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-exam" value="cool-extremities" style="margin-right: 8px;"> Cool Extremities</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RIGHT COLUMN -->
+                <div>
+                    <!-- RELEVANT PMH -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Relevant Past Medical History</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cad" style="margin-right: 8px;"> CAD/Prior MI</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="chf" style="margin-right: 8px;"> CHF</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="afib" style="margin-right: 8px;"> Atrial Fibrillation</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="htn" style="margin-right: 8px;"> Hypertension</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="copd" style="margin-right: 8px;"> COPD</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="asthma" style="margin-right: 8px;"> Asthma</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="dm" style="margin-right: 8px;"> Diabetes</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="ckd" style="margin-right: 8px;"> CKD</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="esrd" style="margin-right: 8px;"> ESRD on Dialysis</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cirrhosis" style="margin-right: 8px;"> Cirrhosis</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="cancer" style="margin-right: 8px;"> Active Malignancy</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="immunosupp" style="margin-right: 8px;"> Immunosuppressed</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="stroke-hx" style="margin-right: 8px;"> Prior Stroke/TIA</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="seizure-hx" style="margin-right: 8px;"> Seizure Disorder</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="dvt-pe-hx" style="margin-right: 8px;"> Prior DVT/PE</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-pmh" value="etoh" style="margin-right: 8px;"> Alcohol Use Disorder</label>
+                        </div>
+                    </div>
+                    
+                    <!-- CRITICAL MEDICATIONS -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Critical Home Medications</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="anticoag" style="margin-right: 8px;"> Anticoagulation</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="antiplatelet" style="margin-right: 8px;"> Antiplatelet (ASA/Plavix)</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="insulin" style="margin-right: 8px;"> Insulin</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="steroids" style="margin-right: 8px;"> Chronic Steroids</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="chemo" style="margin-right: 8px;"> Chemotherapy</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="immunosupp-med" style="margin-right: 8px;"> Immunosuppressants</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="opioids" style="margin-right: 8px;"> Chronic Opioids</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" class="rr-meds" value="benzos" style="margin-right: 8px;"> Benzodiazepines</label>
+                        </div>
+                    </div>
+                    
+                    <!-- ADDITIONAL NOTES -->
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h3 style="color: #2c3e50; margin-top: 0; font-size: 12pt;">Additional Clinical Notes</h3>
+                        <textarea id="rr-notes" placeholder="Any other relevant clinical information..." style="width: 100%; height: 100px; padding: 8px; border: 2px solid #ddd; border-radius: 4px; font-family: Arial, sans-serif; resize: vertical;"></textarea>
+                    </div>
+                    
+                    <!-- ACTION BUTTONS -->
+                    <div style="text-align: center;">
+                        <button type="button" onclick="generateDifferential()" style="background: #27ae60; color: white; border: none; padding: 15px 40px; font-size: 13pt; font-weight: bold; border-radius: 8px; cursor: pointer; margin-right: 10px;">
+                            🔍 Generate Differential & Note
+                        </button>
+                        <button type="button" onclick="clearRRForm()" style="background: #95a5a6; color: white; border: none; padding: 15px 30px; font-size: 11pt; border-radius: 8px; cursor: pointer;">
+                            Clear Form
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- RESULTS SECTION -->
+            <div id="rr-results" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 3px solid #e74c3c;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="color: #e74c3c; margin: 0;">📊 Clinical Assessment & Differential</h2>
+                    <div>
+                        <button onclick="saveRapidResponse()" style="background: #3498db; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                            💾 Save Assessment
+                        </button>
+                        <button onclick="printAssessment()" style="background: #16a085; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                            🖨️ Print
+                        </button>
+                        <button onclick="copyNote()" style="background: #f39c12; color: white; border: none; padding: 10px 20px; font-size: 10pt; font-weight: bold; border-radius: 6px; cursor: pointer;">
+                            📋 Copy Note
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="rr-output" style="background: #f8f9fa; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 9pt; line-height: 1.6;">
+                    <!-- Results will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAVED RESPONSES MODAL -->
+    <div id="saved-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; overflow-y: auto;">
+        <div style="background: white; max-width: 1200px; margin: 20px auto; border-radius: 12px; padding: 30px; position: relative;">
+            <button onclick="closeSavedResponses()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">✕ Close</button>
+            
+            <h2 style="color: #3498db; margin-top: 0;">📋 Saved Rapid Response Assessments</h2>
+            <div id="saved-list" style="margin-top: 20px;">
+                <!-- Saved items will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
 </body>
 </html>
