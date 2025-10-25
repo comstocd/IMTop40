@@ -7319,6 +7319,7 @@
             const patientData = {
                 name: document.getElementById('rr-name').value,
                 age: document.getElementById('rr-age').value,
+                gender: document.getElementById('rr-gender').value,
                 mrn: document.getElementById('rr-mrn').value,
                 location: document.getElementById('rr-location').value,
                 code: document.getElementById('rr-code').value,
@@ -7459,8 +7460,8 @@
             // SECTION 1: Patient Identification
             output += `<strong style="color: #856404;">🩺 PATIENT IDENTIFICATION & CONTEXT</strong>\n`;
             output += `${'─'.repeat(70)}\n`;
-            output += `<strong>Patient:</strong> ${patientData.name || '[Not provided]'} | <strong>Age:</strong> ${patientData.age || 'Unknown'} | <strong>MRN:</strong> ${patientData.mrn || 'Not provided'}\n`;
-            output += `<strong>Location:</strong> ${patientData.location || 'Not specified'} | <strong>Code Status:</strong> <span style="font-weight: bold; color: #e74c3c;">${patientData.code}</span>\n`;
+            output += `<strong>Patient:</strong> ${patientData.name || '[Not provided]'} | <strong>Age:</strong> ${patientData.age || 'Unknown'} | <strong>Gender:</strong> ${patientData.gender || 'Unknown'}\n`;
+            output += `<strong>MRN:</strong> ${patientData.mrn || 'Not provided'} | <strong>Location:</strong> ${patientData.location || 'Not specified'} | <strong>Code Status:</strong> <span style="font-weight: bold; color: #e74c3c;">${patientData.code}</span>\n`;
             output += `<strong>Time of Activation:</strong> ${patientData.time || 'Not recorded'}\n`;
             output += `<strong>Reason for Activation:</strong> ${patientData.activationReason || 'Not specified'}\n`;
             output += `<strong>Time Course:</strong> ${patientData.timeCourse || 'Unknown'} | <strong>Progression:</strong> ${patientData.progression || 'Not assessed'}\n`;
@@ -7563,6 +7564,27 @@
                 });
             } else {
                 output += `  <span style="color: #e74c3c;">⚠ Unable to generate differential - please enter more clinical data</span>\n`;
+            }
+            output += `\n`;
+            
+            // RAPID RESPONSE ORDER SETS (NEW INTEGRATION)
+            output += `<strong style="color: #0366d6; font-size: 11pt;">📋 RAPID RESPONSE ORDER SETS</strong>\n`;
+            output += `${'═'.repeat(70)}\n`;
+            
+            // Emergency order set based on activation reason
+            const emergencyOrderSet = getEmergencyOrderSet(patientData.activationReason);
+            if (emergencyOrderSet) {
+                output += emergencyOrderSet;
+            }
+            
+            // Top differential-based order sets
+            if (sortedDiff.length > 0) {
+                output += `<div style="margin-top: 15px;">`;
+                output += `<strong style="font-size: 10pt; color: #495057;">📌 Order Sets for Top Differential Diagnoses:</strong>`;
+                output += getRelevantOrderSets(sortedDiff);
+                output += `</div>`;
+            } else {
+                output += `<p style="color: #666; font-style: italic; margin: 10px 0;">Complete clinical assessment above to generate targeted order sets.</p>`;
             }
             output += `\n`;
             
@@ -7743,6 +7765,282 @@
                 alert('✓ Note copied to clipboard!');
             });
         }
+        
+        // =====================================================
+        // RAPID RESPONSE ORDER SETS INTEGRATION
+        // =====================================================
+        
+        const rapidResponseOrderSets = {
+            'acs': {
+                name: 'Acute Coronary Syndrome',
+                critical: 'STAT cardiology, aspirin 325mg, dual antiplatelet, anticoagulation',
+                immediate: [
+                    'Aspirin 325mg PO × 1',
+                    'Ticagrelor 180mg load OR Clopidogrel 600mg load',
+                    'Heparin drip OR Enoxaparin 1mg/kg SC',
+                    'Oxygen to maintain SpO2 >90%',
+                    'Nitroglycerin 0.4mg SL q5min PRN (max 3)',
+                    'Morphine 2-4mg IV PRN severe pain'
+                ],
+                labs: ['Troponin (0h, 3h, 6h)', 'ECG STAT and q8h', 'CBC, CMP, lipids, HgbA1c'],
+                monitoring: ['Continuous telemetry', 'VS q1h initially']
+            },
+            'heart-failure': {
+                name: 'Acute Decompensated Heart Failure',
+                critical: 'IV diuretics, O2, monitor fluid balance',
+                immediate: [
+                    'Furosemide 40-80mg IV (or 2× home dose)',
+                    'Oxygen to SpO2 >90%',
+                    'Consider NIPPV if severe distress',
+                    'Strict I/O, daily weights'
+                ],
+                labs: ['BNP/NT-proBNP', 'CBC, CMP, troponin', 'CXR'],
+                monitoring: ['Telemetry', 'Net fluid goal: -500 to -1000 mL/day']
+            },
+            'sepsis': {
+                name: 'Sepsis / Septic Shock',
+                critical: '⚠️ ANTIBIOTICS WITHIN 1 HOUR. 30 mL/kg fluid bolus.',
+                immediate: [
+                    '🔴 Crystalloid 30 mL/kg IV (first hour)',
+                    '🔴 Broad-spectrum antibiotics STAT',
+                    'Vancomycin 15-20mg/kg + Pip-tazo 4.5g OR Cefepime 2g',
+                    'Norepinephrine if MAP <65 despite fluids',
+                    'Blood cultures × 2 BEFORE antibiotics'
+                ],
+                labs: ['Lactate q2-4h', 'CBC, CMP, cultures', 'Procalcitonin'],
+                monitoring: ['ICU level care', 'qSOFA/SOFA scores', 'UOP goal >0.5 mL/kg/h']
+            },
+            'stroke': {
+                name: 'Acute Ischemic Stroke',
+                critical: '⚠️ tPA within 4.5h if eligible. STAT neurology.',
+                immediate: [
+                    '🔴 STAT non-contrast CT head',
+                    '🔴 Neurology consult STAT',
+                    'NPO, HOB 30 degrees',
+                    'BP: Keep <185/110 pre-tPA, <180/105 post-tPA',
+                    'If tPA eligible: Alteplase 0.9 mg/kg (max 90mg)'
+                ],
+                labs: ['CBC, CMP, PT/INR, PTT', 'Glucose', 'ECG, troponin'],
+                monitoring: ['Neuro checks q15min if tPA given', 'NIHSS serial']
+            },
+            'seizure': {
+                name: 'Seizure / Status Epilepticus',
+                critical: 'Airway protection, benzodiazepines, glucose check',
+                immediate: [
+                    '🔴 Glucose fingerstick STAT',
+                    'Lorazepam 0.1mg/kg IV (max 4mg)',
+                    'If continues: Fosphenytoin 20 mg PE/kg IV',
+                    'Protect airway, supplemental O2',
+                    'If GCS <8: consider intubation'
+                ],
+                labs: ['Glucose STAT', 'CBC, CMP (Ca, Mg)', 'AED levels if on meds'],
+                monitoring: ['Continuous monitoring', 'EEG if status epilepticus']
+            },
+            'hyperkalemia': {
+                name: 'Hyperkalemia (Severe)',
+                critical: '⚠️ Calcium first if ECG changes. STAT ECG.',
+                immediate: [
+                    '🔴 ECG STAT',
+                    'If ECG changes: Calcium gluconate 1-2g IV over 5-10min',
+                    'Insulin 10 units IV + D50 25g (50 mL)',
+                    'Albuterol 10-20mg neb',
+                    'Consider dialysis if K >6.5-7 or refractory'
+                ],
+                labs: ['K q2-4h', 'ECG with each K check', 'ABG/VBG'],
+                monitoring: ['Continuous cardiac monitoring', 'Watch for hypoglycemia post-insulin']
+            },
+            'dka': {
+                name: 'Diabetic Ketoacidosis',
+                critical: 'Aggressive fluids, insulin infusion, replace K+',
+                immediate: [
+                    'NS 1L bolus, then 250-500 mL/h',
+                    'Regular insulin 0.1 units/kg bolus, then 0.1 units/kg/h',
+                    'Add D5 when glucose <250 mg/dL',
+                    'K+ repletion essential (20-30 mEq/L if K 3.3-5.2)'
+                ],
+                labs: ['Glucose q1h', 'VBG q2-4h', 'Anion gap q2-4h', 'CMP q4h'],
+                monitoring: ['ICU/step-down', 'Continue insulin until AG closes AND HCO3 >18']
+            },
+            'ugib': {
+                name: 'Upper GI Bleeding',
+                critical: '⚠️ NPO, 2 large-bore IVs, type & cross, GI consult',
+                immediate: [
+                    '🔴 2 large-bore IV access (18G)',
+                    'NPO',
+                    'Pantoprazole 80mg IV bolus, then 8mg/h',
+                    'Type & cross 4 units PRBCs',
+                    'GI consult for EGD',
+                    'If variceal: Octreotide 50mcg bolus, then 50mcg/h'
+                ],
+                labs: ['CBC q6-8h', 'CMP, PT/INR, type & cross', 'Lactate'],
+                monitoring: ['VS q1h initially', 'Transfuse if Hgb <7 (or <8-9 if cardiac disease)']
+            },
+            'respiratory-distress': {
+                name: 'Acute Respiratory Distress',
+                critical: 'ABC assessment, supplemental O2, consider intubation',
+                immediate: [
+                    '🔴 Supplemental O2 (non-rebreather or high-flow)',
+                    'If wheezing: Albuterol/ipratropium nebs',
+                    'If pulmonary edema: Furosemide 40-80mg IV',
+                    'Consider NIPPV/BiPAP',
+                    'If GCS <8 or apneic: prepare for intubation'
+                ],
+                labs: ['ABG', 'CXR STAT', 'BNP, troponin', 'D-dimer if PE suspected'],
+                monitoring: ['Continuous pulse ox', 'Intubation criteria: RR >35, SpO2 <90%, AMS']
+            },
+            'hypotension': {
+                name: 'Hypotension / Shock',
+                critical: 'Determine shock type, aggressive fluids, pressors if needed',
+                immediate: [
+                    '🔴 2 large-bore IV access',
+                    'Crystalloid bolus 1-2L (or 20 mL/kg)',
+                    'Determine etiology: septic vs cardiogenic vs hypovolemic',
+                    'If refractory to fluids: Norepinephrine 0.05-0.3 mcg/kg/min',
+                    'Bedside ultrasound (cardiac, IVC, lungs)'
+                ],
+                labs: ['Lactate', 'CBC, CMP, cultures if infection', 'Troponin, ECG'],
+                monitoring: ['MAP goal >65', 'UOP >0.5 mL/kg/h', 'Lactate clearance']
+            },
+            'altered-mental-status': {
+                name: 'Altered Mental Status',
+                critical: 'Airway protection, glucose check, naloxone if suspected OD',
+                immediate: [
+                    '🔴 Glucose fingerstick STAT',
+                    'If hypoglycemic: D50 25-50g IV',
+                    'If suspected OD: Naloxone 0.4-2mg IV',
+                    'Thiamine 100mg IV (before dextrose if alcoholic)',
+                    'If focal signs: STAT CT head, stroke alert'
+                ],
+                labs: ['Glucose', 'CBC, CMP, Ca, Mg', 'Ammonia', 'Toxicology screen', 'Urinalysis'],
+                monitoring: ['GCS q1-2h', 'Neuro checks', 'Consider LP if meningitis concern']
+            },
+            'pe': {
+                name: 'Pulmonary Embolism',
+                critical: 'Anticoagulation, oxygen, consider thrombolytics if massive',
+                immediate: [
+                    'Oxygen to SpO2 >90%',
+                    'Anticoagulation: Heparin drip OR Apixaban 10mg BID',
+                    'If massive PE: tPA 100mg IV over 2h',
+                    'Pain control: Morphine 2-4mg IV PRN'
+                ],
+                labs: ['D-dimer', 'Troponin, BNP (prognostic)', 'ABG'],
+                monitoring: ['Telemetry if intermediate/high risk', 'sPESI/PESI score']
+            },
+            'meningitis': {
+                name: 'Meningitis / Encephalitis',
+                critical: '⚠️ ANTIBIOTICS BEFORE LP IF LP DELAYED',
+                immediate: [
+                    '🔴 Vancomycin 15-20mg/kg + Ceftriaxone 2g',
+                    '🔴 Acyclovir 10mg/kg q8h (if encephalitis)',
+                    'Dexamethasone 10mg IV (with/before abx)',
+                    'LP STAT (after CT if indicated)',
+                    'Droplet precautions'
+                ],
+                labs: ['LP: OP, cell count, glucose, protein, gram stain, culture', 'Blood cultures × 2', 'CSF: HSV PCR'],
+                monitoring: ['ICU/step-down', 'Neuro checks q1-2h', 'GCS serial']
+            },
+            'anaphylaxis': {
+                name: 'Anaphylaxis',
+                critical: '⚠️ EPINEPHRINE IM IMMEDIATELY',
+                immediate: [
+                    '🔴 Epinephrine 0.3-0.5mg IM (anterolateral thigh)',
+                    'Repeat q5-15min if needed',
+                    'IV access, aggressive fluids if hypotensive',
+                    'H1 blocker: Diphenhydramine 25-50mg IV',
+                    'H2 blocker: Famotidine 20mg IV',
+                    'Steroids: Methylprednisolone 125mg IV',
+                    'Albuterol nebs if bronchospasm'
+                ],
+                labs: ['Tryptase (within 1-2h of symptoms)'],
+                monitoring: ['Observe 4-6 hours minimum', 'Biphasic reaction risk']
+            }
+        };
+        
+        // Function to get relevant order sets based on differential diagnosis
+        function getRelevantOrderSets(sortedDifferential) {
+            const orderSetsHtml = [];
+            
+            sortedDifferential.slice(0, 3).forEach((item, idx) => {
+                const conditionId = item[0];
+                const orderSet = rapidResponseOrderSets[conditionId];
+                
+                if (orderSet) {
+                    let html = `
+                        <div style="background: ${idx === 0 ? '#fff3cd' : '#f8f9fa'}; border: 2px solid ${idx === 0 ? '#ffc107' : '#dee2e6'}; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                            <h4 style="color: ${idx === 0 ? '#856404' : '#495057'}; margin-top: 0; font-size: 11pt;">
+                                ${idx + 1}. ${orderSet.name}
+                                ${idx === 0 ? '<span style="background: #ffc107; color: #856404; padding: 3px 8px; border-radius: 4px; font-size: 8pt; margin-left: 10px; font-weight: bold;">TOP DIFFERENTIAL</span>' : ''}
+                            </h4>
+                            ${orderSet.critical ? `<div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 10px; margin: 10px 0; border-radius: 4px;"><strong>⚠️ CRITICAL:</strong> ${orderSet.critical}</div>` : ''}
+                            
+                            <div style="margin: 10px 0;">
+                                <strong style="color: #e74c3c; font-size: 10pt;">🚨 IMMEDIATE ACTIONS:</strong>
+                                <ul style="margin: 5px 0; padding-left: 20px;">
+                                    ${orderSet.immediate.map(action => `<li style="margin: 4px 0; font-size: 9pt;">${action}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div style="margin: 10px 0;">
+                                <strong style="color: #0366d6; font-size: 10pt;">🔬 KEY LABS:</strong>
+                                <div style="font-size: 9pt; margin-top: 5px;">${orderSet.labs.join(' • ')}</div>
+                            </div>
+                            
+                            <div style="margin: 10px 0;">
+                                <strong style="color: #28a745; font-size: 10pt;">📊 MONITORING:</strong>
+                                <div style="font-size: 9pt; margin-top: 5px;">${orderSet.monitoring.join(' • ')}</div>
+                            </div>
+                        </div>
+                    `;
+                    orderSetsHtml.push(html);
+                }
+            });
+            
+            return orderSetsHtml.join('');
+        }
+        
+        // Function to get emergency order set based on activation reason
+        function getEmergencyOrderSet(activationReason) {
+            const emergencyMap = {
+                'Respiratory distress': 'respiratory-distress',
+                'Acute desaturation': 'respiratory-distress',
+                'Hypotension': 'hypotension',
+                'Altered mental status': 'altered-mental-status',
+                'Chest pain': 'acs',
+                'Seizure': 'seizure',
+                'Tachycardia': 'afib'
+            };
+            
+            const orderSetId = emergencyMap[activationReason];
+            if (orderSetId && rapidResponseOrderSets[orderSetId]) {
+                const orderSet = rapidResponseOrderSets[orderSetId];
+                return `
+                    <div style="background: #ffebee; border: 3px solid #e74c3c; border-radius: 8px; padding: 20px; margin: 20px 0;">
+                        <h3 style="color: #c0392b; margin-top: 0; font-size: 13pt;">🚨 EMERGENCY PROTOCOL: ${orderSet.name}</h3>
+                        ${orderSet.critical ? `<div style="background: #fff; border-left: 4px solid #e74c3c; padding: 12px; margin: 12px 0; border-radius: 4px; font-weight: 600; color: #c0392b;">⚠️ ${orderSet.critical}</div>` : ''}
+                        
+                        <div style="margin: 15px 0;">
+                            <strong style="color: #e74c3c; font-size: 11pt; display: block; margin-bottom: 8px;">IMMEDIATE ACTIONS:</strong>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                ${orderSet.immediate.map(action => `<li style="margin: 6px 0; font-size: 10pt; font-weight: ${action.includes('🔴') ? '600' : 'normal'};">${action}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                            <div>
+                                <strong style="color: #0366d6; font-size: 10pt;">🔬 STAT LABS:</strong>
+                                <div style="font-size: 9pt; margin-top: 5px; background: white; padding: 8px; border-radius: 4px;">${orderSet.labs.join('<br>')}</div>
+                            </div>
+                            <div>
+                                <strong style="color: #28a745; font-size: 10pt;">📊 MONITORING:</strong>
+                                <div style="font-size: 9pt; margin-top: 5px; background: white; padding: 8px; border-radius: 4px;">${orderSet.monitoring.join('<br>')}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            return '';
+        }
+    
     </script>
     
     
@@ -7759,7 +8057,7 @@
                 <!-- SECTION 1: IDENTIFICATION AND CONTEXT -->
                 <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                     <h3 style="color: #856404; margin-top: 0; font-size: 13pt; border-bottom: 2px solid #ffc107; padding-bottom: 10px;">🩺 1. IDENTIFICATION & CONTEXT</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 15px;">
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 9pt;">Patient Name:</label>
                             <input type="text" id="rr-name" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
@@ -7767,6 +8065,16 @@
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 9pt;">Age:</label>
                             <input type="number" id="rr-age" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 9pt;">Gender:</label>
+                            <select id="rr-gender" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 4px;">
+                                <option value="">Select...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Unknown">Unknown</option>
+                            </select>
                         </div>
                         <div>
                             <label style="display: block; font-weight: 600; margin-bottom: 5px; font-size: 9pt;">MRN:</label>
