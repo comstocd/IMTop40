@@ -10606,34 +10606,976 @@
 <!-- ============================================ -->
 <!-- CONDITION 66: HIV/AIDS COMPLICATIONS -->
 <!-- ============================================ -->
-<div class="condition" id="hiv-aids">
-    <h2>HIV/AIDS Complications</h2>
-    <p><em>[Content to be added in Phase 4]</em></p>
-</div>
+        <div id="hiv-aids" class="condition-page">
+            <div class="page-header">
+                <h2>66. HIV/AIDS COMPLICATIONS</h2>
+                <div class="subtitle">Immunodeficiency • Opportunistic Infections • Malignancies • ART Initiation</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">HIV Disease Stages (CDC Classification):</span></p>
+                    <ul>
+                        <li><strong>Stage 1 (Acute HIV):</strong> Acute retroviral syndrome 2-4 weeks post-exposure. Fever, pharyngitis, rash, lymphadenopathy, myalgia. High viral load, CD4 normal/transiently decreased. Many asymptomatic</li>
+                        <li><strong>Stage 2 (Chronic/Asymptomatic):</strong> CD4 ≥200. No AIDS-defining conditions. Can last years without treatment</li>
+                        <li><strong>Stage 3 (AIDS):</strong> CD4 <200 OR presence of AIDS-defining condition (regardless of CD4). High risk for opportunistic infections, malignancies</li>
+                    </ul>
+                    
+                    <p><span class="label">Common Hospitalization Scenarios:</span></p>
+                    <ul>
+                        <li><strong>Newly diagnosed HIV with acute illness:</strong> Patient presents with opportunistic infection, found to have HIV during workup</li>
+                        <li><strong>Known HIV, poor adherence to ART:</strong> Immunosuppression progresses → opportunistic infections</li>
+                        <li><strong>Immune reconstitution inflammatory syndrome (IRIS):</strong> Paradoxical worsening after starting ART (usually 2 weeks-3 months after ART initiation)</li>
+                        <li><strong>ART-related complications:</strong> Drug toxicity, interactions, side effects</li>
+                    </ul>
+                    
+                    <p><span class="label">OPPORTUNISTIC INFECTIONS BY CD4 COUNT:</span></p>
+                    <p><span class="label">CD4 <200 cells/µL:</span></p>
+                    <ul>
+                        <li><strong>Pneumocystis jirovecii pneumonia (PCP):</strong> Subacute onset (days-weeks). Fever, nonproductive cough, dyspnea on exertion, hypoxemia. CXR: diffuse bilateral interstitial infiltrates or normal. LDH elevated. Dx: sputum/BAL for DFA/PCR. Rx: TMP-SMX high-dose 15-20mg/kg/day (TMP component) + prednisone if PaO2 <70 or A-a gradient >35</li>
+                        <li><strong>Candida esophagitis:</strong> Odynophagia, dysphagia, retrosternal pain. Thrush often present. Dx: endoscopy shows white plaques. Rx: fluconazole 200-400mg daily × 14-21 days</li>
+                        <li><strong>Toxoplasma encephalitis:</strong> Headache, confusion, focal neurologic deficits, seizures. MRI: multiple ring-enhancing lesions (basal ganglia, corticomedullary junction). Dx: clinical + imaging, serum toxoplasma IgG positive. Rx: pyrimethamine + sulfadiazine + leucovorin</li>
+                        <li><strong>Progressive multifocal leukoencephalopathy (PML):</strong> JC virus reactivation. Rapidly progressive neurologic decline, weakness, ataxia, visual changes. MRI: non-enhancing white matter lesions. NO treatment except ART. 30-50% mortality</li>
+                    </ul>
+                    
+                    <p><span class="label">CD4 <100 cells/µL:</span></p>
+                    <ul>
+                        <li><strong>Cryptococcal meningitis:</strong> Subacute headache, fever, altered mental status. Minimal meningismus. Dx: LP shows elevated opening pressure (>25cm H2O), low glucose, high protein, positive CSF cryptococcal antigen (>95% sensitive). India ink 50% sensitive. Rx: amphotericin B + flucytosine × 2 weeks, then fluconazole consolidation. Therapeutic LP if OP >25cm</li>
+                        <li><strong>CMV retinitis:</strong> Painless vision loss, floaters. Fundoscopy: "pizza pie" appearance (hemorrhages + exudates). Dx: dilated eye exam. Rx: ganciclovir or foscarnet</li>
+                        <li><strong>CMV colitis/esophagitis:</strong> Diarrhea (often bloody), abdominal pain. Dx: colonoscopy with biopsy (CMV inclusion bodies). Rx: ganciclovir</li>
+                    </ul>
+                    
+                    <p><span class="label">CD4 <50 cells/µL:</span></p>
+                    <ul>
+                        <li><strong>Mycobacterium avium complex (MAC/MAI):</strong> Disseminated infection. High fever, night sweats, weight loss, diarrhea, hepatosplenomegaly, anemia. Blood cultures grow MAC (takes 2-4 weeks). Rx: azithromycin + ethambutol</li>
+                        <li><strong>CMV disease:</strong> See above</li>
+                    </ul>
+                    
+                    <p><span class="label">ANY CD4 COUNT (but more common with low CD4):</span></p>
+                    <ul>
+                        <li><strong>Tuberculosis (TB):</strong> Can occur at any CD4. More likely extrapulmonary/disseminated with CD4 <200. Chronic cough, fever, night sweats, weight loss. AFB smear/culture. Rx: RIPE therapy</li>
+                        <li><strong>Bacterial pneumonia (S. pneumoniae, H. influenzae):</strong> Increased risk even with preserved CD4. Acute onset fever, productive cough, infiltrate on CXR. Rx: standard CAP antibiotics</li>
+                        <li><strong>Kaposi sarcoma (KS):</strong> HHV-8 associated. Violaceous skin lesions, can involve GI tract, lungs. Dx: biopsy. Rx: ART (immune reconstitution treats KS), chemotherapy if severe</li>
+                        <li><strong>Non-Hodgkin lymphoma (NHL):</strong> Primary CNS lymphoma (ring-enhancing mass, single lesion - ddx from toxo). Rx: chemo + ART</li>
+                    </ul>
+                    
+                    <p><span class="label">IMMUNE RECONSTITUTION INFLAMMATORY SYNDROME (IRIS):</span></p>
+                    <ul>
+                        <li><strong>Definition:</strong> Paradoxical worsening of infection symptoms after starting ART due to recovering immune system. Typically occurs 2 weeks - 3 months after ART start</li>
+                        <li><strong>Presentation:</strong> New fever, worsening symptoms of prior infection (e.g., enlarging TB lymph nodes, worsening PCP infiltrates), new organ dysfunction</li>
+                        <li><strong>Common IRIS triggers:</strong> Mycobacterial infections (TB, MAC), cryptococcal meningitis, CMV, PCP, hepatitis B/C</li>
+                        <li><strong>Management:</strong> Continue ART (do NOT stop). Treat underlying infection. NSAIDs or corticosteroids for severe symptoms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">HIV Testing (if newly diagnosed):</span></p>
+                    <ul>
+                        <li><strong>4th generation Ag/Ab combo test:</strong> Detects HIV-1/2 antibodies + p24 antigen. Positive as early as 2-3 weeks post-exposure</li>
+                        <li><strong>Confirm with HIV-1/HIV-2 differentiation assay</strong></li>
+                        <li><strong>HIV viral load (HIV RNA PCR):</strong> Quantifies virus. Used for monitoring, not diagnosis (can be falsely positive)</li>
+                    </ul>
+                    
+                    <p><span class="label">Baseline Labs (New Diagnosis or Hospitalization):</span></p>
+                    <ul>
+                        <li><strong>CD4 count:</strong> Determines stage, guides prophylaxis, predicts OI risk</li>
+                        <li><strong>HIV viral load:</strong> Baseline for monitoring ART response</li>
+                        <li><strong>CBC with diff:</strong> Anemia, thrombocytopenia, leukopenia common</li>
+                        <li><strong>CMP:</strong> Renal function (ART dosing), LFTs (hepatotoxicity risk, coinfection)</li>
+                        <li><strong>Hepatitis B and C serology:</strong> High coinfection rates. HBV/HCV accelerate HIV progression</li>
+                        <li><strong>Syphilis (RPR/VDRL):</strong> High coinfection rates, atypical presentations common</li>
+                        <li><strong>Toxoplasma IgG:</strong> If positive, at risk for reactivation when CD4 <100</li>
+                        <li><strong>CMV IgG:</strong> If positive, risk for reactivation when CD4 <50</li>
+                        <li><strong>Glucose, lipid panel:</strong> Baseline for metabolic complications of ART</li>
+                        <li><strong>Pregnancy test (if applicable):</strong> ART regimen selection differs in pregnancy</li>
+                    </ul>
+                    
+                    <p><span class="label">Resistance Testing:</span></p>
+                    <ul>
+                        <li><strong>HIV genotype:</strong> Check for drug resistance mutations BEFORE starting ART. Guides regimen selection</li>
+                    </ul>
+                    
+                    <p><span class="label">Workup for Suspected Opportunistic Infection:</span></p>
+                    <ul>
+                        <li><strong>If respiratory symptoms:</strong> CXR, pulse ox/ABG, sputum for bacterial culture, AFB, PCP (DFA/PCR), fungal culture. Consider CT chest if CXR nondiagnostic. Blood cultures</li>
+                        <li><strong>If neurologic symptoms:</strong> MRI brain with contrast (ring-enhancing lesions: toxo vs lymphoma vs abscess). LP if meningitis suspected (opening pressure, cell count, protein, glucose, Gram stain, bacterial/fungal cultures, cryptococcal Ag, VDRL). Serum cryptococcal Ag (very sensitive for disseminated crypto)</li>
+                        <li><strong>If GI symptoms:</strong> Stool studies (C. diff, bacterial pathogens, ova/parasites, Cryptosporidium, Microsporidium). Consider endoscopy/colonoscopy for persistent diarrhea or GI bleeding (CMV, KS, lymphoma)</li>
+                        <li><strong>If fever without source:</strong> Blood cultures (bacterial and mycobacterial), serum cryptococcal Ag, CMV PCR, CT chest/abdomen/pelvis. Consider bone marrow biopsy if pancytopenia</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">ANTIRETROVIRAL THERAPY (ART) - WHEN TO START:</span></p>
+                    <ul>
+                        <li><strong>START ART AS SOON AS POSSIBLE in all patients with HIV</strong> regardless of CD4 count (2023 DHHS guidelines)</li>
+                        <li><strong>Timing in hospitalized patients:</strong>
+                            <ul>
+                                <li>If NO active opportunistic infection: Start ART immediately (within days)</li>
+                                <li>If active OI present: Start OI treatment first, then ART within 2 weeks (exceptions below)</li>
+                                <li>DELAY ART if: (1) TB meningitis (wait 8 weeks), (2) cryptococcal meningitis (wait 4-6 weeks after starting antifungals AND CSF sterilized), (3) other CNS infections where IRIS could cause herniation</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p><span class="label">INITIAL ART REGIMENS (Treatment-Naive):</span></p>
+                    <p><strong>Preferred regimens (2023 DHHS):</strong></p>
+                    <ul>
+                        <li><strong>Biktarvy (bictegravir/TAF/FTC):</strong> 1 tablet PO daily. Well-tolerated, high barrier to resistance, minimal drug interactions. Most common first-line choice</li>
+                        <li><strong>Dovato (dolutegravir/lamivudine):</strong> 1 tablet PO daily. Two-drug regimen, less nephrotoxicity. Cannot use if: HBV coinfection, HIV RNA >500,000, or before resistance testing</li>
+                        <li><strong>Triumeq (dolutegravir/abacavir/lamivudine):</strong> 1 tablet PO daily. REQUIRES HLA-B*5701 testing (abacavir hypersensitivity). Avoid if high cardiovascular risk</li>
+                        <li><strong>Symtuza (darunavir/cobicistat/TAF/FTC):</strong> 1 tablet PO daily with food. Protease inhibitor-based. Good for high viral loads or suspected resistance</li>
+                    </ul>
+                    
+                    <p><span class="label">ART in Special Populations:</span></p>
+                    <ul>
+                        <li><strong>Pregnancy:</strong> Start immediately. Preferred: dolutegravir-based or darunavir/ritonavir-based regimens. Avoid efavirenz (teratogenic)</li>
+                        <li><strong>Chronic kidney disease (CrCl <50):</strong> Avoid tenofovir disoproxil fumarate (TDF). Use tenofovir alafenamide (TAF) instead, or non-tenofovir regimens</li>
+                        <li><strong>Chronic hepatitis B coinfection:</strong> Must use ART regimen that treats both (tenofovir + emtricitabine or lamivudine). If stopping ART, monitor for HBV flare</li>
+                        <li><strong>TB coinfection:</strong> Drug interactions with rifamycins. Use dolutegravir 50mg BID (instead of daily) if on rifampin, or use efavirenz-based regimen</li>
+                    </ul>
+                    
+                    <p><span class="label">OPPORTUNISTIC INFECTION PROPHYLAXIS:</span></p>
+                    <p><strong>CD4 <200:</strong></p>
+                    <ul>
+                        <li><strong>PCP prophylaxis:</strong> TMP-SMX DS 1 tablet daily (or 3x/week). Alternative: dapsone 100mg daily, atovaquone 1500mg daily, or inhaled pentamidine 300mg monthly</li>
+                        <li><strong>Toxoplasmosis prophylaxis (if Toxo IgG positive):</strong> TMP-SMX DS provides dual prophylaxis for PCP + Toxo</li>
+                    </ul>
+                    <p><strong>CD4 <100:</strong></p>
+                    <ul>
+                        <li><strong>Toxoplasmosis prophylaxis (if not on TMP-SMX):</strong> Same as above</li>
+                    </ul>
+                    <p><strong>CD4 <50:</strong></p>
+                    <ul>
+                        <li><strong>MAC prophylaxis:</strong> Azithromycin 1200mg weekly (or 600mg twice weekly). Alternative: clarithromycin 500mg BID</li>
+                    </ul>
+                    <p><strong>CAN DISCONTINUE prophylaxis when:</strong> CD4 >200 for ≥3 months on ART with undetectable viral load</p>
+                    
+                    <p><span class="label">SUPPORTIVE CARE:</span></p>
+                    <ul>
+                        <li><strong>Nutrition:</strong> High-calorie, high-protein diet. Consider appetite stimulants if severe wasting (megestrol, dronabinol)</li>
+                        <li><strong>Vaccinations (once CD4 >200 on ART):</strong> Pneumococcal (PCV20 or PCV15 + PPSV23), influenza annually, COVID-19, Tdap, hepatitis A/B (if non-immune), HPV (if age <26), meningococcal, varicella/zoster (if CD4 >200). NO live vaccines if CD4 <200</li>
+                        <li><strong>Smoking cessation, substance use treatment:</strong> Critical for reducing comorbidities</li>
+                    </ul>
+                    
+                    <p><span class="label">MONITORING ART RESPONSE:</span></p>
+                    <ul>
+                        <li><strong>Viral load:</strong> Check 2-4 weeks after starting ART, then q4-8 weeks until undetectable (<50 copies/mL), then q3-6 months</li>
+                        <li><strong>CD4 count:</strong> Check q3-6 months until consistently >200-300, then annually</li>
+                        <li><strong>Goal:</strong> Undetectable viral load (<50) within 6 months. CD4 should increase 50-150 cells/µL per year</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearls-box">
+                <div class="pearls-title">💡 TEACHING PEARLS: HIV/AIDS COMPLICATIONS</div>
+                <ul>
+                    <li><strong>CD4 <200 = Start PCP prophylaxis IMMEDIATELY</strong> (don't wait for first episode). TMP-SMX DS daily is gold standard</li>
+                    <li><strong>Toxo encephalitis vs CNS lymphoma:</strong> Toxo = multiple ring-enhancing lesions, Toxo IgG positive, responds to empiric pyrimethamine/sulfadiazine within 7-14 days. Lymphoma = single lesion, no Toxo IgG, needs biopsy. Empiric trial of toxo treatment reasonable before brain biopsy</li>
+                    <li><strong>Cryptococcal meningitis = Check opening pressure and reduce if >25cm H2O</strong> (therapeutic LP). Elevated ICP causes most deaths. Repeat LPs daily if needed to keep OP <20cm</li>
+                    <li><strong>PCP can present with normal CXR</strong> in early disease. If high clinical suspicion + hypoxemia + elevated LDH → empiric treatment reasonable. Gallium scan or high-res CT more sensitive</li>
+                    <li><strong>CMV retinitis is a CLINICAL diagnosis</strong> by ophthalmology. Don't wait for PCR. Untreated → blindness within weeks</li>
+                    <li><strong>IRIS typically occurs 2 weeks to 3 months after starting ART.</strong> Paradoxical worsening of TB, cryptococcus, or MAC. Continue ART + treat OI + add steroids for severe cases</li>
+                    <li><strong>MAC bacteremia occurs at CD4 <50.</strong> Fever, night sweats, diarrhea, hepatosplenomegaly. Blood cultures take 2-4 weeks to grow. Start prophylaxis (azithromycin) if CD4 <50</li>
+                    <li><strong>HIV patients with bacterial pneumonia:</strong> Higher rates of S. pneumoniae, H. influenzae, and S. aureus. More severe disease. Treat like CAP but consider broader coverage</li>
+                    <li><strong>START ART in hospital if no contraindication</strong> (CNS OI, crypto meningitis, TB meningitis). Early ART improves outcomes. Consult ID if unsure</li>
+                    <li><strong>Abacavir hypersensitivity:</strong> Check HLA-B*5701 BEFORE starting. If positive, never give abacavir (can cause fatal reaction). If patient develops fever/rash/GI symptoms within 6 weeks of starting abacavir → stop immediately, never rechallenge</li>
+                    <li><strong>Drug interactions with ART:</strong> Integrase inhibitors (dolutegravir, bictegravir) have fewest interactions. Protease inhibitors (ritonavir, cobicistat) are major CYP3A4 inhibitors → many interactions. Check every new drug</li>
+                    <li><strong>Undetectable = Untransmittable (U=U).</strong> Patients with undetectable viral load on ART do not transmit HIV sexually. Important for patient counseling and reducing stigma</li>
+                </ul>
+            </div>
+            
+            <div class="two-column-criteria">
+                <div class="criteria-column">
+                    <div class="criteria-title">🚨 ICU ESCALATION CRITERIA</div>
+                    <ul>
+                        <li>Respiratory failure requiring intubation (PCP-ARDS, severe CAP)</li>
+                        <li>Septic shock requiring vasopressors</li>
+                        <li>Altered mental status with concern for herniation (toxo, crypto, PML, lymphoma)</li>
+                        <li>Severe lactic acidosis from sepsis or antiretrovirals</li>
+                        <li>Refractory seizures (toxo, CNS lymphoma, HIV encephalopathy)</li>
+                        <li>Massive GI bleeding (CMV colitis, KS, lymphoma)</li>
+                    </ul>
+                </div>
+                <div class="criteria-column">
+                    <div class="criteria-title">✅ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Opportunistic infection improving on treatment</li>
+                        <li>ART initiated (or patient on stable ART regimen)</li>
+                        <li>Tolerating PO intake, medications</li>
+                        <li>Appropriate outpatient follow-up arranged:
+                            <ul>
+                                <li>HIV specialist within 1-2 weeks</li>
+                                <li>Prophylaxis prescriptions filled (if CD4 <200)</li>
+                                <li>Case management, social work support</li>
+                            </ul>
+                        </li>
+                        <li>Patient counseled on medication adherence, safe sex practices, U=U</li>
+                        <li>If new diagnosis: Ryan White services, mental health support arranged</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="complications-section">
+                <div class="complications-title">⚠️ COMPLICATIONS TO MONITOR</div>
+                <div class="complications-grid">
+                    <div class="complication-item">
+                        <strong>ART Toxicities:</strong> Nephrotoxicity (tenofovir), hepatotoxicity, rash (especially NNRTIs), GI intolerance, metabolic (hyperlipidemia, hyperglycemia, lipodystrophy), bone loss (tenofovir), neuropsychiatric effects (efavirenz, dolutegravir)
+                    </div>
+                    <div class="complication-item">
+                        <strong>Immune Reconstitution Inflammatory Syndrome (IRIS):</strong> Worsening of OI after ART initiation. Common with TB, MAC, cryptococcus. Occurs 2 weeks-3 months post-ART. Continue ART, treat OI, add steroids for severe IRIS
+                    </div>
+                    <div class="complication-item">
+                        <strong>Drug Resistance:</strong> Develop if poor adherence. Check resistance testing if virologic failure (VL >200 after initial suppression). Switch to new regimen based on resistance mutations
+                    </div>
+                    <div class="complication-item">
+                        <strong>Chronic Comorbidities:</strong> Increased cardiovascular disease (integrate statins, ASA), chronic kidney disease (avoid tenofovir), osteoporosis (bone density screening), malignancies (especially cervical cancer, anal cancer - screen regularly)
+                    </div>
+                    <div class="complication-item">
+                        <strong>Mental Health:</strong> Depression, anxiety, substance use common. Screen regularly. Adherence counseling critical
+                    </div>
+                    <div class="complication-item">
+                        <strong>Hepatitis B/C Coinfection:</strong> Accelerates liver disease. Treat both. If stopping ART with HBV coinfection → risk of fulminant hepatitis B flare
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-top">
+                <a href="#top" onclick="document.getElementById('search-box').scrollIntoView({behavior: 'smooth'}); return false;">↑ Back to Top</a>
+            </div>
+        </div>
 
-<!-- ============================================ -->
 <!-- CONDITION 67: OPPORTUNISTIC INFECTIONS IN IMMUNOCOMPROMISED HOST -->
 <!-- ============================================ -->
-<div class="condition" id="opportunistic">
-    <h2>Opportunistic Infections in Immunocompromised Host</h2>
-    <p><em>[Content to be added in Phase 4]</em></p>
-</div>
+        <div id="opportunistic" class="condition-page">
+            <div class="page-header">
+                <h2>67. OPPORTUNISTIC INFECTIONS IN IMMUNOCOMPROMISED HOST</h2>
+                <div class="subtitle">Non-HIV Immunosuppression • Transplant • Chemotherapy • Biologics • High-Index Suspicion</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Immunocompromised Populations at Risk:</span></p>
+                    <ul>
+                        <li><strong>Solid organ transplant recipients:</strong> On chronic immunosuppression (tacrolimus, mycophenolate, prednisone). Highest risk first 6 months post-transplant</li>
+                        <li><strong>Hematopoietic stem cell transplant (HSCT):</strong> Profound immunosuppression. Risk varies by time post-transplant and GVHD status</li>
+                        <li><strong>Hematologic malignancies:</strong> Leukemia, lymphoma, multiple myeloma. Disease + chemotherapy cause immunosuppression</li>
+                        <li><strong>Solid tumor malignancies on chemotherapy:</strong> Neutropenia (ANC <500) is major risk factor</li>
+                        <li><strong>Chronic high-dose corticosteroids:</strong> ≥20mg prednisone daily × ≥2 weeks. Risk proportional to dose + duration</li>
+                        <li><strong>Biologic immunosuppressants:</strong> TNF-α inhibitors (infliximab, adalimumab, etanercept), rituximab (anti-CD20), JAK inhibitors. Risk of reactivation TB, fungal infections, viral reactivation</li>
+                        <li><strong>Chronic kidney disease (dialysis):</strong> Impaired cell-mediated immunity, uremia effects</li>
+                        <li><strong>Diabetes mellitus:</strong> Increased risk bacterial, fungal infections (especially if poor glucose control)</li>
+                        <li><strong>Cirrhosis/end-stage liver disease:</strong> Impaired opsonization, complement deficiency, bacterial translocation</li>
+                        <li><strong>Asplenia (surgical or functional):</strong> Encapsulated organism risk (S. pneumoniae, H. influenzae, N. meningitidis, Capnocytophaga)</li>
+                    </ul>
+                    
+                    <p><span class="label">Timing of Infections Post-Transplant:</span></p>
+                    <p><strong>Early (<1 month):</strong></p>
+                    <ul>
+                        <li>Nosocomial infections (surgical site, catheter-related, Clostridioides difficile, aspiration pneumonia)</li>
+                        <li>Donor-derived infections</li>
+                    </ul>
+                    <p><strong>Intermediate (1-6 months):</strong></p>
+                    <ul>
+                        <li><strong>Highest OI risk period.</strong> Peak immunosuppression</li>
+                        <li>CMV disease, EBV (PTLD), BK virus (kidney transplant), HHV-6</li>
+                        <li>Pneumocystis jirovecii pneumonia (if no prophylaxis)</li>
+                        <li>Invasive fungal infections: Aspergillus, Mucorales, endemic fungi (Histoplasma, Coccidioides, Blastomyces)</li>
+                        <li>Toxoplasma (heart transplant from Toxo+ donor)</li>
+                        <li>Nocardia, Listeria meningitis</li>
+                    </ul>
+                    <p><strong>Late (>6 months):</strong></p>
+                    <ul>
+                        <li>Community-acquired infections (similar to general population)</li>
+                        <li>Reactivation of latent infections (TB, strongyloidiasis, Chagas, endemic fungi)</li>
+                        <li>CMV if chronic rejection requiring increased immunosuppression</li>
+                    </ul>
+                    
+                    <p><span class="label">KEY OPPORTUNISTIC PATHOGENS BY TYPE:</span></p>
+                    <p><span class="label">FUNGAL INFECTIONS:</span></p>
+                    <ul>
+                        <li><strong>Invasive Aspergillosis:</strong> Prolonged neutropenia, HSCT, lung transplant, high-dose steroids. Fever unresponsive to antibiotics, cough, hemoptysis, pleuritic pain. CT chest: nodules with "halo sign" (ground-glass opacity around nodule), "air crescent sign" (later). Galactomannan in serum/BAL. Rx: voriconazole 6mg/kg IV q12h ×2 doses → 4mg/kg IV q12h. Alternative: isavuconazole, liposomal amphotericin B</li>
+                        <li><strong>Mucormycosis (Zygomycosis):</strong> Diabetes (DKA), neutropenia, iron overload, deferoxamine therapy. RAPIDLY PROGRESSIVE. Rhinocerebral (facial pain, nasal necrosis, black eschar, vision changes), pulmonary (hemoptysis), disseminated. CT: sinus opacification, bone destruction. Dx: tissue biopsy (broad nonseptate hyphae). Rx: urgent surgical debridement + liposomal amphotericin B 5-10mg/kg/day. High mortality (30-70%)</li>
+                        <li><strong>Cryptococcus (non-HIV):</strong> Solid organ transplant, TNF-α inhibitors, chronic steroids. Meningitis (headache, fever, AMS). Pulmonary nodules/infiltrates. Dx: serum/CSF cryptococcal Ag, CSF culture. Rx: amphotericin B + flucytosine</li>
+                        <li><strong>Endemic Mycoses:</strong>
+                            <ul>
+                                <li><strong>Histoplasmosis:</strong> Ohio/Mississippi River valleys. Disseminated disease in immunocompromised (fever, hepatosplenomegaly, pancytopenia). Urine/serum Histoplasma Ag. Rx: liposomal amphotericin B (severe) or itraconazole (mild-moderate)</li>
+                                <li><strong>Coccidioidomycosis:</strong> Southwest US. Pulmonary or disseminated (meningitis, bone/joint). CF test, coccidioidal Ab. Rx: fluconazole (meningitis), amphotericin B (severe)</li>
+                                <li><strong>Blastomycosis:</strong> Midwest/Southeast US. Pulmonary + skin lesions. Dx: culture, Blasto Ag urine. Rx: itraconazole or amphotericin B</li>
+                            </ul>
+                        </li>
+                        <li><strong>Candida:</strong> Bloodstream infection (candidemia), hepatosplenic candidiasis, esophagitis. Remove central lines. Rx: echinocandin (caspofungin, micafungin) first-line. Fluconazole if susceptible species + stable patient</li>
+                    </ul>
+                    
+                    <p><span class="label">VIRAL INFECTIONS:</span></p>
+                    <ul>
+                        <li><strong>Cytomegalovirus (CMV):</strong> Transplant recipients (especially if donor+/recipient-), HSCT. CMV syndrome (fever, malaise, leukopenia, thrombocytopenia), end-organ disease (pneumonitis, colitis, hepatitis, retinitis). Dx: CMV PCR (quantitative viral load), tissue biopsy ("owl's eye" inclusion bodies). Rx: ganciclovir 5mg/kg IV q12h or valganciclovir 900mg PO BID × 2-3 weeks, then maintenance if ongoing immunosuppression</li>
+                        <li><strong>BK virus:</strong> Kidney transplant recipients. BK nephropathy → graft dysfunction, hematuria. Urine/plasma BK PCR. Rx: reduce immunosuppression, cidofovir or leflunomide (off-label)</li>
+                        <li><strong>EBV (Post-Transplant Lymphoproliferative Disorder - PTLD):</strong> B-cell lymphoma driven by EBV. Lymphadenopathy, extranodal masses, organ dysfunction. Elevated EBV PCR. Dx: biopsy. Rx: reduce immunosuppression, rituximab, chemotherapy</li>
+                        <li><strong>Varicella-Zoster Virus (VZV):</strong> Reactivation → disseminated zoster (multi-dermatomal, visceral involvement). Rx: acyclovir 10-15mg/kg IV q8h</li>
+                        <li><strong>Herpes Simplex Virus (HSV):</strong> Severe mucocutaneous disease, esophagitis, encephalitis. Rx: acyclovir IV</li>
+                        <li><strong>Adenovirus:</strong> HSCT, pediatric transplants. Pneumonia, hepatitis, hemorrhagic cystitis, disseminated disease. Dx: PCR. Rx: cidofovir (nephrotoxic), reduce immunosuppression</li>
+                        <li><strong>Respiratory viruses (RSV, influenza, parainfluenza, human metapneumovirus):</strong> Severe pneumonia in immunocompromised. Dx: respiratory viral panel (PCR). Rx: supportive, oseltamivir (influenza), ribavirin (RSV - off-label)</li>
+                    </ul>
+                    
+                    <p><span class="label">BACTERIAL INFECTIONS:</span></p>
+                    <ul>
+                        <li><strong>Listeria monocytogenes:</strong> Meningitis, bacteremia. Transplant recipients, chronic steroids, elderly. Rx: ampicillin 2g IV q4h + gentamicin</li>
+                        <li><strong>Nocardia:</strong> Chronic steroids, transplant recipients. Pulmonary nodules/cavities, brain abscesses, disseminated. Dx: culture (slow-growing, modified AFB stain). Rx: TMP-SMX high-dose, prolonged therapy (6-12 months)</li>
+                        <li><strong>Mycobacterium tuberculosis:</strong> Reactivation common in TNF-α inhibitor users, transplant recipients. Screen with IGRA before starting biologics. Rx: standard RIPE therapy, but watch drug interactions (rifampin ↓ immunosuppressant levels)</li>
+                        <li><strong>Nontuberculous mycobacteria (NTM):</strong> M. avium complex, M. abscessus. Pulmonary disease, disseminated. Dx: culture. Rx: macrolide-based multi-drug regimens</li>
+                        <li><strong>Encapsulated organisms (asplenia):</strong> S. pneumoniae, H. influenzae, N. meningitidis. Overwhelming post-splenectomy sepsis (OPSS). Rx: immediate broad-spectrum antibiotics (ceftriaxone + vancomycin), aggressive resuscitation</li>
+                        <li><strong>Legionella:</strong> Transplant recipients. Severe pneumonia. Dx: urinary Ag. Rx: fluoroquinolone or azithromycin</li>
+                    </ul>
+                    
+                    <p><span class="label">PARASITIC INFECTIONS:</span></p>
+                    <ul>
+                        <li><strong>Toxoplasma gondii:</strong> Heart transplant (donor+/recipient-), HSCT. Encephalitis (fever, AMS, focal deficits, seizures), myocarditis. MRI: ring-enhancing lesions. Dx: serology, PCR, biopsy. Rx: pyrimethamine + sulfadiazine + leucovorin</li>
+                        <li><strong>Strongyloides stercoralis hyperinfection:</strong> HTLV-1 coinfection, corticosteroids, transplant. GI symptoms (diarrhea, abdominal pain), pulmonary infiltrates, Gram-negative bacteremia/meningitis (larvae carry bacteria). Dx: stool O&P (insensitive), serology, BAL. Rx: ivermectin 200mcg/kg/day × ≥2 days (may need prolonged)</li>
+                        <li><strong>Cryptosporidium, Microsporidia, Isospora:</strong> Chronic diarrhea. Dx: stool special stains. Rx: nitazoxanide (Crypto), albendazole (Microsporidia), TMP-SMX (Isospora)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Initial Assessment:</span></p>
+                    <ul>
+                        <li><strong>History:</strong> Type of immunosuppression, duration, specific agents, recent changes in regimen. Prior infections, prophylaxis medications. Travel history, exposures, endemic area residence</li>
+                        <li><strong>Physical exam:</strong> Skin lesions (fungal, viral, Nocardia), oropharynx (thrush), lung exam, neurologic exam, fundoscopy (CMV retinitis)</li>
+                    </ul>
+                    
+                    <p><span class="label">Laboratory Studies:</span></p>
+                    <ul>
+                        <li><strong>CBC with diff:</strong> Neutropenia (ANC), lymphopenia, anemia, thrombocytopenia</li>
+                        <li><strong>CMP:</strong> Renal function (drug dosing, nephrotoxicity), LFTs (hepatitis, drug toxicity)</li>
+                        <li><strong>Inflammatory markers:</strong> CRP, ESR (may be blunted in immunosuppressed)</li>
+                        <li><strong>Blood cultures:</strong> Bacterial, fungal (hold ≥5 days for fungal)</li>
+                        <li><strong>Serum fungal biomarkers:</strong> Galactomannan (Aspergillus), (1,3)-β-D-glucan (most invasive fungi), Cryptococcal Ag, Histoplasma Ag, Blastomyces Ag, Coccidioides Ab</li>
+                        <li><strong>Viral PCR:</strong> CMV quantitative PCR, EBV PCR, BK virus PCR (urine/plasma)</li>
+                        <li><strong>Immunosuppressant drug levels:</strong> Tacrolimus, cyclosporine, sirolimus (under-immunosuppression → rejection, over → infections)</li>
+                    </ul>
+                    
+                    <p><span class="label">Imaging:</span></p>
+                    <ul>
+                        <li><strong>CXR:</strong> Initial screening. Nodules, infiltrates, cavities</li>
+                        <li><strong>CT chest (high-resolution, with contrast):</strong> More sensitive for pulmonary infections. Look for: halo sign (Aspergillus), nodules, tree-in-bud (atypical mycobacteria), cavitation (Nocardia, TB, fungi)</li>
+                        <li><strong>CT sinuses:</strong> If facial pain, headache (Mucor, Aspergillus)</li>
+                        <li><strong>MRI brain with contrast:</strong> If neurologic symptoms. Ring-enhancing lesions (Toxo, Nocardia, fungi, abscess), meningeal enhancement (Listeria, Crypto, TB)</li>
+                        <li><strong>CT abdomen/pelvis:</strong> Hepatosplenic candidiasis, CMV colitis, typhlitis</li>
+                    </ul>
+                    
+                    <p><span class="label">Invasive Diagnostics (Often Necessary):</span></p>
+                    <ul>
+                        <li><strong>Bronchoscopy with BAL:</strong> Send for: bacterial/fungal/AFB/viral cultures, Galactomannan, PCP DFA/PCR, cytology, CMV PCR. Consider transbronchial biopsy</li>
+                        <li><strong>Lumbar puncture:</strong> If meningitis suspected. Opening pressure, cell count, protein, glucose, Gram stain, bacterial/fungal/AFB cultures, Cryptococcal Ag, VDRL, HSV/VZV PCR, CMV PCR, Toxoplasma PCR</li>
+                        <li><strong>Tissue biopsy:</strong> Skin lesions, lymph nodes, lung nodules. Send for histopathology (special stains: GMS, PAS, AFB) + culture (bacterial, fungal, AFB, viral). CRITICAL for diagnosing invasive fungal infections</li>
+                        <li><strong>Bone marrow biopsy:</strong> If fever without source + pancytopenia. Culture for fungi, AFB, Histoplasma Ag</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">General Principles:</span></p>
+                    <ul>
+                        <li><strong>LOW THRESHOLD for empiric broad-spectrum therapy.</strong> Immunocompromised patients deteriorate rapidly</li>
+                        <li><strong>Consider reducing immunosuppression</strong> (coordinate with transplant team or oncologist). Balance infection control vs rejection/GVHD risk</li>
+                        <li><strong>Prolonged treatment courses</strong> often needed (weeks to months)</li>
+                        <li><strong>Combination therapy</strong> for invasive fungal infections</li>
+                        <li><strong>Monitor drug levels</strong> and interactions (especially azoles with calcineurin inhibitors)</li>
+                    </ul>
+                    
+                    <p><span class="label">Empiric Therapy for Fever in Neutropenic Patient (ANC <500):</span></p>
+                    <ul>
+                        <li><strong>Piperacillin-tazobactam 4.5g IV q6h</strong> OR <strong>cefepime 2g IV q8h</strong> OR <strong>meropenem 1g IV q8h</strong> (if high MDRO risk, prior resistant organisms, or severe sepsis)</li>
+                        <li><strong>Add vancomycin</strong> if: skin/soft tissue infection, catheter-related infection, hemodynamic instability, or known MRSA colonization</li>
+                        <li><strong>Add antifungal</strong> if fever persists >4-7 days on antibiotics: Start empiric echinocandin (caspofungin 70mg load → 50mg daily, or micafungin 100mg daily) OR liposomal amphotericin B 3-5mg/kg/day</li>
+                    </ul>
+                    
+                    <p><span class="label">Empiric Therapy for Pulmonary Infiltrates:</span></p>
+                    <ul>
+                        <li><strong>Bacterial coverage:</strong> Piperacillin-tazobactam or cefepime or meropenem (as above) + azithromycin 500mg IV daily (atypical coverage)</li>
+                        <li><strong>PCP coverage:</strong> TMP-SMX 15-20mg/kg/day (TMP component) divided q6-8h. Add prednisone 40mg BID if moderate-severe hypoxemia (PaO2 <70 or A-a gradient >35)</li>
+                        <li><strong>Aspergillus/mold coverage:</strong> Voriconazole 6mg/kg IV q12h ×2 doses → 4mg/kg q12h. Consider if: prolonged neutropenia, HSCT, lung transplant, nodules on CT, hemoptysis</li>
+                    </ul>
+                    
+                    <p><span class="label">Specific Treatments (see Clinical Presentation for details):</span></p>
+                    <ul>
+                        <li><strong>Invasive Aspergillosis:</strong> Voriconazole (first-line) OR isavuconazole OR liposomal amphotericin B. Consider combination therapy (vori + echinocandin) for severe disease</li>
+                        <li><strong>Mucormycosis:</strong> Urgent surgical debridement + liposomal amphotericin B 5-10mg/kg/day. Add posaconazole or isavuconazole as step-down. HIGH MORTALITY</li>
+                        <li><strong>CMV disease:</strong> Ganciclovir 5mg/kg IV q12h (induction) × 2-3 weeks → valganciclovir 900mg daily (maintenance). Alternative: foscarnet (if ganciclovir-resistant or severe myelosuppression). Monitor CMV PCR to guide duration</li>
+                        <li><strong>Toxoplasma encephalitis:</strong> Pyrimethamine 200mg loading → 50-75mg daily + sulfadiazine 1-1.5g q6h + leucovorin 10-25mg daily × ≥6 weeks</li>
+                        <li><strong>Nocardia:</strong> TMP-SMX 5mg/kg (TMP component) IV q6-8h × 6-12 months. Add imipenem or amikacin for CNS disease or severe infection</li>
+                        <li><strong>Listeria meningitis:</strong> Ampicillin 2g IV q4h + gentamicin 5-7mg/kg/day × ≥21 days</li>
+                        <li><strong>Strongyloides hyperinfection:</strong> Ivermectin 200mcg/kg/day × ≥2 days (may need weeks for disseminated). Add albendazole if severe. Treat concurrent Gram-negative sepsis</li>
+                    </ul>
+                    
+                    <p><span class="label">Prophylaxis (Prevention):</span></p>
+                    <ul>
+                        <li><strong>PCP prophylaxis:</strong> TMP-SMX DS 1 tab daily or 3x/week. Indicated for: HSCT, high-dose steroids (≥20mg prednisone ×≥1 month), hematologic malignancies, selected solid organ transplants. Alternative: dapsone, atovaquone, inhaled pentamidine</li>
+                        <li><strong>Fungal prophylaxis:</strong> Fluconazole (Candida) or posaconazole/voriconazole (mold) for high-risk patients (HSCT, AML/MDS with prolonged neutropenia)</li>
+                        <li><strong>CMV prophylaxis (transplant):</strong> Valganciclovir 900mg daily (adjust for CrCl) if high-risk (D+/R-, lung transplant, treatment of rejection). Monitor CMV PCR (preemptive strategy)</li>
+                        <li><strong>HSV/VZV prophylaxis:</strong> Acyclovir 400mg BID or valacyclovir 500mg daily for HSCT or frequent reactivations</li>
+                    </ul>
+                    
+                    <p><span class="label">Immunomodulation:</span></p>
+                    <ul>
+                        <li><strong>G-CSF (filgrastim, pegfilgrastim):</strong> For prolonged neutropenia after chemotherapy. Accelerates neutrophil recovery</li>
+                        <li><strong>IVIG:</strong> For hypogammaglobulinemia (IgG <400mg/dL) with recurrent infections</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearls-box">
+                <div class="pearls-title">💡 TEACHING PEARLS: OPPORTUNISTIC INFECTIONS IN IMMUNOCOMPROMISED</div>
+                <ul>
+                    <li><strong>"Fever + neutropenia = Emergency."</strong> ANC <500 + fever (≥38.3°C or ≥38°C × 1hr) = neutropenic fever. Start broad-spectrum antibiotics within 1 hour. Don't wait for cultures</li>
+                    <li><strong>Invasive Aspergillus: Think "halo sign" on CT chest</strong> (ground-glass opacity surrounding nodule). Classic for angioinvasive Aspergillus in neutropenic patients. Air crescent sign appears later (healing phase)</li>
+                    <li><strong>Mucormycosis = SURGICAL EMERGENCY.</strong> Rapidly progressive, angioinvasive. Black nasal eschar, facial pain, vision changes. Amphotericin B + urgent surgical debridement. Don't delay for biopsy if high suspicion</li>
+                    <li><strong>TNF-α inhibitors → Reactivation TB and invasive fungal infections.</strong> Screen for latent TB (IGRA) and endemic fungi before starting biologics. Treat LTBI with isoniazid × 9 months or rifampin × 4 months before starting biologic</li>
+                    <li><strong>Strongyloides hyperinfection in steroid users:</strong> Can disseminate when steroids given. Presents with severe diarrhea, Gram-negative sepsis/meningitis (larvae carry gut bacteria). Screen for Strongyloides serology before starting immunosuppression in endemic areas. Treat with ivermectin if positive</li>
+                    <li><strong>CMV in transplant: "Donor+/Recipient-" = HIGHEST RISK.</strong> Seropositive donor → seronegative recipient. Give prophylaxis (valganciclovir) or preemptive therapy (monitor CMV PCR weekly, treat if positive)</li>
+                    <li><strong>PCP prophylaxis = TMP-SMX DS daily or 3x/week.</strong> Indicated for chronic steroids ≥20mg × ≥1 month, HSCT, hematologic malignancies on chemotherapy, selected transplants. CD4 <200 also indication (HIV)</li>
+                    <li><strong>Nocardia presents with "brain abscess + lung nodules"</strong> in chronically immunosuppressed. Modified AFB stain positive (weakly acid-fast). Long treatment (TMP-SMX × 6-12 months)</li>
+                    <li><strong>Listeria meningitis in transplant/elderly:</strong> CSF shows lymphocytic pleocytosis (mimics viral). Gram stain: Gram-positive rods. MUST use ampicillin (cephalosporins don't work). Add gentamicin for synergy</li>
+                    <li><strong>Cryptococcus in non-HIV:</strong> More likely disseminated disease (meningitis + pulmonary). Check serum Cryptococcal Ag (highly sensitive). LP: opening pressure, CSF Crypto Ag. Rx: amphotericin B + flucytosine</li>
+                    <li><strong>Galactomannan: Aspergillus screening test.</strong> Serum galactomannan (sensitivity 70-80% for invasive aspergillosis). BAL galactomannan more sensitive (>90%). False positives: piperacillin-tazobactam, some food</li>
+                    <li><strong>Asplenia → Encapsulated organism risk (S. pneumoniae, H. influenzae, N. meningitidis).</strong> Vaccinate 2 weeks before splenectomy if elective: PCV20/PCV15+PPSV23, Hib, MenACWY + MenB. If emergent splenectomy, vaccinate 2 weeks post-op. Lifetime penicillin prophylaxis (PCN VK 250mg BID or amoxicillin 250mg BID) controversial but reasonable</li>
+                </ul>
+            </div>
+            
+            <div class="two-column-criteria">
+                <div class="criteria-column">
+                    <div class="criteria-title">🚨 ICU ESCALATION CRITERIA</div>
+                    <ul>
+                        <li>Neutropenic septic shock requiring vasopressors</li>
+                        <li>Respiratory failure requiring intubation (invasive Aspergillus ARDS, PCP, CMV pneumonitis)</li>
+                        <li>Severe mucormycosis requiring urgent surgical debridement</li>
+                        <li>CNS infection with concern for herniation (Toxo, Nocardia abscess, Listeria meningitis, fungal)</li>
+                        <li>Multi-organ dysfunction from sepsis</li>
+                        <li>Typhlitis (neutropenic colitis) with perforation risk</li>
+                    </ul>
+                </div>
+                <div class="criteria-column">
+                    <div class="criteria-title">✅ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Neutropenia resolved (ANC >500) or improving trend</li>
+                        <li>Afebrile ≥24-48 hours</li>
+                        <li>Infection controlled on oral antimicrobials (or IV with home infusion arranged)</li>
+                        <li>Hemodynamically stable</li>
+                        <li>Tolerating PO intake</li>
+                        <li>Appropriate outpatient follow-up:
+                            <ul>
+                                <li>Transplant ID or Oncology within 1 week</li>
+                                <li>Home health for IV antibiotics if needed</li>
+                                <li>Prophylaxis medications prescribed</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="complications-section">
+                <div class="complications-title">⚠️ COMPLICATIONS TO MONITOR</div>
+                <div class="complications-grid">
+                    <div class="complication-item">
+                        <strong>Septic Shock:</strong> Rapid deterioration despite antibiotics. Early goal-directed therapy (fluids, vasopressors, source control). Consider G-CSF if neutropenic
+                    </div>
+                    <div class="complication-item">
+                        <strong>Respiratory Failure:</strong> ARDS from PCP, invasive Aspergillus, CMV pneumonitis. High mortality if mechanical ventilation required. Early bronchoscopy for diagnosis
+                    </div>
+                    <div class="complication-item">
+                        <strong>Drug Toxicities:</strong> Nephrotoxicity (amphotericin B, aminoglycosides, foscarnet, cidofovir), hepatotoxicity (azoles, TMP-SMX), myelosuppression (ganciclovir, TMP-SMX, flucytosine). Monitor levels, adjust doses, supportive care
+                    </div>
+                    <div class="complication-item">
+                        <strong>Drug Interactions:</strong> Azoles (voriconazole, posaconazole) are CYP3A4 inhibitors → increase tacrolimus/cyclosporine/sirolimus levels. Monitor drug levels closely, adjust doses. Rifampin decreases immunosuppressant levels → rejection risk
+                    </div>
+                    <div class="complication-item">
+                        <strong>Multi-Drug Resistant Organisms:</strong> ESBL, CRE, VRE, MRSA. Common in transplant recipients with frequent hospitalizations. Carbapenem or polymyxin-based regimens. Infection control precautions
+                    </div>
+                    <div class="complication-item">
+                        <strong>Relapse/Recurrence:</strong> Common if immunosuppression continues. Secondary prophylaxis often needed (e.g., fluconazole after candidemia, voriconazole after Aspergillus). Prolonged treatment courses
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-top">
+                <a href="#top" onclick="document.getElementById('search-box').scrollIntoView({behavior: 'smooth'}); return false;">↑ Back to Top</a>
+            </div>
+        </div>
 
-<!-- ============================================ -->
 <!-- CONDITION 68: HYPERTHYROIDISM/THYROTOXICOSIS -->
 <!-- ============================================ -->
-<div class="condition" id="hyperthyroid">
-    <h2>Hyperthyroidism/Thyrotoxicosis (Non-Storm)</h2>
-    <p><em>[Content to be added in Phase 5]</em></p>
-</div>
+        <div id="hyperthyroid" class="condition-page">
+            <div class="page-header">
+                <h2>68. HYPERTHYROIDISM/THYROTOXICOSIS (NON-STORM)</h2>
+                <div class="subtitle">Graves Disease • Toxic Adenoma • Thyroiditis • Beta-Blockers + Thiou
 
-<!-- ============================================ -->
+reas</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Note:</span> This section covers NON-STORM hyperthyroidism. For Thyroid Storm (life-threatening emergency), see Condition #31</p>
+                    
+                    <p><span class="label">Common Etiologies:</span></p>
+                    <ul>
+                        <li><strong>Graves disease (60-80%):</strong> Autoimmune (TSI antibodies stimulate TSH receptor). Diffuse toxic goiter. Associated findings: exophthalmos (proptosis), pretibial myxedema, thyroid acromegaly (hand swelling)</li>
+                        <li><strong>Toxic multinodular goiter (15-20%):</strong> Autonomously functioning nodules. More common in elderly. Gradual onset</li>
+                        <li><strong>Toxic adenoma (solitary hot nodule, 3-5%):</strong> Single hyperfunctioning nodule. Uptake in nodule, suppression of rest of gland on scan</li>
+                        <li><strong>Thyroiditis (subacute, silent, postpartum):</strong> Transient hyperthyroid phase (thyroid inflammation → hormone release) followed by hypothyroid phase. Tender thyroid (subacute), painless (silent/postpartum). LOW radioiodine uptake (vs high in Graves/toxic nodules)</li>
+                        <li><strong>Iodine-induced (Jod-Basedow phenomenon):</strong> Excess iodine exposure (contrast, amiodarone, iodine supplements) → thyrotoxicosis in patients with underlying thyroid disease</li>
+                        <li><strong>Amiodarone-induced thyrotoxicosis (AIT):</strong> Type 1 (iodine-induced, pre-existing thyroid disease) vs Type 2 (destructive thyroiditis from amiodarone)</li>
+                        <li><strong>Exogenous thyroid hormone:</strong> Over-replacement, factitious thyrotoxicosis (thyrotoxicosis factitia), weight-loss supplements</li>
+                    </ul>
+                    
+                    <p><span class="label">Classic Symptoms:</span></p>
+                    <ul>
+                        <li><strong>Metabolic:</strong> Weight loss despite increased appetite (most common presenting symptom), heat intolerance, increased sweating</li>
+                        <li><strong>Cardiovascular:</strong> Palpitations, tachycardia (often sinus), atrial fibrillation (10-15%, especially elderly), increased pulse pressure (wide), systolic hypertension</li>
+                        <li><strong>Neuropsychiatric:</strong> Anxiety, nervousness, emotional lability, insomnia, tremor (fine), hyperreflexia, proximal muscle weakness</li>
+                        <li><strong>GI:</strong> Increased frequency of bowel movements (not frank diarrhea usually), nausea</li>
+                        <li><strong>Reproductive:</strong> Oligomenorrhea or amenorrhea (women), decreased libido, gynecomastia (men)</li>
+                        <li><strong>Dermatologic:</strong> Warm, moist skin, fine hair, onycholysis (nail separation), pretibial myxedema (Graves), palmar erythema</li>
+                    </ul>
+                    
+                    <p><span class="label">Physical Exam Findings:</span></p>
+                    <ul>
+                        <li><strong>Goiter:</strong> Diffusely enlarged (Graves), nodular (toxic MNG/adenoma), or tender (thyroiditis)</li>
+                        <li><strong>Thyroid bruit:</strong> Audible over thyroid (Graves - increased vascularity)</li>
+                        <li><strong>Ocular:</strong> Lid lag, lid retraction, stare. Exophthalmos/proptosis (Graves only - infiltrative ophthalmopathy from TSI antibodies)</li>
+                        <li><strong>Cardiovascular:</strong> Tachycardia, widened pulse pressure, systolic flow murmur (high output)</li>
+                        <li><strong>Neuromuscular:</strong> Fine tremor, hyperreflexia, proximal muscle weakness</li>
+                    </ul>
+                    
+                    <p><span class="label">Apathetic Thyrotoxicosis (Elderly):</span></p>
+                    <ul>
+                        <li><strong>Presentation:</strong> Atypical, "apathetic" - Depression, lethargy, weight loss, atrial fibrillation, heart failure. LACK hyperadrenergic symptoms (anxiety, tremor, heat intolerance). High index of suspicion needed</li>
+                    </ul>
+                    
+                    <p><span class="label">Thyrotoxic Periodic Paralysis:</span></p>
+                    <ul>
+                        <li><strong>Presentation:</strong> Sudden-onset muscle weakness/paralysis (usually lower extremities). Hypokalemia (K+ shifts intracellularly). More common in Asian males. Triggered by high-carb meals, exercise. Treat hypokalemia + underlying thyrotoxicosis</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Thyroid Function Tests:</span></p>
+                    <ul>
+                        <li><strong>TSH:</strong> Suppressed (<0.01 mIU/L) in primary hyperthyroidism. FIRST test to order</li>
+                        <li><strong>Free T4:</strong> Elevated (>1.8 ng/dL). Confirms hyperthyroidism if TSH low</li>
+                        <li><strong>Free T3:</strong> Elevated (>4.0 pg/mL). Can be elevated when T4 normal (T3 toxicosis). Check if TSH low but T4 normal</li>
+                        <li><strong>Interpretation:</strong>
+                            <ul>
+                                <li>Low TSH + High Free T4/T3 = Primary hyperthyroidism (thyroid gland problem)</li>
+                                <li>Low TSH + Normal Free T4/T3 = Subclinical hyperthyroidism</li>
+                                <li>High TSH + High Free T4 = Central hyperthyroidism (pituitary adenoma - rare) or assay interference</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p><span class="label">Etiology Workup (Determine Cause):</span></p>
+                    <ul>
+                        <li><strong>TSI (Thyroid-Stimulating Immunoglobulin) or TRAb (TSH Receptor Antibody):</strong> Positive in Graves disease (95%). Confirms autoimmune etiology. Order if Graves suspected</li>
+                        <li><strong>Radioactive Iodine Uptake (RAIU) scan:</strong> Determines etiology based on uptake pattern:
+                            <ul>
+                                <li><strong>HIGH uptake (>30% at 24hr):</strong> Graves disease (diffuse uptake), toxic multinodular goiter (patchy uptake), toxic adenoma (focal uptake with suppression elsewhere)</li>
+                                <li><strong>LOW uptake (<5%):</strong> Thyroiditis (subacute, silent, postpartum), exogenous thyroid hormone, iodine-induced, amiodarone type 2, struma ovarii (ectopic thyroid tissue in ovary)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Thyroid ultrasound:</strong> Evaluate nodules, goiter size/character. Increased vascularity (Doppler) suggests Graves. Hypoechoic, heterogeneous suggests thyroiditis</li>
+                        <li><strong>ESR/CRP:</strong> Elevated in subacute thyroiditis (painful). Normal in Graves, toxic nodules</li>
+                        <li><strong>Thyroglobulin:</strong> Elevated in thyroiditis (thyroid destruction releases Tg). Suppressed in exogenous hormone use</li>
+                    </ul>
+                    
+                    <p><span class="label">Additional Labs:</span></p>
+                    <ul>
+                        <li><strong>CBC:</strong> Mild normocytic anemia possible</li>
+                        <li><strong>CMP:</strong> Hypercalcemia (10-15%, increased bone turnover), elevated alkaline phosphatase (bone isoform), transaminitis (mild)</li>
+                        <li><strong>Lipid panel:</strong> Low LDL, low total cholesterol</li>
+                        <li><strong>ECG:</strong> Sinus tachycardia, atrial fibrillation (10-15%), shortened PR interval</li>
+                        <li><strong>Potassium:</strong> If periodic paralysis suspected</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">SYMPTOMATIC CONTROL (All Patients):</span></p>
+                    <ul>
+                        <li><strong>Beta-blockers:</strong>
+                            <ul>
+                                <li><strong>Propranolol 10-40mg PO q6-8h</strong> (also decreases T4→T3 conversion). Titrate to HR <90, symptom control</li>
+                                <li><strong>Alternatives:</strong> Metoprolol 25-50mg PO BID-TID, atenolol 25-100mg daily</li>
+                                <li><strong>Use:</strong> Controls tachycardia, tremor, anxiety. Does NOT treat underlying hyperthyroidism. Continue until euthyroid</li>
+                                <li><strong>Caution:</strong> Avoid in severe asthma/COPD (use cardioselective like metoprolol), decompensated HF</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p><span class="label">DEFINITIVE TREATMENT (Etiology-Specific):</span></p>
+                    <p><strong>GRAVES DISEASE / TOXIC NODULES:</strong></p>
+                    <ul>
+                        <li><strong>Thionamides (Antithyroid Drugs):</strong>
+                            <ul>
+                                <li><strong>Methimazole 15-30mg PO daily:</strong> PREFERRED (once-daily dosing, less hepatotoxicity). Start 15mg if mild, 30-40mg if severe. Adjust dose based on Free T4 (goal: euthyroid in 4-8 weeks). Maintenance: 5-10mg daily</li>
+                                <li><strong>Propylthiouracil (PTU) 100mg PO TID:</strong> Use ONLY in: (1) First trimester pregnancy (methimazole teratogenic), (2) Thyroid storm, (3) Methimazole allergy/side effects. Higher hepatotoxicity risk</li>
+                                <li><strong>Mechanism:</strong> Block thyroid peroxidase → inhibit thyroid hormone synthesis. PTU also blocks T4→T3 conversion</li>
+                                <li><strong>Monitoring:</strong> Check Free T4/TSH q4-6 weeks initially, then q3 months once stable. Monitor CBC, LFTs baseline and if symptoms (see complications)</li>
+                                <li><strong>Duration:</strong> Graves: 12-18 months, then trial off (40-60% remission rate). Toxic nodules: lifelong or definitive therapy (RAI/surgery)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Radioactive Iodine (RAI) Ablation:</strong>
+                            <ul>
+                                <li><strong>Indications:</strong> Definitive treatment for Graves, toxic MNG, toxic adenoma. Preferred for patients >40, large goiters, relapse after thionamides</li>
+                                <li><strong>Process:</strong> Oral I-131 uptake by thyroid → destroys thyroid tissue. Outpatient. Takes 3-6 months for full effect</li>
+                                <li><strong>Outcome:</strong> 80-90% cure rate. Most become hypothyroid → lifelong levothyroxine</li>
+                                <li><strong>Contraindications:</strong> Pregnancy (causes fetal hypothyroidism), breastfeeding, uncontrolled thyrotoxicosis (risk of thyroid storm post-RAI). Active/severe Graves ophthalmopathy (can worsen eye disease - give steroids if mild ophthalmopathy)</li>
+                                <li><strong>Pre-treatment:</strong> May give methimazole to achieve euthyroid state first (stop 3-5 days before RAI to allow uptake). Beta-blocker continuation OK</li>
+                            </ul>
+                        </li>
+                        <li><strong>Thyroidectomy (Surgical):</strong>
+                            <ul>
+                                <li><strong>Indications:</strong> Large goiter with compressive symptoms, contraindication to RAI (pregnancy, severe ophthalmopathy), patient preference, suspicion of malignancy</li>
+                                <li><strong>Pre-op preparation:</strong> MUST achieve euthyroid state with thionamides first (4-8 weeks). Add iodine solution 10-14 days pre-op (SSKI or Lugol's solution) to decrease vascularity</li>
+                                <li><strong>Complications:</strong> Hypocalcemia (hypoparathyroidism), recurrent laryngeal nerve injury (hoarseness), hypothyroidism (total thyroidectomy), hematoma/bleeding</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p><strong>THYROIDITIS (Subacute, Silent, Postpartum):</strong></p>
+                    <ul>
+                        <li><strong>Treatment:</strong> SELF-LIMITED (hyperthyroid phase lasts 1-3 months → hypothyroid phase → recovery in 6-12 months). Symptomatic control only</li>
+                        <li><strong>Beta-blockers:</strong> Propranolol or metoprolol for symptom control</li>
+                        <li><strong>NSAIDs or steroids:</strong> For pain in subacute thyroiditis (prednisone 40mg daily × 1 week, then taper if severe)</li>
+                        <li><strong>NO thionamides</strong> (not making new hormone, just releasing stored hormone). Would be ineffective</li>
+                        <li><strong>Monitor:</strong> TSH/Free T4 q4-6 weeks. May need levothyroxine if prolonged hypothyroid phase</li>
+                    </ul>
+                    
+                    <p><strong>AMIODARONE-INDUCED THYROTOXICOSIS (AIT):</strong></p>
+                    <ul>
+                        <li><strong>Type 1 AIT (Jod-Basedow):</strong> Pre-existing thyroid disease. RAIU increased (if can be done). Rx: Methimazole 40mg daily +/- perchlorate (blocks iodine uptake). May need RAI or surgery</li>
+                        <li><strong>Type 2 AIT (Destructive thyroiditis):</strong> No pre-existing disease. RAIU low. Rx: Prednisone 40mg daily × 2-3 months (anti-inflammatory). Self-limited</li>
+                        <li><strong>Mixed type:</strong> Treat with both methimazole + prednisone</li>
+                        <li><strong>Discontinue amiodarone if possible</strong> (but long half-life means thyrotoxicosis can persist months after stopping)</li>
+                    </ul>
+                    
+                    <p><strong>EXOGENOUS THYROID HORMONE:</strong></p>
+                    <ul>
+                        <li><strong>Treatment:</strong> Stop thyroid hormone. If intentional over-replacement, reduce dose. If factitious, address underlying psychiatric condition</li>
+                    </ul>
+                    
+                    <p><span class="label">ATRIAL FIBRILLATION MANAGEMENT:</span></p>
+                    <ul>
+                        <li><strong>Anticoagulation:</strong> Calculate CHA2DS2-VASc score. If ≥2 (men) or ≥3 (women), anticoagulate with warfarin or DOAC</li>
+                        <li><strong>Rate control:</strong> Beta-blockers (metoprolol, atenolol) or diltiazem. Target HR <110</li>
+                        <li><strong>Cardioversion:</strong> 60% convert spontaneously to sinus rhythm once euthyroid. Consider cardioversion after 3-6 months of euthyroid state if still in AFib</li>
+                    </ul>
+                    
+                    <p><span class="label">SPECIAL POPULATIONS:</span></p>
+                    <ul>
+                        <li><strong>Pregnancy:</strong> PTU in first trimester (methimazole teratogenic). Switch to methimazole in 2nd/3rd trimester (PTU hepatotoxicity). Target Free T4 upper normal (avoid fetal hypothyroidism). RAI contraindicated</li>
+                        <li><strong>Elderly:</strong> Lower doses of thionamides. High AFib risk - anticoagulate. Consider RAI as first-line</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearls-box">
+                <div class="pearls-title">💡 TEACHING PEARLS: HYPERTHYROIDISM</div>
+                <ul>
+                    <li><strong>Distinguish thyrotoxicosis from thyroid storm:</strong> Storm = LIFE-THREATENING (fever >104°F, tachycardia >140, AMS, HF, GI symptoms). Non-storm = stable, symptomatic but not critical. See Condition #31 for storm management</li>
+                    <li><strong>RAIU scan differentiates destructive vs synthesis causes:</strong> HIGH uptake (Graves, toxic nodules) = thyroid making excess hormone → treat with thionamides/RAI/surgery. LOW uptake (thyroiditis, exogenous) = hormone release, not synthesis → symptomatic management only, self-limited</li>
+                    <li><strong>Methimazole > PTU (except first trimester pregnancy):</strong> Once-daily dosing, better efficacy, less hepatotoxicity. PTU has black box warning for hepatotoxicity</li>
+                    <li><strong>Agranulocytosis = RARE but serious complication of thionamides</strong> (0.1-0.5%). Presents with fever, sore throat, infection. Check CBC if symptoms. STOP thionamide immediately if ANC <1,000. Never rechallenge. Switch to RAI or surgery</li>
+                    <li><strong>Graves ophthalmopathy is separate from hyperthyroidism</strong> (autoimmune, TSI-mediated orbital inflammation). Treat hyperthyroidism, but eye disease may persist/worsen. RAI can worsen ophthalmopathy (give steroids if mild eye disease, avoid RAI if severe)</li>
+                    <li><strong>Atrial fibrillation in hyperthyroidism: 60% spontaneously convert to sinus rhythm</strong> once euthyroid. Anticoagulate based on CHA2DS2-VASc. Rate control with beta-blockers</li>
+                    <li><strong>Thyrotoxic periodic paralysis:</strong> Sudden muscle weakness + hypokalemia in Asian males with thyrotoxicosis. K+ shifts intracellularly (NOT total body K+ deficiency). Give K+ cautiously (can rebound to hyperkalemia). Treat underlying hyperthyroidism with beta-blockers + thionamides</li>
+                    <li><strong>Apathetic thyrotoxicosis in elderly:</strong> Atypical presentation (depression, weight loss, AFib, HF) WITHOUT classic hyperadrenergic symptoms. Check TSH in elderly with new AFib or unexplained weight loss</li>
+                    <li><strong>Iodine-containing contrast can precipitate thyrotoxicosis</strong> (Jod-Basedow) in patients with nodular thyroid disease or iodine deficiency. Screen high-risk patients before contrast administration</li>
+                    <li><strong>Amiodarone-induced thyrotoxicosis: Differentiate Type 1 vs Type 2.</strong> Type 1 = treat like Graves (methimazole +/- perchlorate). Type 2 = destructive thyroiditis (prednisone). Mixed type common (treat both). Discontinue amiodarone if cardiac status allows</li>
+                    <li><strong>RAI is contraindicated in pregnancy/breastfeeding and uncontrolled thyrotoxicosis.</strong> Achieve euthyroid state with methimazole first before RAI (reduces risk of thyroid storm post-RAI). Stop thionamide 3-5 days before RAI to allow iodine uptake</li>
+                    <li><strong>Monitoring thionamides: Free T4 normalizes BEFORE TSH.</strong> TSH can remain suppressed for months after T4 normalizes. Use Free T4 to guide dose adjustments (goal: normal T4). Check TSH q3 months once stable</li>
+                </ul>
+            </div>
+            
+            <div class="two-column-criteria">
+                <div class="criteria-column">
+                    <div class="criteria-title">🚨 ICU ESCALATION CRITERIA</div>
+                    <ul>
+                        <li>Progression to thyroid storm (fever >104°F, HR >140, AMS, severe agitation, HF)</li>
+                        <li>Atrial fibrillation with RVR + hemodynamic instability</li>
+                        <li>Acute heart failure from high-output state</li>
+                        <li>Thyrotoxic periodic paralysis with respiratory muscle weakness</li>
+                        <li>Severe agranulocytosis from thionamides with sepsis</li>
+                        <li>Post-thyroidectomy complications (airway hematoma, severe hypocalcemia with tetany/seizures)</li>
+                    </ul>
+                </div>
+                <div class="criteria-column">
+                    <div class="criteria-title">✅ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Hemodynamically stable, symptoms controlled with beta-blockers</li>
+                        <li>Thionamide therapy initiated (if indicated) + patient counseled on side effects</li>
+                        <li>Atrial fibrillation rate-controlled + anticoagulation started if indicated</li>
+                        <li>Endocrinology follow-up arranged within 1-2 weeks</li>
+                        <li>Patient understands:
+                            <ul>
+                                <li>Medication adherence critical</li>
+                                <li>Warning signs of agranulocytosis (fever, sore throat) → stop med, seek care immediately</li>
+                                <li>Return precautions: worsening symptoms, palpitations, dyspnea, confusion</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="complications-section">
+                <div class="complications-title">⚠️ COMPLICATIONS TO MONITOR</div>
+                <div class="complications-grid">
+                    <div class="complication-item">
+                        <strong>Thyroid Storm:</strong> Life-threatening decompensation. Triggered by infection, surgery, trauma, RAI, discontinuation of antithyroid drugs. See Condition #31 for management
+                    </div>
+                    <div class="complication-item">
+                        <strong>Atrial Fibrillation/Flutter:</strong> 10-15% of hyperthyroid patients. Thromboembolic risk. Anticoagulate based on CHA2DS2-VASc. Rate control. 60% convert to sinus rhythm once euthyroid
+                    </div>
+                    <div class="complication-item">
+                        <strong>Heart Failure (High-Output):</strong> Tachycardia-induced cardiomyopathy. Treat hyperthyroidism + beta-blockers + diuretics. Usually reversible once euthyroid
+                    </div>
+                    <div class="complication-item">
+                        <strong>Thionamide Side Effects:</strong> (1) Agranulocytosis (0.1-0.5%): fever, sore throat → check CBC, stop drug immediately. (2) Hepatotoxicity (PTU > methimazole): transaminitis, rare fulminant hepatic failure. (3) Rash, arthralgia (5-10%). (4) Vasculitis (rare, PTU). Monitor CBC, LFTs
+                    </div>
+                    <div class="complication-item">
+                        <strong>Graves Ophthalmopathy:</strong> Proptosis, diplopia, vision loss (optic nerve compression). Smoking worsens. Manage with selenium, steroids, orbital decompression surgery, radiation. RAI can worsen (give steroids prophylactically)
+                    </div>
+                    <div class="complication-item">
+                        <strong>Osteoporosis:</strong> Increased bone turnover → bone loss. Screen with DEXA if prolonged hyperthyroidism. Treat with bisphosphonates if osteoporotic. Reversible with treatment
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-top">
+                <a href="#top" onclick="document.getElementById('search-box').scrollIntoView({behavior: 'smooth'}); return false;">↑ Back to Top</a>
+            </div>
+        </div>
+
 <!-- CONDITION 69: HYPOTHYROIDISM -->
 <!-- ============================================ -->
-<div class="condition" id="hypothyroid">
-    <h2>Hypothyroidism (Non-Myxedema)</h2>
-    <p><em>[Content to be added in Phase 5]</em></p>
-</div>
+        <div id="hypothyroid" class="condition-page">
+            <div class="page-header">
+                <h2>69. HYPOTHYROIDISM (NON-MYXEDEMA)</h2>
+                <div class="subtitle">Hashimoto • Iatrogenic • Levothyroxine Replacement</div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">CLINICAL PRESENTATION</div>
+                <div class="section-content">
+                    <p><span class="label">Note:</span> This section covers NON-COMA hypothyroidism. For Myxedema Coma (life-threatening emergency), see Condition #32</p>
+                    
+                    <p><span class="label">Common Etiologies:</span></p>
+                    <ul>
+                        <li><strong>Hashimoto thyroiditis (autoimmune, 90% in US):</strong> Anti-TPO antibodies, anti-thyroglobulin antibodies. Progressive thyroid destruction. Goiter early, atrophy late</li>
+                        <li><strong>Iatrogenic:</strong> Post-radioiodine ablation (most common cause post-treatment), post-thyroidectomy, external beam radiation (neck, mediastinum)</li>
+                        <li><strong>Medications:</strong> Lithium (inhibits T4 release), amiodarone (type 2 - destructive thyroiditis), tyrosine kinase inhibitors, interferon, immune checkpoint inhibitors</li>
+                        <li><strong>Iodine deficiency:</strong> Most common worldwide (rare in US due to iodized salt)</li>
+                        <li><strong>Central hypothyroidism (secondary/tertiary):</strong> Pituitary (TSH deficiency) or hypothalamic (TRH deficiency) disease. Tumor, surgery, radiation, infiltrative (sarcoidosis, hemochromatosis), Sheehan syndrome</li>
+                        <li><strong>Transient:</strong> Thyroiditis (post-hyperthyroid phase), postpartum thyroiditis</li>
+                    </ul>
+                    
+                    <p><span class="label">Symptoms (Insidious Onset, Nonspecific):</span></p>
+                    <ul>
+                        <li><strong>Metabolic:</strong> Fatigue, cold intolerance, weight gain (modest, 5-10 lbs), decreased appetite</li>
+                        <li><strong>Cardiovascular:</strong> Bradycardia, diastolic hypertension, pericardial effusion</li>
+                        <li><strong>Neuropsychiatric:</strong> Depression, cognitive impairment ("brain fog"), psychomotor slowing, memory problems, carpal tunnel syndrome, delayed deep tendon reflex relaxation</li>
+                        <li><strong>GI:</strong> Constipation, decreased bowel sounds</li>
+                        <li><strong>Reproductive:</strong> Menorrhagia (women), decreased libido, infertility, galactorrhea (elevated prolactin from TRH)</li>
+                        <li><strong>Dermatologic:</strong> Dry, coarse skin, hair loss (especially lateral third of eyebrows), brittle nails, nonpitting edema (myxedema - mucopolysaccharide deposition)</li>
+                        <li><strong>Musculoskeletal:</strong> Myalgia, arthralgia, muscle cramps, weakness</li>
+                    </ul>
+                    
+                    <p><span class="label">Physical Exam:</span></p>
+                    <ul>
+                        <li>Goiter (Hashimoto's - firm, rubbery) or absent thyroid (post-ablation/surgery)</li>
+                        <li>Bradycardia, diastolic HTN</li>
+                        <li>Dry, cool, pale skin, periorbital puffiness, macroglossia</li>
+                        <li>Delayed relaxation of deep tendon reflexes ("hung-up" reflexes)</li>
+                    </ul>
+                    
+                    <p><span class="label">Subclinical Hypothyroidism:</span> Elevated TSH (5-10 mIU/L) + NORMAL Free T4. Mild symptoms or asymptomatic. Controversial whether to treat. Consider treatment if: TSH >10, anti-TPO positive, symptomatic, goiter, pregnancy/planning pregnancy, dyslipidemia</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIAGNOSTIC WORKUP</div>
+                <div class="section-content">
+                    <p><span class="label">Thyroid Function Tests:</span></p>
+                    <ul>
+                        <li><strong>TSH:</strong> Elevated (>4.5-5 mIU/L) in primary hypothyroidism. FIRST test</li>
+                        <li><strong>Free T4:</strong> Low (<0.8 ng/dL) confirms overt hypothyroidism</li>
+                        <li><strong>Free T3:</strong> Usually not needed (last to drop, nonspecific)</li>
+                        <li><strong>Interpretation:</strong>
+                            <ul>
+                                <li>High TSH + Low Free T4 = Primary hypothyroidism (thyroid gland failure)</li>
+                                <li>High TSH + Normal Free T4 = Subclinical hypothyroidism</li>
+                                <li>Low/Normal TSH + Low Free T4 = Central hypothyroidism (pituitary/hypothalamic). Order MRI pituitary, assess other pituitary hormones</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <p><span class="label">Etiology Workup:</span></p>
+                    <ul>
+                        <li><strong>Anti-TPO antibodies:</strong> Positive in Hashimoto's (90-95%). Confirms autoimmune etiology</li>
+                        <li><strong>Thyroid ultrasound:</strong> Not routinely needed. Order if palpable nodule or goiter. Hashimoto's: heterogeneous, hypoechoic</li>
+                        <li><strong>If central hypothyroidism suspected:</strong> MRI pituitary, cortisol, LH/FSH, prolactin, GH (assess for hypopituitarism)</li>
+                    </ul>
+                    
+                    <p><span class="label">Additional Labs:</span></p>
+                    <ul>
+                        <li><strong>CBC:</strong> Normocytic or macrocytic anemia (decreased erythropoietin)</li>
+                        <li><strong>CMP:</strong> Hyponatremia (impaired free water excretion), hypoglycemia, elevated creatinine (decreased GFR), transaminitis (mild)</li>
+                        <li><strong>Lipid panel:</strong> Elevated LDL, total cholesterol, triglycerides</li>
+                        <li><strong>CK:</strong> Elevated (myopathy)</li>
+                        <li><strong>Prolactin:</strong> Mildly elevated (TRH stimulates prolactin)</li>
+                        <li><strong>ECG:</strong> Sinus bradycardia, low voltage, prolonged QT, flattened/inverted T waves</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">TREATMENT PROTOCOL</div>
+                <div class="section-content">
+                    <p><span class="label">LEVOTHYROXINE (T4) REPLACEMENT:</span></p>
+                    <ul>
+                        <li><strong>Dosing:</strong>
+                            <ul>
+                                <li><strong>Young, healthy patients:</strong> Start 1.6 mcg/kg/day PO (typical: 75-125 mcg daily). Can start full dose</li>
+                                <li><strong>Elderly or cardiac disease:</strong> Start LOW (25-50 mcg daily), increase by 12.5-25 mcg q4-6 weeks. Risk of precipitating MI/arrhythmia</li>
+                                <li><strong>Severe hypothyroidism + cardiac disease:</strong> Start 12.5-25 mcg daily, very slow titration</li>
+                            </ul>
+                        </li>
+                        <li><strong>Administration:</strong> Take on empty stomach, 30-60 min before breakfast (or at bedtime, 4 hrs after last meal). Consistent timing. Avoid simultaneous: calcium, iron, PPIs, antacids, bile acid sequestrants (decrease absorption)</li>
+                        <li><strong>Monitoring:</strong>
+                            <ul>
+                                <li>Check TSH in 6-8 weeks after starting or dose change</li>
+                                <li>Goal TSH: 0.5-2.5 mIU/L (normal range: 0.4-4.5, but aim for lower half)</li>
+                                <li>Once stable: Check TSH annually</li>
+                            </ul>
+                        </li>
+                        <li><strong>Dose adjustments:</strong> If TSH >4: increase levothyroxine by 12.5-25 mcg. If TSH <0.5: decrease by 12.5-25 mcg</li>
+                    </ul>
+                    
+                    <p><span class="label">SPECIAL POPULATIONS:</span></p>
+                    <ul>
+                        <li><strong>Pregnancy:</strong> Increase dose by 30-50% as soon as pregnancy confirmed (increased T4 requirements). Goal TSH <2.5 in 1st trimester, <3.0 in 2nd/3rd. Check TSH q4 weeks</li>
+                        <li><strong>Central hypothyroidism:</strong> Dose by Free T4 level (NOT TSH, which is inappropriately low/normal). Goal: Free T4 in upper half of normal range. MUST treat adrenal insufficiency FIRST (before levothyroxine) to avoid precipitating adrenal crisis</li>
+                        <li><strong>Cardiac disease:</strong> Start low (25 mcg), go slow (increase q4-6 weeks). Monitor for angina, arrhythmia</li>
+                    </ul>
+                    
+                    <p><span class="label">TREATMENT OF SUBCLINICAL HYPOTHYROIDISM:</span></p>
+                    <ul>
+                        <li><strong>Indications for treatment:</strong> TSH >10 mIU/L, anti-TPO positive (will progress to overt), symptomatic, goiter, pregnancy/planning pregnancy, dyslipidemia</li>
+                        <li><strong>If TSH 5-10 + asymptomatic + anti-TPO negative:</strong> Monitor TSH q6-12 months. May not need treatment</li>
+                        <li><strong>Dose:</strong> Start low (25-50 mcg daily), titrate to TSH 0.5-2.5</li>
+                    </ul>
+                    
+                    <p><span class="label">COMPLICATIONS OF OVER-TREATMENT (TSH <0.1):</span></p>
+                    <ul>
+                        <li>Atrial fibrillation (especially elderly)</li>
+                        <li>Osteoporosis (increased bone turnover)</li>
+                        <li>Hyperthyroid symptoms (palpitations, tremor, weight loss)</li>
+                        <li>Reduce levothyroxine dose if TSH suppressed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pearls-box">
+                <div class="pearls-title">💡 TEACHING PEARLS: HYPOTHYROIDISM</div>
+                <ul>
+                    <li><strong>Hypothyroidism symptoms are NONSPECIFIC.</strong> Fatigue, weight gain, depression common in general population. Have LOW threshold to check TSH in at-risk patients (autoimmune disease, prior thyroid treatment, neck radiation, elderly)</li>
+                    <li><strong>TSH is MOST sensitive test for primary hypothyroidism.</strong> Elevated TSH (>4.5-5) = thyroid dysfunction. Confirms diagnosis even before Free T4 drops (subclinical hypothyroidism)</li>
+                    <li><strong>Start levothyroxine LOW and GO SLOW in elderly/cardiac disease.</strong> Rapid T4 replacement can precipitate MI, arrhythmia. Start 25 mcg, increase by 12.5-25 mcg q4-6 weeks</li>
+                    <li><strong>Levothyroxine absorption affected by many meds/supplements.</strong> Take 30-60 min before breakfast, separate from calcium, iron, PPIs, antacids by 4 hrs. Consistent timing critical</li>
+                    <li><strong>Pregnancy increases levothyroxine requirements by 30-50%.</strong> Increase dose as soon as pregnancy confirmed. Check TSH q4 weeks. Goal TSH <2.5 (1st trimester), <3.0 (2nd/3rd). Uncontrolled hypothyroidism → miscarriage, preterm birth, impaired fetal neurodevelopment</li>
+                    <li><strong>Central hypothyroidism: Dose by Free T4, NOT TSH.</strong> TSH inappropriately low/normal despite low T4. Goal: Free T4 in upper half of normal. TREAT ADRENAL INSUFFICIENCY FIRST (before levothyroxine) to avoid adrenal crisis</li>
+                    <li><strong>Hashimoto's thyroiditis: Anti-TPO antibodies positive in 90-95%.</strong> Progressive autoimmune destruction. May have transient hyperthyroid phase initially (hashitoxicosis) from thyroid inflammation/hormone release</li>
+                    <li><strong>Subclinical hypothyroidism: TSH 5-10 + Normal Free T4.</strong> Treat if: TSH >10, anti-TPO positive (will progress), symptomatic, pregnant. If asymptomatic + TSH 5-10 + anti-TPO negative → monitor q6-12 months</li>
+                    <li><strong>Check TSH 6-8 weeks after dose change</strong> (levothyroxine half-life 7 days, takes 4-6 weeks to reach steady state). Once stable, check TSH annually</li>
+                    <li><strong>Over-replacement (TSH <0.1) → Atrial fibrillation + osteoporosis.</strong> Especially in elderly. Aim for TSH 0.5-2.5, not suppressed</li>
+                    <li><strong>Medications that increase levothyroxine requirements:</strong> Estrogen (increases TBG), rifampin (increases metabolism), phenytoin, carbamazepine, sertraline. Check TSH 6-8 weeks after starting these meds, may need dose increase</li>
+                    <li><strong>Myxedema coma vs non-coma hypothyroidism:</strong> Coma = AMS, hypothermia (<95°F), bradycardia, hypotension, hypoventilation, hyponatremia. MEDICAL EMERGENCY. See Condition #32. Non-coma = stable, symptomatic, can treat outpatient with levothyroxine</li>
+                </ul>
+            </div>
+            
+            <div class="two-column-criteria">
+                <div class="criteria-column">
+                    <div class="criteria-title">🚨 ICU ESCALATION CRITERIA</div>
+                    <ul>
+                        <li>Progression to myxedema coma (AMS, hypothermia <95°F, hypoventilation, hypotension)</li>
+                        <li>Pericardial effusion with tamponade physiology</li>
+                        <li>Severe hyponatremia (<120 mEq/L) with seizures</li>
+                        <li>Acute MI precipitated by levothyroxine initiation</li>
+                        <li>Respiratory failure (CO2 retention from hypoventilation)</li>
+                    </ul>
+                </div>
+                <div class="criteria-column">
+                    <div class="criteria-title">✅ DISCHARGE CRITERIA</div>
+                    <ul>
+                        <li>Levothyroxine initiated at appropriate dose</li>
+                        <li>Patient counseled on:
+                            <ul>
+                                <li>Take on empty stomach, 30-60 min before breakfast</li>
+                                <li>Separate from calcium, iron, antacids by ≥4 hrs</li>
+                                <li>Lifelong therapy (most cases)</li>
+                                <li>Symptoms may take 4-6 weeks to improve</li>
+                            </ul>
+                        </li>
+                        <li>Endocrinology or PCP follow-up in 6-8 weeks for TSH recheck</li>
+                        <li>If cardiac disease: Close cardiology follow-up, ECG monitoring as needed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="complications-section">
+                <div class="complications-title">⚠️ COMPLICATIONS TO MONITOR</div>
+                <div class="complications-grid">
+                    <div class="complication-item">
+                        <strong>Myxedema Coma:</strong> Severe, life-threatening decompensation. Triggered by infection, cold exposure, trauma, sedatives. AMS, hypothermia, hypoventilation, hypotension. HIGH MORTALITY (20-50%). See Condition #32
+                    </div>
+                    <div class="complication-item">
+                        <strong>Cardiovascular Complications:</strong> Pericardial effusion (resolves with treatment), diastolic dysfunction, atherosclerosis (elevated LDL), brady arrhythmias. Risk of MI/AFib if rapid levothyroxine replacement in elderly/cardiac patients
+                    </div>
+                    <div class="complication-item">
+                        <strong>Psychiatric:</strong> Depression (treat hypothyroidism first before antidepressants), cognitive impairment ("myxedema madness"), psychosis (rare). Symptoms improve with levothyroxine
+                    </div>
+                    <div class="complication-item">
+                        <strong>Hyponatremia:</strong> Impaired free water excretion. Dilutional hyponatremia. Treat underlying hypothyroidism + fluid restriction. Avoid rapid correction
+                    </div>
+                    <div class="complication-item">
+                        <strong>Hyperlipidemia:</strong> Elevated LDL, total cholesterol, TG. Treat hypothyroidism first → lipids improve in 3-6 months. May need statin if persistent
+                    </div>
+                    <div class="complication-item">
+                        <strong>Pregnancy Complications (Untreated):</strong> Miscarriage, preterm birth, preeclampsia, placental abruption, impaired fetal neurodevelopment. Screen TSH in all pregnant women in 1st trimester (or preconception)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-top">
+                <a href="#top" onclick="document.getElementById('search-box').scrollIntoView({behavior: 'smooth'}); return false;">↑ Back to Top</a>
+            </div>
+        </div>
 
 <!-- ============================================ -->
 <!-- CONDITION 70: DIABETIC FOOT INFECTION -->
