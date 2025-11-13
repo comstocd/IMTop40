@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Presentation-Based Diagnostic Framework</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            color: #24292e;
+            background: #f6f8fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        
+        .nav-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .nav-header h1 {
+            margin: 0;
+            font-size: 24pt;
+            font-weight: 700;
+        }
+        
+        .nav-header .subtitle {
+            margin: 8px 0 0 0;
+            opacity: 0.95;
+            font-size: 11pt;
+            font-weight: 500;
+        }
+        
+        .nav-links {
+            margin-top: 15px;
+        }
+        
+        .nav-links a {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 9.5pt;
+            margin-right: 10px;
+            margin-top: 8px;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .intro {
+            padding: 30px;
+            background: #f0f7ff;
+            border-left: 4px solid #0366d6;
+            margin: 20px 30px;
+            border-radius: 6px;
+        }
+        
+        .intro h2 {
+            margin-top: 0;
+            color: #0366d6;
+        }
+        
+        .toc {
+            padding: 30px;
+            background: #f6f8fa;
+            border-bottom: 3px solid #e1e4e8;
+        }
+        
+        .toc h2 {
+            margin-top: 0;
+            color: #24292e;
+            font-size: 18pt;
+            border-bottom: 2px solid #e1e4e8;
+            padding-bottom: 10px;
+        }
+        
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .toc-item {
+            background: white;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.2s;
+        }
+        
+        .toc-item:hover {
+            border-color: #0366d6;
+            box-shadow: 0 4px 12px rgba(3,102,214,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .toc-item a {
+            text-decoration: none;
+            color: #0366d6;
+            font-weight: 600;
+            font-size: 11pt;
+            display: block;
+        }
+        
+        .toc-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .presentation-page {
+            padding: 30px;
+            border-bottom: 3px solid #e1e4e8;
+            scroll-margin-top: 100px;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px 25px;
+            margin: 0 -30px 25px -30px;
+            border-radius: 0;
+        }
+        
+        .page-header h2 {
+            margin: 0;
+            font-size: 20pt;
+            font-weight: 700;
+        }
+        
+        .page-header .subtitle {
+            font-size: 10pt;
+            margin-top: 5px;
+            opacity: 0.95;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            background: #0366d6;
+            color: white;
+            padding: 8px 14px;
+            font-weight: 600;
+            font-size: 11pt;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        .section-content {
+            padding-left: 14px;
+        }
+        
+        .branch-points {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .branch-points h3 {
+            margin-top: 0;
+            color: #856404;
+            font-size: 11pt;
+        }
+        
+        .must-not-miss {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .must-not-miss h3 {
+            margin-top: 0;
+            color: #721c24;
+            font-size: 11pt;
+        }
+        
+        .workup-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .workup-box h3 {
+            margin-top: 0;
+            color: #155724;
+            font-size: 11pt;
+        }
+        
+        .discriminator-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 9.5pt;
+        }
+        
+        .discriminator-table th {
+            background: #f6f8fa;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #e1e4e8;
+            font-weight: 600;
+        }
+        
+        .discriminator-table td {
+            padding: 10px;
+            border: 1px solid #e1e4e8;
+        }
+        
+        .discriminator-table tr:hover {
+            background: #f6f8fa;
+        }
+        
+        .condition-link {
+            display: inline-block;
+            background: #e1f5ff;
+            color: #0366d6;
+            padding: 4px 10px;
+            margin: 3px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 9pt;
+            border: 1px solid #b3e0ff;
+        }
+        
+        .condition-link:hover {
+            background: #b3e0ff;
+        }
+        
+        ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        .label {
+            font-weight: 600;
+            color: #24292e;
+        }
+        
+        @media (max-width: 768px) {
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-header">
+            <h1>🔍 Presentation-Based Diagnostic Framework</h1>
+            <div class="subtitle">Symptom → Differential → Workup → Diagnosis</div>
+            <div class="subtitle" style="margin-top: 5px; font-size: 9.5pt;">Cross-Referenced to Internal Medicine Top 100 Conditions</div>
+            <div class="nav-links">
+                <a href="#toc">📋 All Presentations</a>
+                <a href="index.html">📚 Full Condition Guide</a>
+            </div>
+        </div>
+
+        <div class="intro">
+            <h2>How to Use This Guide</h2>
+            <p><strong>Purpose:</strong> This framework reorganizes the Top 100 IM conditions by <em>how patients present</em> rather than by disease entity. Use this when you have a presenting symptom, sign, or lab abnormality and need to rapidly generate a differential diagnosis and initial workup plan.</p>
+            
+            <p><strong>Clinical Approach:</strong></p>
+            <ul>
+                <li><strong>Start with the presentation</strong> → Select the presenting feature (e.g., chest pain, dyspnea, altered mental status)</li>
+                <li><strong>Apply branch points</strong> → Use clinical discriminators to narrow your differential (e.g., "ST elevation present?" "Fever?" "Focal deficits?")</li>
+                <li><strong>Identify must-not-miss diagnoses</strong> → High-acuity conditions that require urgent recognition and treatment</li>
+                <li><strong>Order initial workup</strong> → Evidence-based first tests to differentiate causes</li>
+                <li><strong>Cross-reference</strong> → Click through to detailed condition entries in the main guide for full management</li>
+            </ul>
+            
+            <p><strong>Key Features:</strong></p>
+            <ul>
+                <li>✅ Organized by symptoms, signs, and lab abnormalities</li>
+                <li>✅ Clinical discriminator algorithms to narrow differentials</li>
+                <li>✅ "Must not miss" diagnoses highlighted</li>
+                <li>✅ Initial workup recommendations based on presentation</li>
+                <li>✅ Direct cross-references to detailed condition entries</li>
+            </ul>
+        </div>
+
+        <div id="toc" class="toc">
+            <h2>📋 Presentations Index</h2>
+            <div class="toc-grid">
+
+                <div class="toc-item">
+                    <a href="#chest_pain">Acute Chest Pain</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#dyspnea">Acute Dyspnea</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#altered_mental_status">Altered Mental Status / Confusion</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#fever">Fever (Hospital Admission)</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#hypotension_shock">Hypotension / Shock</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#abdominal_pain">Acute Abdominal Pain</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#hyponatremia">Hyponatremia (Na <135)</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#hyperkalemia">Hyperkalemia (K >5.5)</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#gi_bleeding">GI Bleeding</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#aki">Acute Kidney Injury (Elevated Creatinine)</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#neurologic_deficit">Acute Focal Neurologic Deficit</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#seizure">Seizure / Status Epilepticus</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#anemia">Acute Anemia (Hgb Drop)</a>
+                </div>
+
+                <div class="toc-item">
+                    <a href="#thrombocytopenia">Thrombocytopenia (Platelets <150k)</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="chest_pain" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Chest Pain</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>ST elevation present vs absent</li>
+                    <li>Troponin elevation</li>
+                    <li>Associated dyspnea/hypoxia</li>
+                    <li>Hemodynamic stability</li>
+                    <li>Pleuritic vs non-pleuritic</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#1: ACS/STEMI</strong></li>
+                    <li><strong>#17: Pulmonary Embolism</strong></li>
+                    <li><strong>#53: Aortic Dissection</strong></li>
+                    <li><strong>#10: Cardiogenic Shock</strong></li>
+                    <li><strong>#7: Cardiac Tamponade</strong></li>
+                    <li><strong>#19: Tension Pneumothorax</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>ECG within 10 minutes</li>
+                    <li>Troponin (0, 3, 6 hours)</li>
+                    <li>Chest X-ray</li>
+                    <li>D-dimer if low-intermediate PE probability</li>
+                    <li>BNP if concern for heart failure</li>
+                    <li>Consider CT chest with contrast (PE protocol)</li>
+                    <li>Consider CT angiography (aortic dissection)</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>STEMI present</strong></td>
+                                <td>
+                                    <a href="index.html#acs" class="condition-link">#1: ACS</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Elevated troponin + no STEMI</strong></td>
+                                <td>
+                                    <a href="index.html#acs" class="condition-link">#1: ACS (NSTEMI)</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hypoxia + unilateral leg swelling</strong></td>
+                                <td>
+                                    <a href="index.html#sbp" class="condition-link">#17: PE</a>
+                                    <a href="index.html#cap" class="condition-link">#5: DVT</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Widened mediastinum + BP differential</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Aortic Dissection</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Pleuritic + fever</strong></td>
+                                <td>
+                                    <a href="index.html#hhs" class="condition-link">#14: CAP</a>
+                                    <a href="index.html#asthma" class="condition-link">#7: Pericarditis</a>
+                                    <a href="index.html#sbp" class="condition-link">#17: PE</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Positional relief + friction rub</strong></td>
+                                <td>
+                                    <a href="index.html#asthma" class="condition-link">#7: Pericarditis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Dyspnea + crackles + edema</strong></td>
+                                <td>
+                                    <a href="index.html#heart-failure" class="condition-link">#2: Heart Failure</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute chest pain:</p>
+                    <div>
+                        <a href="index.html#acs" class="condition-link">#1: ACUTE CORONARY SYNDROME (ACS)</a>
+                        <a href="index.html#heart-failure" class="condition-link">#2: ACUTE DECOMPENSATED HEART FAILURE</a>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#cap" class="condition-link">#5: COMMUNITY-ACQUIRED PNEUMONIA (CAP)</a>
+                        <a href="index.html#asthma" class="condition-link">#7: ASTHMA EXACERBATION</a>
+                        <a href="index.html#pe" class="condition-link">#8: PULMONARY EMBOLISM (PE)</a>
+                        <a href="index.html#sepsis" class="condition-link">#9: SEPSIS/SEPTIC SHOCK</a>
+                        <a href="index.html#aki" class="condition-link">#10: ACUTE KIDNEY INJURY (AKI)</a>
+                        <a href="index.html#hyperkalemia" class="condition-link">#11: HYPERKALEMIA</a>
+                        <a href="index.html#hyponatremia" class="condition-link">#12: HYPONATREMIA</a>
+                        <a href="index.html#dka" class="condition-link">#13: DIABETIC KETOACIDOSIS (DKA)</a>
+                        <a href="index.html#hhs" class="condition-link">#14: HYPEROSMOLAR HYPERGLYCEMIC STATE (HHS)</a>
+                        <a href="index.html#ugib" class="condition-link">#15: UPPER GI BLEED</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#sbp" class="condition-link">#17: SPONTANEOUS BACTERIAL PERITONITIS (SBP)</a>
+                        <a href="index.html#he" class="condition-link">#18: HEPATIC ENCEPHALOPATHY</a>
+                        <a href="index.html#pancreatitis" class="condition-link">#19: ACUTE PANCREATITIS</a>
+                        <a href="index.html#cellulitis" class="condition-link">#20: CELLULITIS</a>
+                        <a href="index.html#uti" class="condition-link">#21: URINARY TRACT INFECTION / PYELONEPHRITIS</a>
+                        <a href="index.html#cdiff" class="condition-link">#22: C. DIFFICILE INFECTION (CDI)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="dyspnea" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Dyspnea</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Acute vs chronic worsening</li>
+                    <li>Unilateral vs bilateral findings</li>
+                    <li>Hypoxia present</li>
+                    <li>Fever present</li>
+                    <li>Wheezing vs crackles vs clear lungs</li>
+                    <li>Orthopnea/PND present</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#17: Pulmonary Embolism</strong></li>
+                    <li><strong>#1: ACS</strong></li>
+                    <li><strong>#2: Acute Heart Failure</strong></li>
+                    <li><strong>#16: Status Asthmaticus</strong></li>
+                    <li><strong>#19: Tension Pneumothorax</strong></li>
+                    <li><strong>#84: Anaphylaxis</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>Chest X-ray</li>
+                    <li>ECG</li>
+                    <li>BNP/NT-proBNP</li>
+                    <li>Troponin</li>
+                    <li>CBC</li>
+                    <li>ABG/VBG if hypoxic</li>
+                    <li>D-dimer if PE suspected</li>
+                    <li>Consider CTPA if high suspicion PE</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Wheezing + no fever</strong></td>
+                                <td>
+                                    <a href="index.html#cirrhosis" class="condition-link">#16: Asthma</a>
+                                    <a href="index.html#ugib" class="condition-link">#15: COPD</a>
+                                    <a href="index.html#heart-failure" class="condition-link">#2: CHF (cardiac asthma)</a>
+                                    <a href="index.html#anaphylaxis" class="condition-link">#84: Anaphylaxis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Crackles + edema + JVD</strong></td>
+                                <td>
+                                    <a href="index.html#heart-failure" class="condition-link">#2: Heart Failure</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Fever + infiltrate</strong></td>
+                                <td>
+                                    <a href="index.html#hhs" class="condition-link">#14: CAP</a>
+                                    <a href="index.html#dvt" class="condition-link">#23: Influenza</a>
+                                    <a href="index.html#stroke" class="condition-link">#24: COVID</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Clear lungs + hypoxia + leg swelling</strong></td>
+                                <td>
+                                    <a href="index.html#sbp" class="condition-link">#17: PE</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Unilateral decreased breath sounds</strong></td>
+                                <td>
+                                    <a href="index.html#pancreatitis" class="condition-link">#19: Pneumothorax</a>
+                                    <a href="index.html#he" class="condition-link">#18: Pleural Effusion</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Stridor + angioedema</strong></td>
+                                <td>
+                                    <a href="index.html#anaphylaxis" class="condition-link">#84: Anaphylaxis</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute dyspnea:</p>
+                    <div>
+                        <a href="index.html#acs" class="condition-link">#1: ACUTE CORONARY SYNDROME (ACS)</a>
+                        <a href="index.html#heart-failure" class="condition-link">#2: ACUTE DECOMPENSATED HEART FAILURE</a>
+                        <a href="index.html#afib" class="condition-link">#3: ATRIAL FIBRILLATION</a>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#cap" class="condition-link">#5: COMMUNITY-ACQUIRED PNEUMONIA (CAP)</a>
+                        <a href="index.html#copd" class="condition-link">#6: COPD EXACERBATION</a>
+                        <a href="index.html#asthma" class="condition-link">#7: ASTHMA EXACERBATION</a>
+                        <a href="index.html#pe" class="condition-link">#8: PULMONARY EMBOLISM (PE)</a>
+                        <a href="index.html#hyponatremia" class="condition-link">#12: HYPONATREMIA</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#stroke" class="condition-link">#24: ACUTE ISCHEMIC STROKE</a>
+                        <a href="index.html#anemia" class="condition-link">#27: ANEMIA</a>
+                        <a href="index.html#syncope" class="condition-link">#40: SYNCOPE</a>
+                        <a href="index.html#pericarditis" class="condition-link">#41: PERICARDITIS/PERICARDIAL EFFUSION/CARDIAC TAMPONADE</a>
+                        <a href="index.html#myocarditis" class="condition-link">#43: MYOCARDITIS</a>
+                        <a href="index.html#bradycardia" class="condition-link">#45: SYMPTOMATIC BRADYCARDIA/HEART BLOCK (PACING)</a>
+                        <a href="index.html#vt-vf" class="condition-link">#46: VENTRICULAR TACHYCARDIA/VENTRICULAR FIBRILLATION</a>
+                        <a href="index.html#gbs" class="condition-link">#52: GUILLAIN-BARRÉ SYNDROME (GBS)</a>
+                        <a href="index.html#myasthenia" class="condition-link">#53: MYASTHENIA GRAVIS CRISIS</a>
+                        <a href="index.html#influenza" class="condition-link">#60: INFLUENZA/SEVERE VIRAL PNEUMONIA</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="altered_mental_status" class="presentation-page">
+            <div class="page-header">
+                <h2>Altered Mental Status / Confusion</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Acute vs subacute vs chronic</li>
+                    <li>Focal neurologic deficits present</li>
+                    <li>Fever present</li>
+                    <li>Meningeal signs</li>
+                    <li>Recent trauma</li>
+                    <li>Medication changes</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#67: Ischemic Stroke</strong></li>
+                    <li><strong>#68: Hemorrhagic Stroke</strong></li>
+                    <li><strong>#29: Bacterial Meningitis</strong></li>
+                    <li><strong>#65: Status Epilepticus</strong></li>
+                    <li><strong>#56: Hepatic Encephalopathy</strong></li>
+                    <li><strong>#47: DKA/HHS</strong></li>
+                    <li><strong>#25: Sepsis</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>Fingerstick glucose</li>
+                    <li>CBC, BMP (Na, glucose, renal function)</li>
+                    <li>Ammonia (if liver disease)</li>
+                    <li>Troponin, ECG</li>
+                    <li>Chest X-ray</li>
+                    <li>Urinalysis and culture</li>
+                    <li>Head CT non-contrast</li>
+                    <li>Lumbar puncture if meningitis suspected (after imaging)</li>
+                    <li>Toxicology screen</li>
+                    <li>Thiamine 500mg IV empirically</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Focal deficits + acute onset</strong></td>
+                                <td>
+                                    <a href="index.html#opportunistic" class="condition-link">#67: Stroke</a>
+                                    <a href="index.html#" class="condition-link">#68: ICH</a>
+                                    <a href="index.html#" class="condition-link">#73: Increased ICP</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Fever + headache + neck stiffness</strong></td>
+                                <td>
+                                    <a href="index.html#etoh-withdrawal" class="condition-link">#29: Meningitis</a>
+                                    <a href="index.html#hiv-aids" class="condition-link">#66: Encephalitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Asterixis + jaundice</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#56: Hepatic Encephalopathy</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hyperglycemia + Kussmaul breathing</strong></td>
+                                <td>
+                                    <a href="index.html#limb-ischemia" class="condition-link">#47: DKA</a>
+                                    <a href="index.html#" class="condition-link">#48: HHS</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hypoglycemia</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Hypoglycemia</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Fever + hypotension</strong></td>
+                                <td>
+                                    <a href="index.html#seizure" class="condition-link">#25: Sepsis</a>
+                                    <a href="index.html#etoh-withdrawal" class="condition-link">#29: Meningitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Recent seizure</strong></td>
+                                <td>
+                                    <a href="index.html#tb" class="condition-link">#65: Status Epilepticus</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">post-ictal state</span>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with altered mental status / confusion:</p>
+                    <div>
+                        <a href="index.html#heart-failure" class="condition-link">#2: ACUTE DECOMPENSATED HEART FAILURE</a>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#cap" class="condition-link">#5: COMMUNITY-ACQUIRED PNEUMONIA (CAP)</a>
+                        <a href="index.html#copd" class="condition-link">#6: COPD EXACERBATION</a>
+                        <a href="index.html#sepsis" class="condition-link">#9: SEPSIS/SEPTIC SHOCK</a>
+                        <a href="index.html#aki" class="condition-link">#10: ACUTE KIDNEY INJURY (AKI)</a>
+                        <a href="index.html#hyponatremia" class="condition-link">#12: HYPONATREMIA</a>
+                        <a href="index.html#dka" class="condition-link">#13: DIABETIC KETOACIDOSIS (DKA)</a>
+                        <a href="index.html#hhs" class="condition-link">#14: HYPEROSMOLAR HYPERGLYCEMIC STATE (HHS)</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#sbp" class="condition-link">#17: SPONTANEOUS BACTERIAL PERITONITIS (SBP)</a>
+                        <a href="index.html#he" class="condition-link">#18: HEPATIC ENCEPHALOPATHY</a>
+                        <a href="index.html#uti" class="condition-link">#21: URINARY TRACT INFECTION / PYELONEPHRITIS</a>
+                        <a href="index.html#cdiff" class="condition-link">#22: C. DIFFICILE INFECTION (CDI)</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#neutropenic-fever" class="condition-link">#28: NEUTROPENIC FEVER</a>
+                        <a href="index.html#etoh-withdrawal" class="condition-link">#29: ALCOHOL WITHDRAWAL</a>
+                        <a href="index.html#delirium" class="condition-link">#30: DELIRIUM</a>
+                        <a href="index.html#syncope" class="condition-link">#40: SYNCOPE</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="fever" class="presentation-page">
+            <div class="page-header">
+                <h2>Fever (Hospital Admission)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Localizing symptoms present</li>
+                    <li>Immunocompromised status</li>
+                    <li>Neutropenia present</li>
+                    <li>Recent surgery/procedure</li>
+                    <li>Indwelling lines/devices</li>
+                    <li>Hemodynamic stability</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#25: Sepsis/Septic Shock</strong></li>
+                    <li><strong>#29: Bacterial Meningitis</strong></li>
+                    <li><strong>#14: Severe CAP</strong></li>
+                    <li><strong>#30: Neutropenic Fever</strong></li>
+                    <li><strong>#8: Endocarditis</strong></li>
+                    <li><strong>#31: Necrotizing Fasciitis</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>Blood cultures x 2 (before antibiotics)</li>
+                    <li>CBC with differential</li>
+                    <li>Lactate</li>
+                    <li>Procalcitonin</li>
+                    <li>Urinalysis and culture</li>
+                    <li>Chest X-ray</li>
+                    <li>Directed imaging based on symptoms</li>
+                    <li>Consider LP if meningeal signs</li>
+                    <li>Start empiric antibiotics if septic (within 1 hour)</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Cough + infiltrate</strong></td>
+                                <td>
+                                    <a href="index.html#hhs" class="condition-link">#14: CAP</a>
+                                    <a href="index.html#dvt" class="condition-link">#23: Influenza</a>
+                                    <a href="index.html#stroke" class="condition-link">#24: COVID</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Dysuria + flank pain</strong></td>
+                                <td>
+                                    <a href="index.html#anemia" class="condition-link">#27: Pyelonephritis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Skin erythema/swelling</strong></td>
+                                <td>
+                                    <a href="index.html#meningitis" class="condition-link">#26: Cellulitis</a>
+                                    <a href="index.html#hyperthyroid" class="condition-link">#31: SSTI</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Necrotizing fasciitis</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Headache + neck stiffness</strong></td>
+                                <td>
+                                    <a href="index.html#etoh-withdrawal" class="condition-link">#29: Meningitis</a>
+                                    <a href="index.html#hiv-aids" class="condition-link">#66: Encephalitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Diarrhea</strong></td>
+                                <td>
+                                    <a href="index.html#neutropenic-fever" class="condition-link">#28: C. diff</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Infectious diarrhea</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>ANC <500</strong></td>
+                                <td>
+                                    <a href="index.html#delirium" class="condition-link">#30: Neutropenic Fever</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>New murmur + embolic phenomena</strong></td>
+                                <td>
+                                    <a href="index.html#pe" class="condition-link">#8: Endocarditis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Post-surgical</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Surgical site infection</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Anastomotic leak</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Line infection</span>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with fever (hospital admission):</p>
+                    <div>
+                        <a href="index.html#cap" class="condition-link">#5: COMMUNITY-ACQUIRED PNEUMONIA (CAP)</a>
+                        <a href="index.html#sepsis" class="condition-link">#9: SEPSIS/SEPTIC SHOCK</a>
+                        <a href="index.html#dka" class="condition-link">#13: DIABETIC KETOACIDOSIS (DKA)</a>
+                        <a href="index.html#hhs" class="condition-link">#14: HYPEROSMOLAR HYPERGLYCEMIC STATE (HHS)</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#sbp" class="condition-link">#17: SPONTANEOUS BACTERIAL PERITONITIS (SBP)</a>
+                        <a href="index.html#pancreatitis" class="condition-link">#19: ACUTE PANCREATITIS</a>
+                        <a href="index.html#cellulitis" class="condition-link">#20: CELLULITIS</a>
+                        <a href="index.html#uti" class="condition-link">#21: URINARY TRACT INFECTION / PYELONEPHRITIS</a>
+                        <a href="index.html#cdiff" class="condition-link">#22: C. DIFFICILE INFECTION (CDI)</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#neutropenic-fever" class="condition-link">#28: NEUTROPENIC FEVER</a>
+                        <a href="index.html#etoh-withdrawal" class="condition-link">#29: ALCOHOL WITHDRAWAL</a>
+                        <a href="index.html#delirium" class="condition-link">#30: DELIRIUM</a>
+                        <a href="index.html#pericarditis" class="condition-link">#41: PERICARDITIS/PERICARDIAL EFFUSION/CARDIAC TAMPONADE</a>
+                        <a href="index.html#endocarditis" class="condition-link">#42: INFECTIVE ENDOCARDITIS</a>
+                        <a href="index.html#gbs" class="condition-link">#52: GUILLAIN-BARRÉ SYNDROME (GBS)</a>
+                        <a href="index.html#myasthenia" class="condition-link">#53: MYASTHENIA GRAVIS CRISIS</a>
+                        <a href="index.html#increased-icp" class="condition-link">#54: INCREASED INTRACRANIAL PRESSURE (ICP)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="hypotension_shock" class="presentation-page">
+            <div class="page-header">
+                <h2>Hypotension / Shock</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Warm vs cold extremities</li>
+                    <li>Volume status (JVD, dry mucous membranes)</li>
+                    <li>Heart sounds (muffled vs normal)</li>
+                    <li>Chest pain present</li>
+                    <li>Bleeding/trauma</li>
+                    <li>Urinary output</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#25: Septic Shock</strong></li>
+                    <li><strong>#10: Cardiogenic Shock</strong></li>
+                    <li><strong>#1: STEMI with cardiogenic shock</strong></li>
+                    <li><strong>#7: Cardiac Tamponade</strong></li>
+                    <li><strong>#51: Adrenal Crisis</strong></li>
+                    <li><strong>#53: Massive GI Bleed</strong></li>
+                    <li><strong>#84: Anaphylaxis</strong></li>
+                    <li><strong>#17: Massive PE</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>ECG</li>
+                    <li>Troponin</li>
+                    <li>Lactate</li>
+                    <li>CBC</li>
+                    <li>Type and screen</li>
+                    <li>Chest X-ray</li>
+                    <li>Bedside ultrasound (POCUS/RUSH exam)</li>
+                    <li>Broad cultures if sepsis suspected</li>
+                    <li>Consider CT imaging based on presentation</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Warm + bounding pulses + SIRS</strong></td>
+                                <td>
+                                    <a href="index.html#seizure" class="condition-link">#25: Septic Shock (distributive)</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Cold + crackles + JVD</strong></td>
+                                <td>
+                                    <a href="index.html#aki" class="condition-link">#10: Cardiogenic Shock</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Muffled heart sounds + JVD + hypotension</strong></td>
+                                <td>
+                                    <a href="index.html#asthma" class="condition-link">#7: Cardiac Tamponade</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Chest pain + ST elevation</strong></td>
+                                <td>
+                                    <a href="index.html#acs" class="condition-link">#1: STEMI with cardiogenic shock</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>GI bleeding + hematemesis/melena</strong></td>
+                                <td>
+                                    <a href="index.html#myasthenia" class="condition-link">#53: Upper GI Bleed</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Urticaria + stridor + wheezing</strong></td>
+                                <td>
+                                    <a href="index.html#anaphylaxis" class="condition-link">#84: Anaphylaxis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Unilateral leg swelling + hypoxia</strong></td>
+                                <td>
+                                    <a href="index.html#sbp" class="condition-link">#17: Massive PE</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Recent steroid cessation + hyperpigmentation</strong></td>
+                                <td>
+                                    <a href="index.html#tia" class="condition-link">#51: Adrenal Crisis</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with hypotension / shock:</p>
+                    <div>
+                        <a href="index.html#acs" class="condition-link">#1: ACUTE CORONARY SYNDROME (ACS)</a>
+                        <a href="index.html#pe" class="condition-link">#8: PULMONARY EMBOLISM (PE)</a>
+                        <a href="index.html#sepsis" class="condition-link">#9: SEPSIS/SEPTIC SHOCK</a>
+                        <a href="index.html#hhs" class="condition-link">#14: HYPEROSMOLAR HYPERGLYCEMIC STATE (HHS)</a>
+                        <a href="index.html#ugib" class="condition-link">#15: UPPER GI BLEED</a>
+                        <a href="index.html#cdiff" class="condition-link">#22: C. DIFFICILE INFECTION (CDI)</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#anemia" class="condition-link">#27: ANEMIA</a>
+                        <a href="index.html#neutropenic-fever" class="condition-link">#28: NEUTROPENIC FEVER</a>
+                        <a href="index.html#syncope" class="condition-link">#40: SYNCOPE</a>
+                        <a href="index.html#pericarditis" class="condition-link">#41: PERICARDITIS/PERICARDIAL EFFUSION/CARDIAC TAMPONADE</a>
+                        <a href="index.html#endocarditis" class="condition-link">#42: INFECTIVE ENDOCARDITIS</a>
+                        <a href="index.html#myocarditis" class="condition-link">#43: MYOCARDITIS</a>
+                        <a href="index.html#cardiogenic-shock" class="condition-link">#44: CARDIOGENIC SHOCK</a>
+                        <a href="index.html#bradycardia" class="condition-link">#45: SYMPTOMATIC BRADYCARDIA/HEART BLOCK (PACING)</a>
+                        <a href="index.html#vt-vf" class="condition-link">#46: VENTRICULAR TACHYCARDIA/VENTRICULAR FIBRILLATION</a>
+                        <a href="index.html#tia" class="condition-link">#51: TRANSIENT ISCHEMIC ATTACK (TIA)</a>
+                        <a href="index.html#gbs" class="condition-link">#52: GUILLAIN-BARRÉ SYNDROME (GBS)</a>
+                        <a href="index.html#covid" class="condition-link">#61: COVID-19 SEVERE DISEASE</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="abdominal_pain" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Abdominal Pain</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Location (RUQ, LUQ, RLQ, LLQ, diffuse)</li>
+                    <li>Peritoneal signs present</li>
+                    <li>Associated symptoms (fever, vomiting, diarrhea)</li>
+                    <li>Guarding/rigidity</li>
+                    <li>Hemodynamic stability</li>
+                    <li>Prior surgeries</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#60: Ruptured AAA</strong></li>
+                    <li><strong>#57: Acute Pancreatitis</strong></li>
+                    <li><strong>#59: Bowel Obstruction</strong></li>
+                    <li><strong>#58: Acute Cholecystitis</strong></li>
+                    <li><strong>#61: Mesenteric Ischemia</strong></li>
+                    <li><strong>#62: Perforated Viscus</strong></li>
+                    <li><strong>#1: Inferior MI</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>CBC, BMP</li>
+                    <li>Lipase</li>
+                    <li>LFTs</li>
+                    <li>Lactate</li>
+                    <li>Urinalysis/pregnancy test</li>
+                    <li>Upright CXR or left lateral decubitus (free air)</li>
+                    <li>CT abdomen/pelvis with IV contrast</li>
+                    <li>RUQ ultrasound if biliary pathology suspected</li>
+                    <li>ECG (inferior MI can mimic)</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>RUQ + positive Murphy sign</strong></td>
+                                <td>
+                                    <a href="index.html#bowel-obstruction" class="condition-link">#58: Cholecystitis</a>
+                                    <a href="index.html#increased-icp" class="condition-link">#54: Cholangitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Epigastric + elevated lipase >3x</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#57: Pancreatitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Diffuse + peritoneal signs + free air</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#62: Perforated Viscus</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Colicky + dilated loops + air-fluid levels</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#59: Bowel Obstruction</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Out of proportion pain + acidosis</strong></td>
+                                <td>
+                                    <a href="index.html#covid" class="condition-link">#61: Mesenteric Ischemia</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Pulsatile mass + hypotension</strong></td>
+                                <td>
+                                    <a href="index.html#influenza" class="condition-link">#60: Ruptured AAA</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Lower quadrant + fever + leukocytosis</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Appendicitis</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Diverticulitis</span>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute abdominal pain:</p>
+                    <div>
+                        <a href="index.html#dka" class="condition-link">#13: DIABETIC KETOACIDOSIS (DKA)</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#sbp" class="condition-link">#17: SPONTANEOUS BACTERIAL PERITONITIS (SBP)</a>
+                        <a href="index.html#cdiff" class="condition-link">#22: C. DIFFICILE INFECTION (CDI)</a>
+                        <a href="index.html#covid" class="condition-link">#61: COVID-19 SEVERE DISEASE</a>
+                        <a href="index.html#tb" class="condition-link">#65: TUBERCULOSIS (ACTIVE DISEASE)</a>
+                        <a href="index.html#hiv-aids" class="condition-link">#66: HIV/AIDS COMPLICATIONS</a>
+                        <a href="index.html#opportunistic" class="condition-link">#67: OPPORTUNISTIC INFECTIONS IN IMMUNOCOMPROMISED HOST</a>
+                        <a href="index.html#bowel-obstruction" class="condition-link">#58: BOWEL OBSTRUCTION (SMALL/LARGE)</a>
+                        <a href="index.html#ibd" class="condition-link">#60: INFLAMMATORY BOWEL DISEASE (IBD) FLARE</a>
+                        <a href="index.html#anaphylaxis" class="condition-link">#84: ANAPHYLAXIS</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="hyponatremia" class="presentation-page">
+            <div class="page-header">
+                <h2>Hyponatremia (Na <135)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Volume status (hypovolemic, euvolemic, hypervolemic)</li>
+                    <li>Serum osmolality</li>
+                    <li>Urine sodium and osmolality</li>
+                    <li>Acute vs chronic</li>
+                    <li>Symptomatic vs asymptomatic</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#37: Severe Symptomatic Hyponatremia</strong></li>
+                    <li><strong>#38: SIADH</strong></li>
+                    <li><strong>#51: Adrenal Insufficiency</strong></li>
+                    <li><strong>#50: Hypothyroidism/Myxedema</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>Serum osmolality</li>
+                    <li>Urine sodium and osmolality</li>
+                    <li>BMP, glucose</li>
+                    <li>Lipid panel (rule out pseudohyponatremia)</li>
+                    <li>TSH, cortisol</li>
+                    <li>Assessment of volume status</li>
+                    <li>Medication review</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Hypovolemic + low urine Na (<20)</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">GI losses</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Third spacing</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hypovolemic + high urine Na (>40)</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Diuretics</span>
+                                    <a href="index.html#tia" class="condition-link">#51: Adrenal insufficiency</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Cerebral salt wasting</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Euvolemic + high urine osm</strong></td>
+                                <td>
+                                    <a href="index.html#pleural-effusion" class="condition-link">#38: SIADH</a>
+                                    <a href="index.html#" class="condition-link">#50: Hypothyroidism</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Psychogenic polydipsia</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hypervolemic</strong></td>
+                                <td>
+                                    <a href="index.html#heart-failure" class="condition-link">#2: Heart Failure</a>
+                                    <a href="index.html#increased-icp" class="condition-link">#54: Cirrhosis</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Nephrotic syndrome</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Symptomatic (seizures, AMS)</strong></td>
+                                <td>
+                                    <a href="index.html#transfusion" class="condition-link">#37: Acute severe hyponatremia - TREAT URGENTLY</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with hyponatremia (na <135):</p>
+                    <div>
+                        <a href="index.html#hyponatremia" class="condition-link">#12: HYPONATREMIA</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#siadh" class="condition-link">#38: SIADH (SYNDROME OF INAPPROPRIATE ADH)</a>
+                        <a href="index.html#gout" class="condition-link">#66: ACUTE GOUT/PSEUDOGOUT (CRYSTAL ARTHROPATHY)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="hyperkalemia" class="presentation-page">
+            <div class="page-header">
+                <h2>Hyperkalemia (K >5.5)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>ECG changes present</li>
+                    <li>Severe (>6.5) vs moderate (5.5-6.5)</li>
+                    <li>Acute vs chronic kidney disease</li>
+                    <li>Medications (ACEI, ARB, spironolactone, NSAID)</li>
+                    <li>Hemolyzed specimen</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#36: Severe Hyperkalemia with ECG changes</strong></li>
+                    <li><strong>#35: AKI</strong></li>
+                    <li><strong>#51: Adrenal Insufficiency</strong></li>
+                    <li><strong>#85: Rhabdomyolysis</strong></li>
+                    <li><strong>#86: Tumor Lysis Syndrome</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>STAT ECG</li>
+                    <li>Repeat potassium if hemolyzed</li>
+                    <li>BMP (assess renal function)</li>
+                    <li>Venous blood gas (assess for acidosis)</li>
+                    <li>Medication review</li>
+                    <li>Urinalysis</li>
+                    <li>Consider cortisol, aldosterone if unexplained</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Peaked T waves, widened QRS</strong></td>
+                                <td>
+                                    <a href="index.html#rhabdo" class="condition-link">#36: SEVERE - cardiac membrane stabilization NOW</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>K >6.5</strong></td>
+                                <td>
+                                    <a href="index.html#rhabdo" class="condition-link">#36: Aggressive treatment</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>AKI + elevated Cr</strong></td>
+                                <td>
+                                    <a href="index.html#hypomag" class="condition-link">#35: AKI causing hyperkalemia</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Elevated CK + myoglobinuria</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#85: Rhabdomyolysis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Recent chemotherapy + high LDH/uric acid</strong></td>
+                                <td>
+                                    <a href="index.html#tls" class="condition-link">#86: Tumor Lysis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hypotension + hyperpigmentation</strong></td>
+                                <td>
+                                    <a href="index.html#tia" class="condition-link">#51: Adrenal crisis</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with hyperkalemia (k >5.5):</p>
+                    <div>
+                        <a href="index.html#aki" class="condition-link">#10: ACUTE KIDNEY INJURY (AKI)</a>
+                        <a href="index.html#hyperkalemia" class="condition-link">#11: HYPERKALEMIA</a>
+                        <a href="index.html#tls" class="condition-link">#86: TUMOR LYSIS SYNDROME</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="gi_bleeding" class="presentation-page">
+            <div class="page-header">
+                <h2>GI Bleeding</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Upper (hematemesis, coffee-grounds) vs Lower (hematochezia, melena)</li>
+                    <li>Hemodynamic stability</li>
+                    <li>Known liver disease/varices</li>
+                    <li>Anticoagulation use</li>
+                    <li>Recent NSAID use</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#53: Massive Upper GI Bleed</strong></li>
+                    <li><strong>#63: Variceal Hemorrhage</strong></li>
+                    <li><strong>#61: Mesenteric Ischemia (if bloody diarrhea)</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>CBC, type and screen (crossmatch if severe)</li>
+                    <li>PT/INR, PTT</li>
+                    <li>BMP (BUN often elevated in UGIB)</li>
+                    <li>Lactate</li>
+                    <li>NG lavage (if upper source suspected)</li>
+                    <li>GBS (Glasgow-Blatchford Score)</li>
+                    <li>Rockall Score</li>
+                    <li>NPO, 2 large-bore IVs</li>
+                    <li>GI consult for endoscopy</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Hematemesis or coffee-grounds</strong></td>
+                                <td>
+                                    <a href="index.html#myasthenia" class="condition-link">#53: Upper GI Bleed</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Melena</strong></td>
+                                <td>
+                                    <a href="index.html#myasthenia" class="condition-link">#53: Upper GI source (usually)</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Bright red blood per rectum</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Lower GI bleed</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Massive UGIB</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Known cirrhosis + hematemesis</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#63: Variceal hemorrhage</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>NSAID use + epigastric pain</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">PUD</span>
+                                    <a href="index.html#myasthenia" class="condition-link">#53: UGIB</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Anticoagulation + any bleeding</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Over-anticoagulation</span>
+                                    <a href="index.html#" class="condition-link">#87: Need reversal</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with gi bleeding:</p>
+                    <div>
+                        <a href="index.html#ugib" class="condition-link">#15: UPPER GI BLEED</a>
+                        <a href="index.html#anemia" class="condition-link">#27: ANEMIA</a>
+                        <a href="index.html#thrombocytopenia" class="condition-link">#79: THROMBOCYTOPENIA (ITP, HIT, TTP/HUS)</a>
+                        <a href="index.html#dic" class="condition-link">#78: DISSEMINATED INTRAVASCULAR COAGULATION (DIC)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="aki" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Kidney Injury (Elevated Creatinine)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Pre-renal vs intrinsic vs post-renal</li>
+                    <li>Oliguria vs non-oliguria</li>
+                    <li>Volume status</li>
+                    <li>Urinalysis findings</li>
+                    <li>Recent contrast/medications</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#35: AKI</strong></li>
+                    <li><strong>#85: Rhabdomyolysis</strong></li>
+                    <li><strong>#86: Tumor Lysis Syndrome</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>BMP, compare to baseline Cr</li>
+                    <li>Urinalysis with microscopy</li>
+                    <li>Urine sodium, FeNa, FeUrea</li>
+                    <li>CBC</li>
+                    <li>CK if rhabdomyolysis suspected</li>
+                    <li>LDH, uric acid, phosphate if TLS suspected</li>
+                    <li>Renal ultrasound (assess for hydronephrosis)</li>
+                    <li>Review medications</li>
+                    <li>Bladder scan</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>FeNa <1%, hyaline casts</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Pre-renal azotemia</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>FeNa >2%, muddy brown casts</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">ATN</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>RBC casts, proteinuria</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Glomerulonephritis</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>WBC casts, pyuria</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">AIN</span>
+                                    <a href="index.html#anemia" class="condition-link">#27: Pyelonephritis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Hydronephrosis on US</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Post-renal obstruction</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Elevated CK, myoglobin</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#85: Rhabdomyolysis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Recent chemo + high LDH/K/phos/uric acid</strong></td>
+                                <td>
+                                    <a href="index.html#tls" class="condition-link">#86: Tumor Lysis</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute kidney injury (elevated creatinine):</p>
+                    <div>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#aki" class="condition-link">#10: ACUTE KIDNEY INJURY (AKI)</a>
+                        <a href="index.html#cirrhosis" class="condition-link">#16: CIRRHOSIS WITH ASCITES</a>
+                        <a href="index.html#sbp" class="condition-link">#17: SPONTANEOUS BACTERIAL PERITONITIS (SBP)</a>
+                        <a href="index.html#cellulitis" class="condition-link">#20: CELLULITIS</a>
+                        <a href="index.html#uti" class="condition-link">#21: URINARY TRACT INFECTION / PYELONEPHRITIS</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#cord-compression" class="condition-link">#55: SPINAL CORD COMPRESSION</a>
+                        <a href="index.html#influenza" class="condition-link">#60: INFLUENZA/SEVERE VIRAL PNEUMONIA</a>
+                        <a href="index.html#ssti" class="condition-link">#64: SKIN/SOFT TISSUE INFECTIONS (CELLULITIS, NECROTIZING FASCIITIS)</a>
+                        <a href="index.html#siadh" class="condition-link">#38: SIADH (SYNDROME OF INAPPROPRIATE ADH)</a>
+                        <a href="index.html#tls" class="condition-link">#86: TUMOR LYSIS SYNDROME</a>
+                        <a href="index.html#thrombocytopenia" class="condition-link">#79: THROMBOCYTOPENIA (ITP, HIT, TTP/HUS)</a>
+                        <a href="index.html#dic" class="condition-link">#78: DISSEMINATED INTRAVASCULAR COAGULATION (DIC)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="neurologic_deficit" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Focal Neurologic Deficit</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Time of symptom onset</li>
+                    <li>Symptoms improving vs worsening vs stable</li>
+                    <li>Headache present</li>
+                    <li>Level of consciousness</li>
+                    <li>Seizure activity</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#67: Ischemic Stroke</strong></li>
+                    <li><strong>#68: Hemorrhagic Stroke</strong></li>
+                    <li><strong>#29: Bacterial Meningitis</strong></li>
+                    <li><strong>#66: Encephalitis</strong></li>
+                    <li><strong>#73: Increased ICP</strong></li>
+                    <li><strong>#74: Spinal Cord Compression</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>STAT head CT non-contrast</li>
+                    <li>Fingerstick glucose</li>
+                    <li>NIHSS score</li>
+                    <li>Time last known normal</li>
+                    <li>CT angiography if stroke suspected</li>
+                    <li>MRI brain with DWI (if available)</li>
+                    <li>Hyperacute stroke workup if within window</li>
+                    <li>LP if meningitis/encephalitis suspected (after imaging)</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Sudden onset + within 4.5 hours</strong></td>
+                                <td>
+                                    <a href="index.html#opportunistic" class="condition-link">#67: Ischemic stroke - tPA candidate</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Severe headache + blood on CT</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#68: Hemorrhagic stroke/SAH</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Fever + AMS + focal deficits</strong></td>
+                                <td>
+                                    <a href="index.html#hiv-aids" class="condition-link">#66: Encephalitis</a>
+                                    <a href="index.html#etoh-withdrawal" class="condition-link">#29: Meningitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Symptoms <24 hours then resolved</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#70: TIA</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Ascending paralysis</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#71: Guillain-Barré</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Back pain + weakness + sensory level</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#74: Spinal cord compression</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute focal neurologic deficit:</p>
+                    <div>
+                        <a href="index.html#acs" class="condition-link">#1: ACUTE CORONARY SYNDROME (ACS)</a>
+                        <a href="index.html#afib" class="condition-link">#3: ATRIAL FIBRILLATION</a>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#cap" class="condition-link">#5: COMMUNITY-ACQUIRED PNEUMONIA (CAP)</a>
+                        <a href="index.html#hyperkalemia" class="condition-link">#11: HYPERKALEMIA</a>
+                        <a href="index.html#dka" class="condition-link">#13: DIABETIC KETOACIDOSIS (DKA)</a>
+                        <a href="index.html#uti" class="condition-link">#21: URINARY TRACT INFECTION / PYELONEPHRITIS</a>
+                        <a href="index.html#stroke" class="condition-link">#24: ACUTE ISCHEMIC STROKE</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#anemia" class="condition-link">#27: ANEMIA</a>
+                        <a href="index.html#syncope" class="condition-link">#40: SYNCOPE</a>
+                        <a href="index.html#endocarditis" class="condition-link">#42: INFECTIVE ENDOCARDITIS</a>
+                        <a href="index.html#limb-ischemia" class="condition-link">#47: ACUTE LIMB ISCHEMIA</a>
+                        <a href="index.html#tia" class="condition-link">#51: TRANSIENT ISCHEMIC ATTACK (TIA)</a>
+                        <a href="index.html#gbs" class="condition-link">#52: GUILLAIN-BARRÉ SYNDROME (GBS)</a>
+                        <a href="index.html#myasthenia" class="condition-link">#53: MYASTHENIA GRAVIS CRISIS</a>
+                        <a href="index.html#increased-icp" class="condition-link">#54: INCREASED INTRACRANIAL PRESSURE (ICP)</a>
+                        <a href="index.html#cord-compression" class="condition-link">#55: SPINAL CORD COMPRESSION</a>
+                        <a href="index.html#covid" class="condition-link">#61: COVID-19 SEVERE DISEASE</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="seizure" class="presentation-page">
+            <div class="page-header">
+                <h2>Seizure / Status Epilepticus</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Known epilepsy vs new-onset</li>
+                    <li>Provoked vs unprovoked</li>
+                    <li>Ongoing seizure activity</li>
+                    <li>Post-ictal vs baseline mental status</li>
+                    <li>Focal vs generalized</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#65: Status Epilepticus</strong></li>
+                    <li><strong>#67: Stroke</strong></li>
+                    <li><strong>#68: Intracranial Hemorrhage</strong></li>
+                    <li><strong>#29: Meningitis/Encephalitis</strong></li>
+                    <li><strong>#73: Increased ICP</strong></li>
+                    <li><strong>#37: Severe Hyponatremia</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>Fingerstick glucose</li>
+                    <li>BMP (especially sodium)</li>
+                    <li>CBC</li>
+                    <li>Toxicology screen</li>
+                    <li>Anticonvulsant levels if on meds</li>
+                    <li>Head CT non-contrast</li>
+                    <li>LP if concern for CNS infection (after imaging)</li>
+                    <li>MRI brain if new-onset or concern for structural</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Continuous seizure >5 min</strong></td>
+                                <td>
+                                    <a href="index.html#tb" class="condition-link">#65: Status epilepticus - EMERGENT</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>New focal seizure + focal deficits</strong></td>
+                                <td>
+                                    <a href="index.html#opportunistic" class="condition-link">#67: Stroke</a>
+                                    <a href="index.html#" class="condition-link">#68: ICH</a>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Mass lesion</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Fever + headache + seizure</strong></td>
+                                <td>
+                                    <a href="index.html#etoh-withdrawal" class="condition-link">#29: Meningitis</a>
+                                    <a href="index.html#hiv-aids" class="condition-link">#66: Encephalitis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Known epilepsy + subtherapeutic levels</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Medication non-compliance</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Severe hyponatremia</strong></td>
+                                <td>
+                                    <a href="index.html#transfusion" class="condition-link">#37: Hyponatremia</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Recent alcohol cessation</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#83: Alcohol withdrawal</a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with seizure / status epilepticus:</p>
+                    <div>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#hyponatremia" class="condition-link">#12: HYPONATREMIA</a>
+                        <a href="index.html#stroke" class="condition-link">#24: ACUTE ISCHEMIC STROKE</a>
+                        <a href="index.html#seizure" class="condition-link">#25: SEIZURE / STATUS EPILEPTICUS</a>
+                        <a href="index.html#meningitis" class="condition-link">#26: BACTERIAL MENINGITIS</a>
+                        <a href="index.html#etoh-withdrawal" class="condition-link">#29: ALCOHOL WITHDRAWAL</a>
+                        <a href="index.html#syncope" class="condition-link">#40: SYNCOPE</a>
+                        <a href="index.html#tia" class="condition-link">#51: TRANSIENT ISCHEMIC ATTACK (TIA)</a>
+                        <a href="index.html#increased-icp" class="condition-link">#54: INCREASED INTRACRANIAL PRESSURE (ICP)</a>
+                        <a href="index.html#influenza" class="condition-link">#60: INFLUENZA/SEVERE VIRAL PNEUMONIA</a>
+                        <a href="index.html#tb" class="condition-link">#65: TUBERCULOSIS (ACTIVE DISEASE)</a>
+                        <a href="index.html#hiv-aids" class="condition-link">#66: HIV/AIDS COMPLICATIONS</a>
+                        <a href="index.html#opportunistic" class="condition-link">#67: OPPORTUNISTIC INFECTIONS IN IMMUNOCOMPROMISED HOST</a>
+                        <a href="index.html#siadh" class="condition-link">#38: SIADH (SYNDROME OF INAPPROPRIATE ADH)</a>
+                        <a href="index.html#tls" class="condition-link">#86: TUMOR LYSIS SYNDROME</a>
+                        <a href="index.html#thrombocytopenia" class="condition-link">#79: THROMBOCYTOPENIA (ITP, HIT, TTP/HUS)</a>
+                        <a href="index.html#overdose" class="condition-link">#81: DRUG OVERDOSE/TOXIDROMES</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="anemia" class="presentation-page">
+            <div class="page-header">
+                <h2>Acute Anemia (Hgb Drop)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Bleeding vs hemolysis vs decreased production</li>
+                    <li>MCV (microcytic, normocytic, macrocytic)</li>
+                    <li>Reticulocyte count</li>
+                    <li>Hemodynamic stability</li>
+                    <li>Evidence of bleeding</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#75: Acute Anemia</strong></li>
+                    <li><strong>#53: GI Bleeding</strong></li>
+                    <li><strong>#77: Hemolytic Anemia</strong></li>
+                    <li><strong>#78: DIC</strong></li>
+                    <li><strong>#76: Sickle Cell Crisis</strong></li>
+                    <li><strong>#79: TTP/HUS</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>CBC with reticulocyte count</li>
+                    <li>Peripheral smear</li>
+                    <li>BMP</li>
+                    <li>LDH, indirect bilirubin, haptoglobin (hemolysis)</li>
+                    <li>PT/INR, PTT, fibrinogen (if bleeding)</li>
+                    <li>Type and screen</li>
+                    <li>Stool guaiac</li>
+                    <li>Consider hemolysis workup: DAT, G6PD</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Low retic + low MCV</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Iron deficiency</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Chronic disease</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>High retic + high LDH + low haptoglobin</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#77: Hemolysis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Schistocytes + thrombocytopenia + AKI</strong></td>
+                                <td>
+                                    <a href="index.html#thrombocytopenia" class="condition-link">#79: TTP/HUS</a>
+                                    <a href="index.html#dic" class="condition-link">#78: DIC</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Sickle cells + pain crisis</strong></td>
+                                <td>
+                                    <a href="index.html#" class="condition-link">#76: Sickle cell crisis</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Bleeding + coagulopathy</strong></td>
+                                <td>
+                                    <a href="index.html#dic" class="condition-link">#78: DIC</a>
+                                    <a href="index.html#myasthenia" class="condition-link">#53: GI bleed</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Macrocytic + pancytopenia</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Megaloblastic anemia</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Bone marrow failure</span>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with acute anemia (hgb drop):</p>
+                    <div>
+                        <a href="index.html#heart-failure" class="condition-link">#2: ACUTE DECOMPENSATED HEART FAILURE</a>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#anemia" class="condition-link">#27: ANEMIA</a>
+                        <a href="index.html#hiv-aids" class="condition-link">#66: HIV/AIDS COMPLICATIONS</a>
+                        <a href="index.html#ibd" class="condition-link">#60: INFLAMMATORY BOWEL DISEASE (IBD) FLARE</a>
+                        <a href="index.html#thrombocytopenia" class="condition-link">#79: THROMBOCYTOPENIA (ITP, HIT, TTP/HUS)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div id="thrombocytopenia" class="presentation-page">
+            <div class="page-header">
+                <h2>Thrombocytopenia (Platelets <150k)</h2>
+                <div class="subtitle">Differential Diagnosis Framework</div>
+            </div>
+            
+            <div class="branch-points">
+                <h3>🔀 Key Branch Points / Clinical Discriminators</h3>
+                <p>Use these clinical features to narrow your differential:</p>
+                <ul>
+                    <li>Severity (<50k, <20k, <10k)</li>
+                    <li>Bleeding present</li>
+                    <li>Isolated vs with anemia/leukopenia</li>
+                    <li>Recent medications/heparin</li>
+                    <li>Evidence of consumption (DIC, TTP)</li>
+
+                </ul>
+            </div>
+            
+            <div class="must-not-miss">
+                <h3>⚠️ MUST NOT MISS Diagnoses</h3>
+                <p>High-acuity or rapidly progressive conditions requiring urgent recognition:</p>
+                <ul>
+                    <li><strong>#79: ITP/HIT/TTP</strong></li>
+                    <li><strong>#78: DIC</strong></li>
+                    <li><strong>#77: Hemolytic Anemia with TTP/HUS</strong></li>
+                    <li><strong>#30: Neutropenic Fever if pancytopenia</strong></li>
+
+                </ul>
+            </div>
+            
+            <div class="workup-box">
+                <h3>🔬 Initial Diagnostic Workup</h3>
+                <p>Essential tests to differentiate causes:</p>
+                <ul>
+                    <li>CBC with peripheral smear</li>
+                    <li>PT/INR, PTT, fibrinogen (DIC screen)</li>
+                    <li>LDH, indirect bilirubin, haptoglobin</li>
+                    <li>BMP (assess renal function for TTP/HUS)</li>
+                    <li>Medication review (especially heparin)</li>
+                    <li>HIT antibody if heparin exposure</li>
+                    <li>Consider HIV, HCV testing</li>
+                    <li>Bone marrow biopsy if persistent/unexplained</li>
+
+                </ul>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">DIFFERENTIAL DIAGNOSIS BY DISCRIMINATOR</div>
+                <div class="section-content">
+                    <table class="discriminator-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Clinical Discriminator</th>
+                                <th style="width: 60%;">Consider These Diagnoses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><strong>Recent heparin + drop >50%</strong></td>
+                                <td>
+                                    <a href="index.html#thrombocytopenia" class="condition-link">#79: HIT</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Schistocytes + hemolysis + AKI + neuro changes</strong></td>
+                                <td>
+                                    <a href="index.html#thrombocytopenia" class="condition-link">#79: TTP</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Schistocytes + hemolysis + AKI + diarrhea</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">HUS</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Bleeding + prolonged PT/PTT + low fibrinogen</strong></td>
+                                <td>
+                                    <a href="index.html#dic" class="condition-link">#78: DIC</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Isolated thrombocytopenia + otherwise well</strong></td>
+                                <td>
+                                    <a href="index.html#thrombocytopenia" class="condition-link">#79: ITP</a>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Pancytopenia</strong></td>
+                                <td>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Bone marrow failure</span>
+                                    <span class="condition-link" style="background: #f6f8fa; border-color: #d1d5da;">Leukemia</span>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">📚 RELATED CONDITIONS IN MAIN GUIDE</div>
+                <div class="section-content">
+                    <p>Conditions that may present with thrombocytopenia (platelets <150k):</p>
+                    <div>
+                        <a href="index.html#htn-emergency" class="condition-link">#4: HYPERTENSIVE EMERGENCY</a>
+                        <a href="index.html#ssti" class="condition-link">#64: SKIN/SOFT TISSUE INFECTIONS (CELLULITIS, NECROTIZING FASCIITIS)</a>
+                        <a href="index.html#thrombocytopenia" class="condition-link">#79: THROMBOCYTOPENIA (ITP, HIT, TTP/HUS)</a>
+
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px;"><a href="#toc" style="color: #0366d6; text-decoration: none; font-weight: 600;">↑ Back to Presentations Index</a></p>
+        </div>
+
+        <div style="background: #24292e; color: white; padding: 30px; text-align: center;">
+            <p style="margin: 5px 0; opacity: 0.8; font-size: 9pt;">Internal Medicine Presentation-Based Diagnostic Framework</p>
+            <p style="margin: 5px 0; opacity: 0.8; font-size: 9pt;">Evidence-based clinical decision support for hospital medicine</p>
+            <p style="margin: 15px 0 5px 0;"><a href="#toc" style="color: #58a6ff; text-decoration: none; font-weight: 600;">↑ Back to Top</a></p>
+        </div>
+    </div>
+</body>
+</html>
